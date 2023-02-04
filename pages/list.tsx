@@ -27,7 +27,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUr
 
     const { data } = await supabase
     .from('listcontent')
-    .select('listid, listcontent, list_img')
+    .select('listid, list_img, name, summary, created')
     .eq('userid', session?.user.id)
 
     return {
@@ -56,8 +56,8 @@ export default function Lists({userlists, loggedin}: any) {
             <li key={list.listid} className="card card-side bg-base-100 shadow-xl">
                 <figure><img src={list.list_img} alt="List Cover" className='w-full h-full'/></figure>
                 <div className="card-body">
-                    <h2 className="text-2xl font-bold">{list.listcontent.listname}</h2>
-                    <p>Last updated: {list.listcontent.created}</p>
+                    <h2 className="text-2xl font-bold">{list.name}</h2>
+                    <p>Last updated: {list.created}</p>
                     <div className="card-actions justify-center">
                         <a href={"/list/" + list.listid}>
                             <button type="button"
