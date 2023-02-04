@@ -13,7 +13,7 @@ export async function getServerSideProps({ query } : any) {
     return { props: { main } }
 }
 
-export default function DisplayMovie( { main } : any) {
+export default function DisplayCollection( { main } : any) {
     const backdrop_img = "url(https://image.tmdb.org/t/p/original" + main.backdrop_path + ")";
     const poster_img = baseimg + main.poster_path;
     const [parent] = useAutoAnimate<HTMLDivElement>();
@@ -35,7 +35,7 @@ export default function DisplayMovie( { main } : any) {
     const display_parts = partsarr.map((movie : any) =>
         <div key={movie[4]} className="group cursor-pointer relative inline-block text-center">
             <a href={"/movie/" + movie[4]}>
-                <img id={movie[4].toString()} src={movie[2]} alt={movie[0].toString()} className="rounded-3xl w-80 p-2" />
+                <img id={movie[4].toString()} src={movie[2]} alt={movie[0].toString()} className="rounded-3xl w-60 p-2" />
                 <div className="absolute bottom-0 flex-col items-center hidden mb-6 group-hover:flex">
                     <span className="z-10 p-3 text-md leading-none rounded-lg text-white whitespace-no-wrap bg-gradient-to-r from-blue-700 to-red-700 shadow-lg">
                         {movie[0]}
@@ -44,32 +44,42 @@ export default function DisplayMovie( { main } : any) {
             </a>
         </div>
     );
+
+    const display_names = partsarr.map((movie : any) =>
+        <li key={movie[4]} className="group cursor-pointer">
+            <a href={"/movie/" + movie[4]}>
+                {movie[0]}
+            </a>
+        </li>
+    );
+
     return (
         <>
             <main>
-                <div style={{backgroundImage: backdrop_img}} className="relative px-6 lg:px-8 backdrop-brightness-50 bg-fixed bg-center bg-cover">
+            <div style={{backgroundImage: backdrop_img}} className="relative px-6 lg:px-8 backdrop-brightness-50 bg-fixed bg-center bg-cover h-screen">
                 <div className="grid grid-cols-6 mx-auto max-w-4xl pt-20 pb-32 sm:pt-48 sm:pb-40 items-stretch">
                         <img src={poster_img} alt={main.name.toString()} className="w-100 invisible md:visible md:rounded-l-3xl md:col-span-2" />
-                        <div className="bg-white bg-opacity-75 shadow-md rounded-3xl md:rounded-r-3xl md:rounded-none col-span-6 md:col-span-4">
+                        <div className="bg-white bg-opacity-75 shadow-md rounded-3xl md:rounded-r-3xl md:rounded-none col-span-6 md:col-span-4 pl-6 p-4">
                             <div className="p-2">
-                                <h1 className="text-4xl text-black font-bold tracking-tight sm:text-center sm:text-6xl drop-shadow-sm">
+                                <h1 className="text-4xl text-black font-bold tracking-tight sm:text-6xl drop-shadow-sm">
                                     {main.name}
                                 </h1>
-                                <p className="mt-6 text-lg leading-8 text-black sm:text-center">
+                                <p className="mt-6 text-lg leading-8 text-black">
                                     {main.overview}
                                 </p>
+                                <ul className="mt-6 text-lg leading-8 text-black list-disc pl-6">
+                                    {display_names}
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </main>
-            <div className="grid p-2 sm:grid-cols-1 md:grid-cols-3">
-                <div className="text-3xl leading-8 font-bold p-4">
-                    Parts of collection:
-                </div>
-                <div className="col-span-3 sm:ml-0 md:ml-5 lg:ml-10" ref={parent}>
-                    {display_parts}
-                </div>
+            <div className="text-3xl font-bold max-w-6xl m-auto py-6">
+                Parts of collection:
+            </div>
+            <div className="max-w-6xl m-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5">
+                {display_parts}
             </div>
         </>
     )
