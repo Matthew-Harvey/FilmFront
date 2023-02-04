@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
@@ -26,7 +27,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUr
 
     const { data } = await supabase
     .from('listcontent')
-    .select('listid, listcontent')
+    .select('listid, listcontent, list_img')
     .eq('userid', session?.user.id)
 
     return {
@@ -52,21 +53,21 @@ export default function Lists({userlists, loggedin}: any) {
     // get lists that user created.
     const display_lists = userlists.map((list: any) =>
         <>
-            <div key={list.listid} className="flex justify-center p-6">
-                <div className="block p-6 rounded-lg shadow-xl bg-white max-w-3xl">
-                    <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">{list.listcontent.listname}</h5>
-                    <p className="text-gray-700 text-base mb-4">
-                        {list.listcontent.summary}
-                    </p>
-                    <p className='p-2' >Last updated: {list.listcontent.created}</p>
-                    <a href={"/list/" + list.listid}>
-                        <button type="button"
-                            className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-sm leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-                            View List
-                        </button>
-                    </a>
+            <li key={list.listid} className="card card-side bg-base-100 shadow-xl">
+                <figure><img src={list.list_img} alt="List Cover" className='w-full h-full'/></figure>
+                <div className="card-body">
+                    <h2 className="text-2xl font-bold">{list.listcontent.listname}</h2>
+                    <p>Last updated: {list.listcontent.created}</p>
+                    <div className="card-actions justify-center">
+                        <a href={"/list/" + list.listid}>
+                            <button type="button"
+                                className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-sm leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                View List
+                            </button>
+                        </a>
+                    </div>
                 </div>
-            </div>
+            </li>
         </>
     );
     if (session != undefined && loggedin == false) {
@@ -113,7 +114,7 @@ export default function Lists({userlists, loggedin}: any) {
                     </>
                 ) : (
                     <>
-                        <div className='max-w-lg p-10 justify-center m-auto'>
+                        <div className='max-w-6xl justify-center m-auto mb-20'>
                             <p className='mb-6 text-lg font-semibold'>Logged in using - {session.user.email}</p>
                             <button onClick={()=> SignOut()} 
                                 className="inline-block rounded-lg bg-red-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-red-500 hover:text-white hover:scale-110 ease-in-out transition">
@@ -125,7 +126,7 @@ export default function Lists({userlists, loggedin}: any) {
                                     Create a new list
                             </button>
                         </div>
-                        <div className='p-6 grid sm:grid-cols-1 md:grid-cols-3 max-w-7xl justify-center m-auto'>
+                        <div className='grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 max-w-6xl m-auto gap-6'>
                             {display_lists}
                         </div>
                     </>

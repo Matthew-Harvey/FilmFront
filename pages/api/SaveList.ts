@@ -11,7 +11,7 @@ export default async function CreateList(req: NextApiRequest, res: NextApiRespon
     const supabase = createBrowserSupabaseClient();
     const { error } = await supabase
         .from('listcontent')
-        .update({ listcontent: {listname: title, created: datecreated, listid: listid, summary: summary, items: items}})
+        .update({ listcontent: {listname: title, created: datecreated, listid: listid, summary: summary, items: items}, list_img: "https://eu.ui-avatars.com/api/?name=" + title})
         .eq('listid', listid)
     res.status(200).json({message: error});
 }

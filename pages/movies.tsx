@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 
 export async function getServerSideProps() {
     // Fetch data from external API
-    const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
+    const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
     const type = "movie";
     // Pass data to the page via props
     return { props: { mediatype: type, movie: movie} }
