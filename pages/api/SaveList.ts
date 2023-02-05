@@ -7,11 +7,21 @@ export default async function CreateList(req: NextApiRequest, res: NextApiRespon
     const summary = req.query.summary;
     const title = req.query.title;
     const items = req.query.items;
+    const item_imgs = req.query.item_imgs;
     const datecreated = new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString();
     const supabase = createBrowserSupabaseClient();
-    const { error } = await supabase
+    let ifitem = "";
+    if (item_imgs) {
+        ifitem = item_imgs.toString().split("$%$")[0];
+        await supabase
         .from('listcontent')
-        .update({ name: title, created: datecreated, summary: summary, list_img: "https://eu.ui-avatars.com/api/?name=" + title, item_names: items})
+        .update({ name: title, created: datecreated, summary: summary, list_img: ifitem, item_names: items, item_imgs: item_imgs})
         .eq('listid', listid)
-    res.status(200).json({message: error});
+    } else {
+        await supabase
+        .from('listcontent')
+        .update({ name: title, created: datecreated, summary: summary, list_img: "https://eu.ui-avatars.com/api/?name=" + title, item_names: items, item_imgs: item_imgs})
+        .eq('listid', listid)
+    }
+    res.status(200).json({message: "Saved list!"});
 }

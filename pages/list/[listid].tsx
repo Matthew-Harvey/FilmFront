@@ -7,8 +7,10 @@ import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
 import { useRouter } from 'next/router';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useEffect, useState } from 'react';
-import { Reorder } from 'framer-motion';
+import { Reorder, useDragControls } from 'framer-motion';
 import axios from 'axios';
+import { ReorderIcon } from '../../components/Drag_icon';
+import { Item } from '../../components/List_item';
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
@@ -70,9 +72,16 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
 
     let popped = "";
     let itemarr = [];
+    let item_img_arr = [];
+    let finalitems: any[] = [];
     try{
         itemarr = listcontent[0].item_names.split("$%$");
+        item_img_arr = listcontent[0].item_imgs.split("$%$");
         popped = itemarr.pop();
+        popped = item_img_arr.pop();
+        for (var count in itemarr) {
+            finalitems.push([itemarr[count], item_img_arr[count]]);
+        }
     } catch{
         listcontent = "";
     }
@@ -88,14 +97,14 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
     const SummaryChange = (value: any) => {
         setSummary(value);
     }
-    const [items, setItems] = useState(itemarr);
+    const [items, setItems] = useState(finalitems);
+
     if (session != undefined && loggedin == false) {
         router.push({
             pathname: '/list',
             query: {},
         })
     }
-
 
     const [currentdata, setData] = useState(movie);
     const [query, setQuery] = useState("");
@@ -158,16 +167,19 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
     }
     const display_movies = currentcast.map((movie) =>
         <div key={movie[5]} className="group cursor-pointer relative inline-block text-center">
-            <a onClick={()=> setItems((items: any) => [...items, movie[0].toString()])}>
+            <label htmlFor="my-modal" onClick={()=> setItems((items: any) => [...items, [movie[0].toString(), movie[2].toString(), movie[4].toString()]])}>
                 <img id={movie[4].toString()} src={movie[2].toString()} alt={movie[0].toString()} className="rounded-3xl w-60 p-2 h-70" />
                 <div className="absolute bottom-0 flex-col items-center hidden mb-6 group-hover:flex">
                     <span className="z-10 p-3 text-md leading-none rounded-lg text-white whitespace-no-wrap bg-gradient-to-r from-blue-700 to-red-700 shadow-lg">
                         {movie[0]}
                     </span>
                 </div>
-            </a>
+            </label>
         </div>
     );
+    const controls = useDragControls();
+
+    console.log(items);
     return (
         <>
             <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-28 m-auto justify-center text-center'>
@@ -210,7 +222,8 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
                                             <Reorder.Item key={item} value={item}>
                                                 <>
                                                     <div className='bg-slate-700 p-5 text-white'>
-                                                        {item}
+                                                        {item[0]}
+                                                        <img id={item[0]} src={item[1]} alt={item[0] + " Image"} className="rounded-3xl w-60 p-2 h-70" />
                                                     </div>
                                                 </>
                                             </Reorder.Item>
@@ -246,15 +259,9 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
                                             </div>
                                         </div>
                                     </div>
-                                    <Reorder.Group axis="y" values={items} onReorder={setItems}>
+                                    <Reorder.Group axis="y" values={items} onReorder={setItems} className="grid grid-cols-1">
                                         {items.map((item: any) => (
-                                            <Reorder.Item key={item} value={item}>
-                                                <>
-                                                    <div className='bg-slate-700 p-5 text-white'>
-                                                        {item}
-                                                    </div>
-                                                </>
-                                            </Reorder.Item>
+                                            <Item item={item} key={item[0]} />
                                         ))}
                                     </Reorder.Group>
                                     <div className='text-center grid grid-cols-6 gap-2 p-2 justify-center m-auto'>
@@ -275,8 +282,10 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
 
 async function SaveContent(items: any[], title: string, summary: string, listid: number){
     let itemstr = ""
-    for (let item in items){
-        itemstr+= items[item] + "$%$"
+    let itemimgstr = ""
+    for (let count in items){
+        itemstr+= items[count][0] + "$%$";
+        itemimgstr+= items[count][1] + "$%$";
     }
-    const response = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/SaveList", {params: {listid: listid, title: title, summary: summary, items: itemstr}});
+    const response = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/SaveList", {params: {listid: listid, title: title, summary: summary, items: itemstr, item_imgs: itemimgstr}});
 }
