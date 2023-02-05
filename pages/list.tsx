@@ -57,7 +57,8 @@ export default function Lists({userlists, loggedin}: any) {
                 <figure><img src={list.list_img} alt="List Cover" className='w-full h-full'/></figure>
                 <div className="card-body">
                     <h2 className="text-2xl font-bold">{list.name}</h2>
-                    <p>Last updated: {list.created}</p>
+                    <p>{list.summary}</p>
+                    <p>Updated: {list.created}</p>
                     <div className="card-actions justify-center">
                         <a href={"/list/" + list.listid}>
                             <button type="button"

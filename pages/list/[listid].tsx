@@ -177,9 +177,6 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
             </label>
         </div>
     );
-    const controls = useDragControls();
-
-    console.log(items);
     return (
         <>
             <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-28 m-auto justify-center text-center'>
