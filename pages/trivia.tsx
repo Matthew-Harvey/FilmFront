@@ -49,26 +49,6 @@ export default function Quiz({userquiz, loggedin}: any) {
     const supabase = useSupabaseClient();
     const router = useRouter();
     const session = useSession();
-    // get lists that user created.
-    const display_quizes = userquiz.map((quiz: any) =>
-        <>
-            <div key={quiz.quizid} className="flex justify-center p-6">
-                <div className="block p-6 rounded-lg shadow-xl bg-white max-w-3xl">
-                    <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">{quiz.quizcontent.quizname}</h5>
-                    <p className="text-gray-700 text-base mb-4">
-                        {quiz.quizcontent.summary}
-                    </p>
-                    <p className='p-2' >Last updated: {quiz.quizcontent.created}</p>
-                    <a href={"/trivia/" + quiz.quizid}>
-                        <button type="button"
-                            className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-sm leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-                            View Quiz
-                        </button>
-                    </a>
-                </div>
-            </div>
-        </>
-    );
     if (session != undefined && loggedin == false) {
         router.push({
             pathname: '/trivia',
@@ -84,10 +64,10 @@ export default function Quiz({userquiz, loggedin}: any) {
     }
     return (
         <>
-            <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-28 m-auto text-center'>
+            <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-28 m-auto'>
                 {!session ? (
                     <>
-                        <h1 className='font-semibold text-2xl p-2'>To create/view lists you must login:</h1>
+                        <h1 className='font-semibold text-2xl p-2'>To complete trivia  you must login:</h1>
                         <p>Demo credentials:
                             <br />
                             email - matthewtlharvey@gmail.com
@@ -113,7 +93,7 @@ export default function Quiz({userquiz, loggedin}: any) {
                     </>
                 ) : (
                     <>
-                        <div className='max-w-lg p-10 justify-center m-auto'>
+                        <div className='max-w-6xl p-10 justify-center m-auto'>
                             <p className='mb-6 text-lg font-semibold'>Logged in using - {session.user.email}</p>
                             <button onClick={()=> SignOut()} 
                                 className="inline-block rounded-lg bg-red-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-red-500 hover:text-white hover:scale-110 ease-in-out transition">
@@ -125,8 +105,15 @@ export default function Quiz({userquiz, loggedin}: any) {
                                     Create a new quiz
                             </button>
                         </div>
-                        <div className='p-6 grid sm:grid-cols-1 md:grid-cols-3 max-w-7xl justify-center m-auto'>
-                            {display_quizes}
+                        <div className='grid grid-cols-2 max-w-6xl m-auto'>
+                        <label htmlFor="countries" className="block mb-2 text-m font-medium text-gray-900 dark:text-white m-auto">Select an option</label>
+                        <select id="countries" className="m-auto bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option selected>Choose a country</option>
+                            <option value="US">United States</option>
+                            <option value="CA">Canada</option>
+                            <option value="FR">France</option>
+                            <option value="DE">Germany</option>
+                        </select>
                         </div>
                     </>
                 )}
