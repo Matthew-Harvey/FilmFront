@@ -7,6 +7,7 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { GetServerSidePropsContext, PreviewData, NextApiRequest, NextApiResponse } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import axios from 'axios';
+import { useState } from 'react';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUrlQuery, PreviewData> | { req: NextApiRequest; res: NextApiResponse<any>; }) => {
     // Create authenticated Supabase Client
@@ -45,7 +46,7 @@ async function CreateQuiz(userid: string, router: any) {
     })
 }
 
-export default function Quiz({userquiz, loggedin}: any) {
+export default function Quiz(this: any, {userquiz, loggedin}: any) {
     const supabase = useSupabaseClient();
     const router = useRouter();
     const session = useSession();
@@ -62,19 +63,58 @@ export default function Quiz({userquiz, loggedin}: any) {
             query: {},
         })
     }
+
+    const [amountnum, setAmountNum] = useState("5");
+    const [order, setOrder] = useState("");
+    const [type_ofshow, setTypeOfShow] = useState("");
+
+    function GenerateRandom(): void {
+        console.log(amountnum, order, type_ofshow);
+    }
+
     return (
         <>
+            <div className='mt-28 m-auto'>
+                <div className='grid grid-cols-1 md:grid-cols-3 max-w-6xl m-auto'>
+                    <div className='p-4'>
+                        <label htmlFor="type" className="block mb-2 text-m font-medium text-gray-900 dark:text-white m-auto">Type</label>
+                        <select id="type" value={type_ofshow} onChange={(e) => setTypeOfShow(e.target.value)} className="m-auto bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="mov">Movie</option>
+                            <option value="tv">Tv Shows</option>
+                        </select>
+                    </div>
+                    <div className='p-4'>
+                        <label htmlFor="order" className="block mb-2 text-m font-medium text-gray-900 dark:text-white m-auto">Order By</label>
+                        <select id="order" value={order} onChange={(e) => setOrder(e.target.value)} className="m-auto bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="release">Release Date</option>
+                            <option value="rev">Revenue</option>
+                            <option value="score">Imdb Score</option>
+                            <option value="FR">Length</option>
+                        </select>
+                    </div>
+                    <div className='p-4'>
+                        <label htmlFor="amountnum" className="block mb-2 text-m font-medium text-gray-900 dark:text-white m-auto">Amount</label>
+                        <input id="amountnum" value={amountnum} onChange={(e) => setAmountNum(e.target.value)} type="number" className="m-auto bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    </div>
+                </div>
+                <div className="grid grid-cols-2 max-w-6xl m-auto py-4">
+                    <button onClick={()=> GenerateRandom()} 
+                        className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">
+                         Generate Random Trivia 
+                    </button>
+                </div>
+            </div>
             <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-28 m-auto'>
                 {!session ? (
                     <>
-                        <h1 className='font-semibold text-2xl p-2'>To complete trivia  you must login:</h1>
-                        <p>Demo credentials:
-                            <br />
-                            email - matthewtlharvey@gmail.com
-                            <br />
-                            pass - demouser
-                        </p>
                         <div className='max-w-xl m-auto text-center text-lg'>
+                            <h1 className='font-semibold text-2xl p-2'>To view historic data login below:</h1>
+                            <p>Demo credentials:
+                                <br />
+                                email - matthewtlharvey@gmail.com
+                                <br />
+                                pass - demouser
+                            </p>
                             <Auth
                                 supabaseClient={supabase}
                                 appearance={{
@@ -99,21 +139,6 @@ export default function Quiz({userquiz, loggedin}: any) {
                                 className="inline-block rounded-lg bg-red-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-red-500 hover:text-white hover:scale-110 ease-in-out transition">
                                     Sign Out
                             </button>
-                            <p className='p-6 text-md font-medium'>Please note that all quizes are publicly accessible, but only editible by the author.</p>
-                            <button onClick={()=> CreateQuiz(session.user.id, router)} 
-                                className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">
-                                    Create a new quiz
-                            </button>
-                        </div>
-                        <div className='grid grid-cols-2 max-w-6xl m-auto'>
-                        <label htmlFor="countries" className="block mb-2 text-m font-medium text-gray-900 dark:text-white m-auto">Select an option</label>
-                        <select id="countries" className="m-auto bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option selected>Choose a country</option>
-                            <option value="US">United States</option>
-                            <option value="CA">Canada</option>
-                            <option value="FR">France</option>
-                            <option value="DE">Germany</option>
-                        </select>
                         </div>
                     </>
                 )}

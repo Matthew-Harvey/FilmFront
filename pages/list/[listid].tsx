@@ -26,18 +26,6 @@ export const getServerSideProps = async (ctx: any) => {
     const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
     const type = "multi";
 
-    if (!session)
-        return {
-            props: {
-                listcontent: [],
-                loggedin: false,
-                serveruser: "",
-                movie: movie,
-                mediatype: type,
-                listid: ctx.query.listid
-            }
-        }
-
     const { data } = await supabase
         .from('listcontent')
         .select('userid, created, name, summary, item_imgs, item_names')
@@ -50,6 +38,18 @@ export const getServerSideProps = async (ctx: any) => {
               destination: "/list"
             }
           }
+    } else if (!session) {
+        return {
+            props: {
+                listcontent: data,
+                loggedin: false,
+                // @ts-ignore
+                serveruser: data[0].userid,
+                movie: movie,
+                mediatype: type,
+                listid: ctx.query.listid
+            },
+        } 
     } else {
         return {
             props: {
@@ -179,99 +179,63 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
     );
     return (
         <>
-            <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-28 m-auto justify-center text-center'>
-                {!session ? (
+            <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-28 m-auto justify-center max-w-6xl'>
+                {editbool == false &&
                     <>
-                        <h1 className='font-semibold text-2xl p-2'>To create/view lists you must login:</h1>
-                        <p>Demo credentials:
+                        <div className='justify-center m-auto text-center grid p-2 sm:grid-cols-1 md:grid-cols-1'>
+                            <p className='p-2 text-center font-semibold text-5xl'>{title}</p>
                             <br />
-                            email - matthewtlharvey@gmail.com
+                            <p className='p-2 text-center font-medium text-sm'>{summary}</p>
+                        </div>
+                        <Reorder.Group axis="y" values={items} onReorder={setItems} className="grid grid-cols-1">
+                            {items.map((item: any) => (
+                                <Item item={item} key={item[0]} />
+                            ))}
+                        </Reorder.Group>
+                    </>
+                }
+                {editbool == true &&
+                    <>
+                        <div className='justify-center m-auto text-center grid p-2 sm:grid-cols-1 md:grid-cols-1'>
+                            <input className='p-2 text-center font-semibold text-5xl' placeholder={listcontent[0].name} value={title} onChange={(e) => titleChange(e.target.value)} />
                             <br />
-                            pass - demouser
-                        </p>
-                        <div className='max-w-xl m-auto text-center text-lg'>
-                            <Auth
-                                supabaseClient={supabase}
-                                appearance={{
-                                theme: ThemeSupa,
-                                variables: {
-                                    default: {
-                                    colors: {
-                                        brand: 'red',
-                                        brandAccent: 'darkred',
-                                    },
-                                    },
-                                },
-                                }}
-                            />
+                            <input className='p-2 text-center font-medium text-sm' placeholder={listcontent[0].summary} value={summary} onChange={(e) => SummaryChange(e.target.value)} />
+                        </div>
+                        <input type="checkbox" id="my-modal" className="modal-toggle" />
+                        <div className="modal">
+                            <div className="modal-box m-auto max-w-2xl">
+                                <div className="mb-3 justify-center flex text-center m-auto max-w-6xl">
+                                    <div className="input-group grid items-stretch w-full mb-4 grid-cols-6">
+                                        <input value={currentinput} onChange={(e) => InputChange(e.target.value)} type="search" className="col-span-5 form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-lg font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-l-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Search Movie/Tv/Person" aria-label="Search" aria-describedby="button-addon2" />
+                                        <button onClick={()=> setQuery(currentinput)} className="inline-block rounded-lg bg-blue-600 px-6 py-2.5 text-xl font-semibold leading-7 text-white shadow-md hover:bg-blue-500 ease-in-out transition" type="button" id="button-addon2">
+                                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" className="w-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                <path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+                                    {display_movies}
+                                </div>
+                                <div className="modal-action">
+                                    <label htmlFor="my-modal" className="inline-block rounded-lg bg-slate-600 px-4 py-1.5 text-lg font-semibold leading-7 text-white shadow-md hover:bg-slate-500 hover:text-white hover:scale-110 ease-in-out transition">Close</label>
+                                </div>
+                            </div>
+                        </div>
+                        <Reorder.Group axis="y" values={items} onReorder={setItems} className="grid grid-cols-1">
+                            {items.map((item: any) => (
+                                <Item item={item} key={item[0]} />
+                            ))}
+                        </Reorder.Group>
+                        <div className='grid grid-cols-2 m-auto py-4 gap-2'>
+                            <label htmlFor="my-modal" className="inline-block rounded-lg bg-blue-600 px-6 py-2.5 text-xl font-semibold leading-7 text-white shadow-md hover:bg-blue-500 hover:scale-110 ease-in-out transition">Add</label>
+                            <button onClick={()=> SaveContent(items, title, summary, listid)} 
+                                className="inline-block rounded-lg bg-blue-600 px-6 py-2.5 text-xl font-semibold leading-7 text-white shadow-md hover:bg-blue-500 hover:scale-110 ease-in-out transition">
+                                Save
+                            </button>
                         </div>
                     </>
-                ) : (
-                    <>
-                        <div>
-                            {editbool == false &&
-                                <>
-                                    <p className='p-2 text-center font-semibold text-5xl'>{listcontent.listname}</p>
-                                    <br />
-                                    <p className='p-2 text-center font-medium text-sm'>{listcontent.summary}</p>
-                                    <Reorder.Group axis="y" values={items} onReorder={setItems}>
-                                        {items.map((item: any) => (
-                                            <Reorder.Item key={item} value={item}>
-                                                <>
-                                                    <div className='bg-slate-700 p-5 text-white'>
-                                                        {item[0]}
-                                                        <img id={item[0]} src={item[1]} alt={item[0] + " Image"} className="rounded-3xl w-60 p-2 h-70" />
-                                                    </div>
-                                                </>
-                                            </Reorder.Item>
-                                        ))}
-                                    </Reorder.Group>
-                                </>
-                            }
-                            {editbool == true &&
-                                <>
-                                    <div className='justify-center m-auto text-center grid p-2 sm:grid-cols-1 md:grid-cols-1'>
-                                        <input className='p-2 text-center font-semibold text-5xl' placeholder={listcontent[0].name} value={title} onChange={(e) => titleChange(e.target.value)} />
-                                        <br />
-                                        <input className='p-2 text-center font-medium text-sm' placeholder={listcontent[0].summary} value={summary} onChange={(e) => SummaryChange(e.target.value)} />
-                                    </div>
-                                    <input type="checkbox" id="my-modal" className="modal-toggle" />
-                                    <div className="modal">
-                                        <div className="modal-box m-auto max-w-2xl">
-                                            <div className="mb-3 justify-center flex text-center m-auto max-w-6xl">
-                                                <div className="input-group grid items-stretch w-full mb-4 grid-cols-6">
-                                                    <input value={currentinput} onChange={(e) => InputChange(e.target.value)} type="search" className="col-span-5 form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-lg font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-l-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Search Movie/Tv/Person" aria-label="Search" aria-describedby="button-addon2" />
-                                                    <button onClick={()=> setQuery(currentinput)} className="btn px-6 py-2.5 bg-blue-600 text-white font-medium text-lg leading-tight uppercase rounded-r-lg shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center" type="button" id="button-addon2">
-                                                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" className="w-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                                            <path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path>
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-                                                {display_movies}
-                                            </div>
-                                            <div className="modal-action">
-                                                <label htmlFor="my-modal" className="btn">Close</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <Reorder.Group axis="y" values={items} onReorder={setItems} className="grid grid-cols-1">
-                                        {items.map((item: any) => (
-                                            <Item item={item} key={item[0]} />
-                                        ))}
-                                    </Reorder.Group>
-                                    <div className='text-center grid grid-cols-6 gap-2 p-2 justify-center m-auto'>
-                                        <div></div>
-                                        <div></div>
-                                        <label htmlFor="my-modal" className="btn p-1 rounded-lg bg-blue-600 text-white font-medium text-lg leading-tight shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center">Add</label>
-                                        <button onClick={()=> SaveContent(items, title, summary, listid)} className="btn p-1 rounded-lg bg-blue-600 text-white font-medium text-lg leading-tight shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center">Save</button>
-                                    </div>
-                                </>
-                            }
-                        </div>
-                    </>
-                )}
+                }
             </div>
         </>
     )

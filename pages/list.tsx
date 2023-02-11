@@ -62,7 +62,7 @@ export default function Lists({userlists, loggedin}: any) {
                     <div className="card-actions justify-center">
                         <a href={"/list/" + list.listid}>
                             <button type="button"
-                                className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-sm leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                className="inline-block rounded-lg bg-blue-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-md hover:bg-blue-500 hover:text-white hover:scale-110 ease-in-out transition">
                                 View List
                             </button>
                         </a>
