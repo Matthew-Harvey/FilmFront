@@ -3,13 +3,11 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
-import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
 import { useRouter } from 'next/router';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useEffect, useState } from 'react';
-import { Reorder, useDragControls } from 'framer-motion';
+import { Reorder } from 'framer-motion';
 import axios from 'axios';
-import { ReorderIcon } from '../../components/Drag_icon';
 import { Item } from '../../components/List_item';
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
