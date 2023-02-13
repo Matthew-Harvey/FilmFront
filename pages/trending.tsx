@@ -141,7 +141,7 @@ export default function Trending( { movie, tv, people } : any) {
     return (
         <>
             <div className="grid p-6 sm:grid-cols-1 md:grid-cols-1 mt-28 max-w-6xl m-auto">
-                <div className="col-span-2 sm:ml-0 md:ml-5 lg:ml-10" ref={parent}>
+                <div className="col-span-2 sm:ml-0 md:ml-5 lg:ml-10">
                     <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch">
                         <span>
                             <span className="text-3xl leading-8 font-bold pr-4">Trending Movies: </span>
@@ -150,7 +150,7 @@ export default function Trending( { movie, tv, people } : any) {
                             <button onClick={() => paginate(castpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
                         </span>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6" ref={parent}>
                         {display_movies}
                     </div>
                     <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch">
@@ -161,7 +161,7 @@ export default function Trending( { movie, tv, people } : any) {
                             <button onClick={() => crewpaginate(crewpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
                         </span>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6" ref={parent}>
                         {display_crew}
                     </div>
                     <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch">
@@ -172,7 +172,7 @@ export default function Trending( { movie, tv, people } : any) {
                             <button onClick={() => peoplePaginate(personpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
                         </span>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-6" ref={parent}>
                         {display_people}
                     </div>
                 </div>
