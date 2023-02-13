@@ -64,7 +64,6 @@ export const getServerSideProps = async (ctx: any) => {
 }
 
 export default function Lists({listcontent, loggedin, serveruser, movie, mediatype, listid}: any) {
-    const supabase = useSupabaseClient();
     const router = useRouter();
     const session = useSession();
 
@@ -177,7 +176,7 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
     );
     return (
         <>
-            <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-28 m-auto justify-center max-w-6xl'>
+            <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-20 m-auto justify-center max-w-6xl'>
                 {editbool == false &&
                     <>
                         <div className='justify-center m-auto text-center grid p-2 sm:grid-cols-1 md:grid-cols-1'>

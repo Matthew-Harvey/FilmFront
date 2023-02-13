@@ -111,6 +111,14 @@ export default function DisplayPerson( { main, credits } : any) {
         </div>
     );
 
+    let sentence_spit = main.biography.split('.');
+    let short_overview = "";
+    for (var se in sentence_spit ) {
+        if (short_overview.length < 400) {
+            short_overview = sentence_spit[se] + ". " + short_overview
+        }
+    }
+
     return (
         <>
             <main>
@@ -132,6 +140,20 @@ export default function DisplayPerson( { main, credits } : any) {
                                 <div className="text-2xl leading-8 font-normal mt-6">
                                     Known for {main.known_for_department}
                                 </div>
+                                <div className="text-lg leading-8 font-normal mt-6">
+                                    {short_overview}
+                                </div>
+                                <input type="checkbox" id="my-modal" className="modal-toggle" />
+                                <div className="modal">
+                                    <div className="modal-box m-auto max-w-2xl">
+                                        <div className="text-lg leading-8 font-normal mt-6">
+                                            {main.biography}
+                                        </div>
+                                        <div className="modal-action">
+                                            <label htmlFor="my-modal" className="inline-block rounded-lg bg-slate-600 px-4 py-1.5 text-lg font-semibold leading-7 text-white shadow-md hover:bg-slate-500 hover:text-white hover:scale-110 ease-in-out transition">Close</label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div className="mt-6 flex gap-x-4">
                                     <a
                                         href={imdblink}
@@ -141,16 +163,21 @@ export default function DisplayPerson( { main, credits } : any) {
                                     >
                                         IMDb
                                     </a>
+                                    {main.biography.length > 400 &&
+                                        <label
+                                            htmlFor="my-modal"
+                                            className="inline-block rounded-lg bg-slate-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-md hover:bg-slate-500 hover:text-white hover:scale-110 ease-in-out transition"
+                                        >
+                                            Full Biography
+                                        </label>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </main>
-            <div className="py-6 font-semibold text-lg max-w-6xl m-auto">
-                {main.biography}
-            </div>
-            <div className="grid sm:grid-cols-1 md:grid-cols-1 max-w-6xl m-auto">
+            <div className="grid sm:grid-cols-1 md:grid-cols-1 max-w-6xl m-auto mt-6">
                 <div className="" ref={parent}>
                     <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch">
                         <span>
