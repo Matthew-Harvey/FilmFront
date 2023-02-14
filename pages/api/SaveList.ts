@@ -2,7 +2,7 @@
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function CreateList(req: NextApiRequest, res: NextApiResponse<any>) {
+export default async function SaveList(req: NextApiRequest, res: NextApiResponse<any>) {
     const listid = req.query.listid;
     const summary = req.query.summary;
     const title = req.query.title;

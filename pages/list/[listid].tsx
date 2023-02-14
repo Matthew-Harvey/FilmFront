@@ -2,13 +2,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useSession } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useEffect, useState } from 'react';
 import { Reorder } from 'framer-motion';
 import axios from 'axios';
 import { Item } from '../../components/List_item';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
@@ -164,7 +166,7 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
     }
     const display_movies = currentcast.map((movie) =>
         <div key={movie[5]} className="group cursor-pointer relative inline-block text-center">
-            <label htmlFor="my-modal" onClick={()=> setItems((items: any) => [...items, [movie[0].toString(), movie[2].toString(), movie[4].toString()]])}>
+            <label htmlFor="my-modal" onClick={()=> addToItems(movie)}>
                 <img id={movie[4].toString()} src={movie[2].toString()} alt={movie[0].toString()} className="rounded-3xl w-60 p-2 h-70" />
                 <div className="absolute bottom-0 flex-col items-center hidden mb-6 group-hover:flex">
                     <span className="z-10 p-3 text-md leading-none rounded-lg text-white whitespace-no-wrap bg-gradient-to-r from-blue-700 to-red-700 shadow-lg">
@@ -174,6 +176,37 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
             </label>
         </div>
     );
+
+    const save_list = () => toast.success('Saved List', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+    const add_list = () => toast.success('Added Item', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+
+    async function addToItems(movie: any) {
+        setItems((items: any) => [...items, [movie[0].toString(), movie[2].toString(), movie[4].toString()]]);
+        add_list();
+    }
+    async function SaveItemsToList(items: any[], title: string, summary: string, listid: number) {
+        save_list();
+        SaveContent(items, title, summary, listid);
+    }
+
     return (
         <>
             <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-20 m-auto justify-center max-w-6xl'>
@@ -226,11 +259,23 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
                         </Reorder.Group>
                         <div className='grid grid-cols-2 m-auto py-4 gap-2'>
                             <label htmlFor="my-modal" className="inline-block rounded-lg bg-blue-600 px-6 py-2.5 text-xl font-semibold leading-7 text-white shadow-md hover:bg-blue-500 hover:scale-110 ease-in-out transition">Add</label>
-                            <button onClick={()=> SaveContent(items, title, summary, listid)} 
+                            <button onClick={()=> SaveItemsToList(items, title, summary, listid)} 
                                 className="inline-block rounded-lg bg-blue-600 px-6 py-2.5 text-xl font-semibold leading-7 text-white shadow-md hover:bg-blue-500 hover:scale-110 ease-in-out transition">
                                 Save
                             </button>
                         </div>
+                        <ToastContainer
+                            position="bottom-right"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="light"
+                        />
                     </>
                 }
             </div>

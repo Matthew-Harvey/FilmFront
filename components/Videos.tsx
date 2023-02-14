@@ -37,7 +37,7 @@ export function Videos ({ videos } : any) {
     const [parent] = useAutoAnimate<HTMLDivElement>();
     return (
         <>
-            <div className="grid md:grid-cols-3 sm:grid-cols-2 p-2">
+            <div className="grid md:grid-cols-3 sm:grid-cols-2 p-2 mt-6">
                 {video_arr.length != 0 &&
                     <>
                         <div className="text-3xl leading-8 font-bold pr-4">

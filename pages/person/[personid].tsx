@@ -19,7 +19,6 @@ export default function DisplayPerson( { main, credits } : any) {
     const imdblink = "https://www.imdb.com/name/" + main.imdb_id;
     const tag = main.birthday + " / " + main.place_of_birth;
     const [parent] = useAutoAnimate<HTMLDivElement>();
-    const [parent2] = useAutoAnimate<HTMLDivElement>();
 
     const castarr: (string | number)[][] = [];
     var counter = 0;
@@ -188,7 +187,7 @@ export default function DisplayPerson( { main, credits } : any) {
                         </span>
                     </div>
                     {display_cast}
-                    <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch">
+                    <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch mt-6">
                         <span>
                             <span className="text-3xl leading-8 font-bold pr-4">In Crew: </span>
                             <button onClick={() => crewpaginate(crewpage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>

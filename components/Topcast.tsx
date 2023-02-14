@@ -48,7 +48,7 @@ export default function Topcast( { castcredit } : any) {
     const [parent] = useAutoAnimate<HTMLDivElement>();
     return (
         <> 
-        <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch">
+        <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch mt-6">
             <span>
                 <span className="text-3xl leading-8 font-bold pr-4">Top Cast: </span>
                 <button onClick={() => paginate(castpage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>

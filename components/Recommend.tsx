@@ -57,7 +57,7 @@ export default function Recommended ({ recommend, type } : any) {
     );
     return (
         <>
-            <div className="text-3xl leading-8 font-bold pr-4">Recommended: </div>
+            <div className="text-3xl leading-8 font-bold pr-4 mt-6">Recommended: </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6">
                 {rec_result}
             </div> 

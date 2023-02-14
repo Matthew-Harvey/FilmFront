@@ -56,8 +56,8 @@ export default function DisplayCollection( { main } : any) {
     return (
         <>
             <main>
-            <div style={{backgroundImage: backdrop_img}} className="relative px-6 lg:px-8 backdrop-brightness-50 bg-fixed bg-center bg-cover h-screen">
-                <div className="grid grid-cols-6 mx-auto max-w-4xl pt-20 pb-32 sm:pt-48 sm:pb-40 items-stretch">
+                <div style={{backgroundImage: backdrop_img}} className="relative px-6 lg:px-8 backdrop-brightness-50 bg-fixed bg-center bg-cover h-screen">
+                    <div className="grid grid-cols-6 mx-auto max-w-6xl pt-20 pb-32 sm:pt-48 sm:pb-40 items-stretch">
                         <img src={poster_img} alt={main.name.toString()} className="w-100 invisible md:visible md:rounded-l-3xl md:col-span-2" />
                         <div className="bg-white bg-opacity-75 shadow-md rounded-3xl md:rounded-r-3xl md:rounded-none col-span-6 md:col-span-4 pl-6 p-4">
                             <div className="p-2">
@@ -75,9 +75,7 @@ export default function DisplayCollection( { main } : any) {
                     </div>
                 </div>
             </main>
-            <div className="text-3xl font-bold max-w-6xl m-auto py-6">
-                Parts of collection:
-            </div>
+            <div className="text-3xl leading-8 font-bold pr-4 mt-6 max-w-6xl m-auto pl-2">Parts of collection: </div>
             <div className="max-w-6xl m-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5">
                 {display_parts}
             </div>
