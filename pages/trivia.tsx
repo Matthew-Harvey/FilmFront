@@ -97,10 +97,14 @@ export default function Quiz(this: any, {userquiz, loggedin}: any) {
                         <input id="amountnum" value={amountnum} onChange={(e) => setAmountNum(e.target.value)} type="number" className="m-auto bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                     </div>
                 </div>
-                <div className="grid grid-cols-2 max-w-6xl m-auto py-4">
+                <div className="grid grid-cols-2 max-w-6xl m-auto py-4 gap-6">
                     <button onClick={()=> GenerateRandom()} 
                         className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">
                          Generate Random Trivia 
+                    </button>
+                    <button onClick={()=> GenerateRandom()} 
+                        className="inline-block rounded-lg bg-slate-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-md hover:bg-slate-500 hover:text-white hover:scale-110 ease-in-out transition">
+                         Create Custom Trivia 
                     </button>
                 </div>
             </div>
