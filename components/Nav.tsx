@@ -1,26 +1,39 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
 /* eslint-disable @next/next/no-img-element */
 
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function Nav({isloggedin} : any) {
     const [show, setShow] = useState(false);
+    const supabase = useSupabaseClient();
+    const router = useRouter();
+    async function SignOut(){
+        await supabase.auth.signOut();
+        router.replace(router.asPath);
+    }
+    async function SignIn(){
+        router.push('/login');
+    }
     return (
         <>
             <div className="bg-gray-100 overflow-y-hidden fixed top-0 z-50 w-full shadow-lg">
-                <nav className="w-full">
+                <nav className="w-full navbar">
                     <div className="container mx-auto px-6 py-3 flex items-center justify-between">
-                        <a href="/">
-                            <div className="flex items-center" aria-label="Home" role="img">
-                                <img className="cursor-pointer w-9 h-9 sm:w-auto" src="/movie.png" alt="logo" />
-                                <p className="ml-2 lg:ml-4 text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-red-700">MyMovies</p>
-                            </div>
-                        </a>
+                        <div className="flex-1">
+                            <a href="/">
+                                <div className="flex items-center" aria-label="Home" role="img">
+                                    <img className="cursor-pointer w-9 h-9 sm:w-auto" src="/movie.png" alt="logo" />
+                                    <p className="ml-2 lg:ml-4 text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-red-700">MyMovies</p>
+                                </div>
+                            </a>
+                        </div>
                         <div>
                             <button onClick={() => setShow(!show)} className="sm:block md:hidden lg:hidden text-gray-500 hover:text-gray-700 focus:text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">
                                 <img className="h-8 w-8" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/center_aligned_with_image-svg4.svg" alt="show" />
                             </button>
-                            <div id="menu" className={`md:block lg:block ${show ? '' : 'hidden'}`}>
+                            <div id="menu" className={`md:block lg:block ${show ? '' : 'hidden'} flex-none`}>
                                 <button onClick={() => setShow(!show)} className="block md:hidden lg:hidden text-gray-500 hover:text-gray-700 focus:text-gray-700 fixed focus:outline-none focus:ring-2 focus:ring-gray-500 bg-white md:bg-transparent z-30 top-0 mt-3">
                                     <img className="h-8 w-8" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/center_aligned_with_image-svg5.svg" alt="hide" />
                                 </button>
@@ -45,10 +58,18 @@ export default function Nav({isloggedin} : any) {
                                     </li>
                                     <li className="text-gray-600 text-lg sm:ml-5 lg:ml-10 pt-10 md:pt-0 m-auto text-center">
                                         {isloggedin == false && 
-                                            <p className="m-auto text-center">Sign In</p>
+                                            <button onClick={()=> SignIn()} 
+                                                className="inline-block rounded-lg bg-green-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-green-500 hover:text-white hover:scale-110 ease-in-out transition">
+                                                    Sign In
+                                            </button>
                                         }
-                                        {isloggedin == true && 
-                                            <p className="m-auto text-center">Sign Out</p>
+                                        {isloggedin == true &&
+                                            <>
+                                                <button onClick={()=> SignOut()} 
+                                                    className="inline-block rounded-lg bg-red-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-red-500 hover:text-white hover:scale-110 ease-in-out transition">
+                                                        Sign Out
+                                                </button>
+                                            </>
                                         }
                                     </li>
                                 </ul>
