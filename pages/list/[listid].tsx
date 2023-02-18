@@ -11,17 +11,17 @@ import axios from 'axios';
 import { Item } from '../../components/List_item';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Nav from '../../components/Nav';
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
 export const getServerSideProps = async (ctx: any) => {
     // Create authenticated Supabase Client
-    const supabase = createServerSupabaseClient(ctx)
+    const supabase = createServerSupabaseClient(ctx);
     // Check if we have a session
     const {
         data: { session },
     } = await supabase.auth.getSession()
-
 
     const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
     const type = "multi";
@@ -47,7 +47,7 @@ export const getServerSideProps = async (ctx: any) => {
                 serveruser: data[0].userid,
                 movie: movie,
                 mediatype: type,
-                listid: ctx.query.listid
+                listid: ctx.query.listid,
             },
         } 
     } else {
@@ -59,7 +59,7 @@ export const getServerSideProps = async (ctx: any) => {
                 serveruser: data[0].userid,
                 movie: movie,
                 mediatype: type,
-                listid: ctx.query.listid
+                listid: ctx.query.listid,
             },
         } 
     }
@@ -209,6 +209,7 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
 
     return (
         <>
+            <Nav isloggedin={loggedin} />
             <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-20 m-auto justify-center max-w-6xl'>
                 {editbool == false &&
                     <>

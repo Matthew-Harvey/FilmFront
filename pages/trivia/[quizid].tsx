@@ -9,6 +9,7 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useEffect, useState } from 'react';
 import { Reorder } from 'framer-motion';
 import axios from 'axios';
+import Nav from '../../components/Nav';
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
@@ -92,6 +93,7 @@ export default function Quiz({quizcontent, loggedin, serveruser, quizid}: any) {
 
     return (
         <>
+            <Nav isloggedin={loggedin} />
             <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-28 m-auto justify-center text-center'>
                 {!session ? (
                     <>

@@ -21,7 +21,6 @@ export default function App({Component, pageProps }: AppProps<{ initialSession: 
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="/movie.png" />
       </Head>
-      <Nav />
       <SessionContextProvider
         supabaseClient={supabaseClient}
         initialSession={pageProps.initialSession}

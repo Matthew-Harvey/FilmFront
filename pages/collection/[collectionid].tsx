@@ -1,19 +1,31 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { useState } from "react";
 import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { GetServerSidePropsContext, NextApiRequest, NextApiResponse, PreviewData } from 'next';
+import { ParsedUrlQuery } from 'querystring';
+import Nav from "../../components/Nav";
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
-export async function getServerSideProps({ query } : any) {
+export async function getServerSideProps(ctx: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) {
     // Fetch data from external API
-    const collectionid = query.collectionid;
+    const collectionid = ctx.query.collectionid;
     const main = await fetch("https://api.themoviedb.org/3/collection/" + collectionid + "?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
     // Pass data to the page via props
-    return { props: { main } }
+    const supabase = createServerSupabaseClient(ctx)
+    // Check if we have a session
+    const {
+        data: { session },
+    } = await supabase.auth.getSession()
+    let isloggedin = false;
+    if (session) {
+        isloggedin = true;
+    }
+    return { props: { main, isloggedin } }
 }
 
-export default function DisplayCollection( { main } : any) {
+export default function DisplayCollection( { main, isloggedin } : any) {
     const backdrop_img = "url(https://image.tmdb.org/t/p/original" + main.backdrop_path + ")";
     const poster_img = baseimg + main.poster_path;
     const [parent] = useAutoAnimate<HTMLDivElement>();
@@ -55,6 +67,7 @@ export default function DisplayCollection( { main } : any) {
 
     return (
         <>
+            <Nav isloggedin={isloggedin} />
             <main>
                 <div style={{backgroundImage: backdrop_img}} className="relative px-6 lg:px-8 backdrop-brightness-50 bg-fixed bg-center bg-cover h-screen">
                     <div className="grid grid-cols-6 mx-auto max-w-6xl pt-20 pb-32 sm:pt-48 sm:pb-40 items-stretch">

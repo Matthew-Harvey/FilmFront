@@ -1,19 +1,31 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { GetServerSidePropsContext } from "next";
 import { useState } from "react";
+import Nav from "../../components/Nav";
 
-export async function getServerSideProps({ query } : any) {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     // Fetch data from external API
-    const personid = query.personid;
+    const personid = ctx.query.personid;
     const main = await fetch("https://api.themoviedb.org/3/person/" + personid + "?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
     const credits = await fetch("https://api.themoviedb.org/3/person/" + personid + "/combined_credits?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
+    
+    const supabase = createServerSupabaseClient(ctx);
+    const {
+        data: { session },
+    } = await supabase.auth.getSession()
 
+    let isloggedin = false;
+    if (session) {
+        isloggedin = true;
+    }
     // Pass data to the page via props
-    return { props: { main, credits } }
+    return { props: { main, credits, isloggedin } }
 }
 
-export default function DisplayPerson( { main, credits } : any) {
+export default function DisplayPerson( { main, credits, isloggedin } : any) {
     const baseimg = "https://image.tmdb.org/t/p/w500";
     const poster_img = baseimg + main.profile_path;
     const imdblink = "https://www.imdb.com/name/" + main.imdb_id;
@@ -120,6 +132,7 @@ export default function DisplayPerson( { main, credits } : any) {
 
     return (
         <>
+            <Nav isloggedin={isloggedin} />
             <main>
                 <div className="relative px-6 lg:px-8 backdrop-brightness-50 bg-fixed bg-center bg-cover bg-gradient-to-br from-blue-400 to-red-500 h-screen">
                     <div className="grid grid-cols-6 mx-auto pt-20 pb-32 sm:pt-48 sm:pb-40 items-stretch max-w-6xl m-auto">

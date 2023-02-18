@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 
-export default function Nav() {
+export default function Nav({isloggedin} : any) {
     const [show, setShow] = useState(false);
     return (
         <>
@@ -42,6 +42,14 @@ export default function Nav() {
                                     </li>
                                     <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-5 lg:ml-10 pt-10 md:pt-0 m-auto text-center">
                                         <a href="/trivia" className="m-auto text-center">Trivia</a>
+                                    </li>
+                                    <li className="text-gray-600 text-lg sm:ml-5 lg:ml-10 pt-10 md:pt-0 m-auto text-center">
+                                        {isloggedin == false && 
+                                            <p className="m-auto text-center">Sign In</p>
+                                        }
+                                        {isloggedin == true && 
+                                            <p className="m-auto text-center">Sign Out</p>
+                                        }
                                     </li>
                                 </ul>
                             </div>

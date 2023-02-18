@@ -4,18 +4,30 @@
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import axios from "axios";
+import { GetServerSidePropsContext } from "next";
 import { useEffect, useState } from "react";
+import Nav from "../components/Nav";
 
-export async function getServerSideProps() {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     // Fetch data from external API
     const movie = await fetch("https://api.themoviedb.org/3/trending/person/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
     const type = "person";
+    const supabase = createServerSupabaseClient(ctx)
+    // Check if we have a session
+    const {
+        data: { session },
+    } = await supabase.auth.getSession()
+    let isloggedin = false;
+    if (session) {
+        isloggedin = true;
+    }
     // Pass data to the page via props
-    return { props: { mediatype: type, movie: movie} }
+    return { props: { mediatype: type, movie: movie, isloggedin} }
 }
 
-export default function MoviesHome( { mediatype, movie } : any) {
+export default function MoviesHome( { mediatype, movie, isloggedin } : any) {
     
     const [currentdata, setData] = useState(movie);
     const [query, setQuery] = useState("");
@@ -79,6 +91,7 @@ export default function MoviesHome( { mediatype, movie } : any) {
     );
     return (
         <>
+            <Nav isloggedin={isloggedin} />
             <div className="grid p-6 sm:grid-cols-1 md:grid-cols-1 mt-28 max-w-6xl m-auto">
                 <div className="mb-3 justify-center flex text-center m-auto">
                     <div className="input-group grid items-stretch w-full mb-4 grid-cols-6">

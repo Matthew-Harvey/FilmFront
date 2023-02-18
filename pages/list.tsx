@@ -8,6 +8,7 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { GetServerSidePropsContext, PreviewData, NextApiRequest, NextApiResponse } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import axios from 'axios';
+import Nav from '../components/Nav';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUrlQuery, PreviewData> | { req: NextApiRequest; res: NextApiResponse<any>; }) => {
     // Create authenticated Supabase Client
@@ -77,15 +78,13 @@ export default function Lists({userlists, loggedin}: any) {
             query: {},
         })
     }
-    function SignOut(){
-        supabase.auth.signOut();
-        router.push({
-            pathname: '/list',
-            query: {},
-        })
+    async function SignOut(){
+        await supabase.auth.signOut();
+        router.replace(router.asPath);
     }
     return (
         <>
+            <Nav isloggedin={loggedin} />
             <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-28 m-auto text-center'>
                 {!session ? (
                     <>

@@ -6,11 +6,21 @@ import Topcrew from "../../components/Topcrew";
 import Recommended from "../../components/Recommend";
 import { Videos } from "../../components/Videos";
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import Nav from '../../components/Nav';
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
 export const getServerSideProps = async (ctx: any) => {
     const supabase = createServerSupabaseClient(ctx);
+    const {
+        data: { session },
+    } = await supabase.auth.getSession()
+
+    let isloggedin = false;
+    if (session) {
+        isloggedin = true;
+    }
+
     let { data } = await supabase.from('store_api').select().eq("created_at", new Date().toDateString());
     let already_exists = false;
     let response = "";
@@ -27,10 +37,10 @@ export const getServerSideProps = async (ctx: any) => {
     const recommend = await fetch("https://api.themoviedb.org/3/movie/" + movieid + "/recommendations?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
     const videos = await fetch("https://api.themoviedb.org/3/movie/" + movieid + "/videos?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
     // Pass data to the page via props
-    return { props: { main, credits, recommend, videos, response} }
+    return { props: { main, credits, recommend, videos, response, isloggedin} }
 }
 
-export default function DisplayMovie( { main, credits, recommend, videos, response} : any) {
+export default function DisplayMovie( { main, credits, recommend, videos, response, isloggedin} : any) {
     const backdrop_img = "url(https://image.tmdb.org/t/p/original" + main.backdrop_path + ")";
     const poster_img = baseimg + main.poster_path;
     const imdblink = "https://www.imdb.com/title/" + main.imdb_id;
@@ -47,6 +57,7 @@ export default function DisplayMovie( { main, credits, recommend, videos, respon
 
     return (
         <>
+            <Nav isloggedin={isloggedin} />
             <main>
                 <div style={{backgroundImage: backdrop_img}} className="relative px-6 lg:px-8 backdrop-brightness-50 bg-fixed bg-center bg-cover h-screen">
                 <div className="grid grid-cols-6 mx-auto max-w-6xl pt-20 pb-32 sm:pt-48 sm:pb-40 items-stretch">

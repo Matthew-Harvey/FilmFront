@@ -8,6 +8,7 @@ import { GetServerSidePropsContext, PreviewData, NextApiRequest, NextApiResponse
 import { ParsedUrlQuery } from 'querystring';
 import axios from 'axios';
 import { useState } from 'react';
+import Nav from '../components/Nav';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUrlQuery, PreviewData> | { req: NextApiRequest; res: NextApiResponse<any>; }) => {
     // Create authenticated Supabase Client
@@ -56,12 +57,9 @@ export default function Quiz(this: any, {userquiz, loggedin}: any) {
             query: {},
         })
     }
-    function SignOut(){
-        supabase.auth.signOut();
-        router.push({
-            pathname: '/trivia',
-            query: {},
-        })
+    async function SignOut(){
+        await supabase.auth.signOut();
+        router.replace(router.asPath);
     }
 
     const [amountnum, setAmountNum] = useState("5");
@@ -74,6 +72,7 @@ export default function Quiz(this: any, {userquiz, loggedin}: any) {
 
     return (
         <>
+            <Nav isloggedin={loggedin} />
             <div className='mt-28 m-auto'>
                 <div className='grid grid-cols-1 md:grid-cols-3 max-w-6xl m-auto'>
                     <div className='p-4'>

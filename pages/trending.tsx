@@ -2,19 +2,31 @@
 
 import { useState } from "react";
 import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { GetServerSidePropsContext } from "next";
+import Nav from "../components/Nav";
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
-export async function getServerSideProps({ query } : any) {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     // Fetch data from external API
     const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
     const tv = await fetch("https://api.themoviedb.org/3/trending/tv/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
     const people = await fetch("https://api.themoviedb.org/3/trending/person/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
     // Pass data to the page via props
-    return { props: { movie, tv, people} }
+    const supabase = createServerSupabaseClient(ctx)
+    // Check if we have a session
+    const {
+        data: { session },
+    } = await supabase.auth.getSession()
+    let isloggedin = false;
+    if (session) {
+        isloggedin = true;
+    }
+    return { props: { movie, tv, people, isloggedin} }
 }
 
-export default function Trending( { movie, tv, people } : any) {
+export default function Trending( { movie, tv, people, isloggedin } : any) {
     const [movie_animate] = useAutoAnimate<HTMLDivElement>();
     const [tv_animate] = useAutoAnimate<HTMLDivElement>();
     const [people_animate] = useAutoAnimate<HTMLDivElement>();
@@ -142,6 +154,7 @@ export default function Trending( { movie, tv, people } : any) {
     );
     return (
         <>
+            <Nav isloggedin={isloggedin} />
             <div className="grid p-6 sm:grid-cols-1 md:grid-cols-1 mt-28 max-w-6xl m-auto">
                 <div className="col-span-2 sm:ml-0 md:ml-5 lg:ml-10">
                     <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch">
