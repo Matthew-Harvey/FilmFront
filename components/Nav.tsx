@@ -26,24 +26,24 @@ export default function Nav({isloggedin} : any) {
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                         </label>
                         <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                            <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer">
-                                <a href="/trending" className="">Trending</a>
+                            <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-1 lg:ml-4 pt-10 md:pt-0 m-auto text-center">
+                                <button onClick={() => router.push("/trending")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Trending</button>
                             </li>
-                            <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer">
-                                <a href="/movies" className="">Movies</a>
+                            <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center">
+                                <button onClick={() => router.push("/movies")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Movies</button>
                             </li>
-                            <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer">
-                                <a href="/tvshows" className="">TV Shows</a>
+                            <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-1 lg:ml-4 pt-10 md:pt-0 m-auto text-center">
+                                <button onClick={() => router.push("/tvshows")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">TV Shows</button>
                             </li>
-                            <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer">
-                                <a href="/people" className="">People</a>
+                            <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-1 lg:ml-4 pt-10 md:pt-0 m-auto text-center">
+                                <button onClick={() => router.push("/people")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">People</button>
                             </li>
-                            <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer">
-                                <a href="/list" className="">Lists</a>
+                            <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-1 lg:ml-4 pt-10 md:pt-0 m-auto text-center">
+                                <button onClick={() => router.push("/list")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Lists</button>
                             </li>
-                            <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer">
-                                <a href="/trivia" className="">Trivia</a>
-                            </li>
+                            <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-1 lg:ml-4 pt-10 md:pt-0 m-auto text-center">
+                                <button onClick={() => router.push("/trivia")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Trivia</button>
+                        </li>
                         </ul>
                     </div>
                     <a href="/">
@@ -55,23 +55,23 @@ export default function Nav({isloggedin} : any) {
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
-                        <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-2 md:ml-5 pt-10 md:pt-0 m-auto text-center">
-                            <a href="/trending" className="m-auto text-center">Trending</a>
+                        <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-1 lg:ml-4 pt-10 md:pt-0 m-auto text-center">
+                            <button onClick={() => router.push("/trending")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Trending</button>
                         </li>
-                        <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-2 lg:ml-5 pt-10 md:pt-0 m-auto text-center">
-                            <a href="/movies" className="m-auto text-center">Movies</a>
+                        <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center">
+                            <button onClick={() => router.push("/movies")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Movies</button>
                         </li>
-                        <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-2 lg:ml-5 pt-10 md:pt-0 m-auto text-center">
-                            <a href="/tvshows" className="m-auto text-center">TV Shows</a>
+                        <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-1 lg:ml-4 pt-10 md:pt-0 m-auto text-center">
+                            <button onClick={() => router.push("/tvshows")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">TV Shows</button>
                         </li>
-                        <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-2 lg:ml-5 pt-10 md:pt-0 m-auto text-center">
-                            <a href="/people" className="m-auto text-center">People</a>
+                        <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-1 lg:ml-4 pt-10 md:pt-0 m-auto text-center">
+                            <button onClick={() => router.push("/people")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">People</button>
                         </li>
-                        <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-2 lg:ml-5 pt-10 md:pt-0 m-auto text-center">
-                            <a href="/list" className="m-auto text-center">Lists</a>
+                        <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-1 lg:ml-4 pt-10 md:pt-0 m-auto text-center">
+                            <button onClick={() => router.push("/list")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Lists</button>
                         </li>
-                        <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-2 lg:ml-5 pt-10 md:pt-0 m-auto text-center">
-                            <a href="/trivia" className="m-auto text-center">Trivia</a>
+                        <li className="text-gray-600 text-lg hover:text-blue-400 cursor-pointer sm:ml-1 lg:ml-4 pt-10 md:pt-0 m-auto text-center">
+                            <button onClick={() => router.push("/trivia")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Trivia</button>
                         </li>
                     </ul>
                 </div>
