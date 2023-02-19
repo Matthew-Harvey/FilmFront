@@ -155,7 +155,7 @@ export default function Trending( { movie, tv, people, isloggedin } : any) {
     return (
         <>
             <Nav isloggedin={isloggedin} />
-            <div className="grid p-6 sm:grid-cols-1 md:grid-cols-1 mt-28 max-w-6xl m-auto">
+            <div className="grid p-6 sm:grid-cols-1 md:grid-cols-1 mt-6 max-w-6xl m-auto">
                 <div className="col-span-2 sm:ml-0 md:ml-5 lg:ml-10">
                     <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch">
                         <span>

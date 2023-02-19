@@ -44,7 +44,7 @@ export default function Login({loggedin}:any) {
     return (
         <>
             <Nav isloggedin={loggedin} />
-            <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-28 m-auto text-center'>
+            <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-6 m-auto text-center'>
                 <div className='max-w-xl m-auto text-center text-lg'>
                     {!session ? (
                         <>

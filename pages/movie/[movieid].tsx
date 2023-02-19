@@ -60,7 +60,7 @@ export default function DisplayMovie( { main, credits, recommend, videos, respon
             <Nav isloggedin={isloggedin} />
             <main>
                 <div style={{backgroundImage: backdrop_img}} className="relative px-6 lg:px-8 backdrop-brightness-50 bg-fixed bg-center bg-cover h-screen">
-                <div className="grid grid-cols-6 mx-auto max-w-6xl pt-20 pb-32 sm:pt-48 sm:pb-40 items-stretch">
+                <div className="grid grid-cols-6 mx-auto max-w-6xl pt-6 pb-32 sm:pt-16 sm:pb-40 items-stretch">
                         <img src={poster_img} alt={main.title.toString()} className="w-100 invisible md:visible md:rounded-l-3xl md:col-span-2" />
                         <div className="bg-white bg-opacity-75 shadow-md rounded-3xl md:rounded-r-3xl md:rounded-none col-span-6 md:col-span-4 pl-6 p-4">
                             <div className="hidden sm:flex p-2 py-6">

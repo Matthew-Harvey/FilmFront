@@ -73,7 +73,7 @@ export default function Quiz(this: any, {userquiz, loggedin}: any) {
     return (
         <>
             <Nav isloggedin={loggedin} />
-            <div className='mt-28 m-auto'>
+            <div className='mt-6 m-auto'>
                 <div className='grid grid-cols-1 md:grid-cols-3 max-w-6xl m-auto'>
                     <div className='p-4'>
                         <label htmlFor="type" className="block mb-2 text-m font-medium text-gray-900 dark:text-white m-auto">Type</label>

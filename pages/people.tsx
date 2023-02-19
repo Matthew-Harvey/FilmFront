@@ -92,7 +92,7 @@ export default function MoviesHome( { mediatype, movie, isloggedin } : any) {
     return (
         <>
             <Nav isloggedin={isloggedin} />
-            <div className="grid p-6 sm:grid-cols-1 md:grid-cols-1 mt-28 max-w-6xl m-auto">
+            <div className="grid p-6 sm:grid-cols-1 md:grid-cols-1 mt-6 max-w-6xl m-auto">
                 <div className="mb-3 justify-center flex text-center m-auto">
                     <div className="input-group grid items-stretch w-full mb-4 grid-cols-6">
                         <input value={currentinput} onChange={(e) => InputChange(e.target.value)} type="search" className="col-span-5 form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded-l-lg transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Search People" aria-label="Search" aria-describedby="button-addon2" />
