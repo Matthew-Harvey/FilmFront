@@ -7,6 +7,7 @@ import Recommended from "../../components/Recommend";
 import { Videos } from "../../components/Videos";
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import Nav from '../../components/Nav';
+import router from 'next/router';
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
@@ -89,7 +90,7 @@ export default function DisplayMovie( { main, credits, recommend, videos, respon
                                 <h1 className="text-4xl text-black font-bold tracking-tight sm:text-6xl drop-shadow-sm">
                                     {main.title}
                                 </h1>
-                                <div className="text-2xl leading-8 font-normal mt-6">
+                                <div className="text-2xl leading-8 font-normal mt-6 text-black">
                                     {main.tagline}
                                 </div>
                                 <p className="mt-6 text-lg leading-8 text-black">
@@ -128,9 +129,9 @@ export default function DisplayMovie( { main, credits, recommend, videos, respon
                 <div>
                     {main.belongs_to_collection != null &&
                         <div key={main.belongs_to_collection} className="group cursor-pointer relative inline-block text-center">
-                            <a href={"/collection/" + main.belongs_to_collection.id}>
+                            <button onClick={() => router.push("/collection/" + main.belongs_to_collection.id)}>
                                 <img id={main.belongs_to_collection.id.toString()} src={baseimg + main.belongs_to_collection.poster_path.toString()} alt={main.belongs_to_collection.name.toString()} className="rounded-3xl p-2" />
-                            </a>
+                            </button>
                         </div>
                     }
                 </div>

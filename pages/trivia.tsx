@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
-import { useRouter } from 'next/router';
+import router from 'next/router';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { GetServerSidePropsContext, PreviewData, NextApiRequest, NextApiResponse } from 'next';
 import { ParsedUrlQuery } from 'querystring';
@@ -49,7 +49,6 @@ async function CreateQuiz(userid: string, router: any) {
 
 export default function Quiz(this: any, {userquiz, loggedin}: any) {
     const supabase = useSupabaseClient();
-    const router = useRouter();
     const session = useSession();
     if (session != undefined && loggedin == false) {
         router.push({

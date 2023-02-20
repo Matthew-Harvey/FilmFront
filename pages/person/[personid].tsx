@@ -3,6 +3,7 @@
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { GetServerSidePropsContext } from "next";
+import router from "next/router";
 import { useState } from "react";
 import Nav from "../../components/Nav";
 
@@ -111,14 +112,14 @@ export default function DisplayPerson( { main, credits, isloggedin } : any) {
     };
     const display_crew = currentcrew.map((movie: any) =>
         <div key={movie[5]} className="group cursor-pointer relative inline-block text-center">
-            <a href={movie[6]}>
+            <button onClick={() => router.push(movie[6])}>
                 <img id={movie[4].toString()} src={movie[2]} alt={movie[0].toString()} className="rounded-3xl w-48 p-2 h-70" />
                 <div className="absolute bottom-0 flex-col items-center hidden mb-6 group-hover:flex">
                     <span className="z-10 p-3 text-md leading-none rounded-lg text-white whitespace-no-wrap bg-gradient-to-r from-blue-700 to-red-700 shadow-lg">
                         {movie[0]}
                     </span>
                 </div>
-            </a>
+            </button>
         </div>
     );
 
@@ -146,19 +147,19 @@ export default function DisplayPerson( { main, credits, isloggedin } : any) {
                                 </div>
                             </div>
                             <div className="p-2">
-                                <h1 className="text-4xl text-black font-bold tracking-tight sm:text-6xl drop-shadow-sm">
+                                <h1 className="text-4xl font-bold tracking-tight sm:text-6xl drop-shadow-sm text-black">
                                     {main.name}
                                 </h1>
-                                <div className="text-2xl leading-8 font-normal mt-6">
+                                <div className="text-2xl leading-8 font-normal mt-6 text-black">
                                     Known for {main.known_for_department}
                                 </div>
-                                <div className="text-lg leading-8 font-normal mt-6">
+                                <div className="text-lg leading-8 font-normal mt-6 text-black">
                                     {short_overview}
                                 </div>
                                 <input type="checkbox" id="my-modal" className="modal-toggle" />
                                 <div className="modal">
                                     <div className="modal-box m-auto max-w-2xl">
-                                        <div className="text-lg leading-8 font-normal mt-6">
+                                        <div className="text-lg leading-8 font-normal mt-6 text-black">
                                             {main.biography}
                                         </div>
                                         <div className="modal-action">

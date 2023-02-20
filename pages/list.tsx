@@ -3,12 +3,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
-import { useRouter } from 'next/router';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { GetServerSidePropsContext, PreviewData, NextApiRequest, NextApiResponse } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import axios from 'axios';
 import Nav from '../components/Nav';
+import router from 'next/router';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUrlQuery, PreviewData> | { req: NextApiRequest; res: NextApiResponse<any>; }) => {
     // Create authenticated Supabase Client
@@ -49,24 +49,23 @@ async function CreateList(userid: string, router: any) {
 
 export default function Lists({userlists, loggedin}: any) {
     const supabase = useSupabaseClient();
-    const router = useRouter();
     const session = useSession();
     // get lists that user created.
     const display_lists = userlists.map((list: any) =>
         <>
-            <li key={list.listid} className="card card-side bg-base-100 shadow-xl">
+            <li key={list.listid} className="card card-side bg-gray-900 shadow-xl">
                 <figure><img src={list.list_img} alt="List Cover" className='w-full h-full'/></figure>
                 <div className="card-body">
                     <h2 className="text-2xl font-bold">{list.name}</h2>
                     <p>{list.summary}</p>
                     <p>Updated: {list.created}</p>
                     <div className="card-actions justify-center">
-                        <a href={"/list/" + list.listid}>
+                        <button onClick={() => router.push("/list/" + list.listid)}>
                             <button type="button"
                                 className="inline-block rounded-lg bg-blue-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-md hover:bg-blue-500 hover:text-white hover:scale-110 ease-in-out transition">
                                 View List
                             </button>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </li>

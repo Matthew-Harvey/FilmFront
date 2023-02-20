@@ -228,9 +228,9 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
                 {editbool == true &&
                     <>
                         <div className='justify-center m-auto text-center grid p-2 sm:grid-cols-1 md:grid-cols-1'>
-                            <input className='p-2 text-center font-semibold text-5xl' placeholder={listcontent[0].name} value={title} onChange={(e) => titleChange(e.target.value)} />
+                            <input className='p-2 text-center font-semibold text-5xl text-black' placeholder={listcontent[0].name} value={title} onChange={(e) => titleChange(e.target.value)} />
                             <br />
-                            <input className='p-2 text-center font-medium text-sm' placeholder={listcontent[0].summary} value={summary} onChange={(e) => SummaryChange(e.target.value)} />
+                            <input className='p-2 text-center font-medium text-sm text-black' placeholder={listcontent[0].summary} value={summary} onChange={(e) => SummaryChange(e.target.value)} />
                         </div>
                         <input type="checkbox" id="my-modal" className="modal-toggle" />
                         <div className="modal">

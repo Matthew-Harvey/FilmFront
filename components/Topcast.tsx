@@ -1,12 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import router from "next/router";
 import { useState } from "react";
 const baseimg = "https://image.tmdb.org/t/p/w500";
 import { compareSecondColumn } from "./SortSecond";
 
 export default function Topcast( { castcredit } : any) {
-
+    
     const castarr: (string | number)[][] = [];
     castcredit.forEach((person: { original_name: string; popularity: number; profile_path: string; character: string; id: number}) => {
         var imgurl = "";
@@ -35,14 +36,14 @@ export default function Topcast( { castcredit } : any) {
     };
     const display_cast = currentcast.map((person) =>
         <div key={person[4]} className="group cursor-pointer relative inline-block text-center">
-            <a href={"/person/" + person[4]}>
+            <button onClick={() => router.push("/person/" + person[4])}>
                 <img id={person[4].toString()} src={person[2].toString()} alt={person[0].toString()} className="rounded-3xl w-48 p-2 h-70" />
                 <div className="absolute bottom-0 flex-col items-center hidden mb-6 group-hover:flex">
                     <span className="z-10 p-3 text-md leading-none rounded-lg text-white whitespace-no-wrap bg-gradient-to-r from-blue-700 to-red-700 shadow-lg">
                         {person[0]} as {person[3]}
                     </span>
                 </div>
-            </a>
+            </button>
         </div>
     );
     const [parent] = useAutoAnimate<HTMLDivElement>();

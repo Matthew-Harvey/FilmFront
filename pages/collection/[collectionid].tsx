@@ -3,6 +3,7 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import { GetServerSidePropsContext, NextApiRequest, NextApiResponse, PreviewData } from 'next';
+import router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import Nav from "../../components/Nav";
 
@@ -46,22 +47,22 @@ export default function DisplayCollection( { main, isloggedin } : any) {
 
     const display_parts = partsarr.map((movie : any) =>
         <div key={movie[4]} className="group cursor-pointer relative inline-block text-center">
-            <a href={"/movie/" + movie[4]}>
+            <button onClick={() => router.push("/movie/" + movie[4])}>
                 <img id={movie[4].toString()} src={movie[2]} alt={movie[0].toString()} className="rounded-3xl w-60 p-2" />
                 <div className="absolute bottom-0 flex-col items-center hidden mb-6 group-hover:flex">
                     <span className="z-10 p-3 text-md leading-none rounded-lg text-white whitespace-no-wrap bg-gradient-to-r from-blue-700 to-red-700 shadow-lg">
                         {movie[0]}
                     </span>
                 </div>
-            </a>
+            </button>
         </div>
     );
 
     const display_names = partsarr.map((movie : any) =>
         <li key={movie[4]} className="group cursor-pointer">
-            <a href={"/movie/" + movie[4]}>
+            <button onClick={() => router.push("/movie/" + movie[4])}>
                 {movie[0]}
-            </a>
+            </button>
         </li>
     );
 

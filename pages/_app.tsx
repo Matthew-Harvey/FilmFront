@@ -26,7 +26,9 @@ export default function App({Component, pageProps }: AppProps<{ initialSession: 
         initialSession={pageProps.initialSession}
       >
         <QueryClientProvider client={queryClient}>
-          <Component {...pageProps} />
+          <div className='bg-black w-full text-white min-h-screen'>
+            <Component {...pageProps} />
+          </div>
         </QueryClientProvider>
       </SessionContextProvider>
     </>

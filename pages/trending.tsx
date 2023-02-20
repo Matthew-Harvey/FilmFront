@@ -5,6 +5,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { GetServerSidePropsContext } from "next";
 import Nav from "../components/Nav";
+import router from "next/router";
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
@@ -60,14 +61,14 @@ export default function Trending( { movie, tv, people, isloggedin } : any) {
     };
     const display_movies = currentcast.map((movie) =>
         <div key={movie[5]} className="group cursor-pointer relative inline-block text-center">
-            <a href={"/movie/" + movie[4]}>
+            <button onClick={() => router.push("/movie/" + movie[4])}>
                 <img id={movie[4].toString()} src={movie[2].toString()} alt={movie[0].toString()} className="rounded-3xl w-60 p-2 h-70" />
                 <div className="absolute bottom-0 flex-col items-center hidden mb-6 group-hover:flex">
                     <span className="z-10 p-3 text-md leading-none rounded-lg text-white whitespace-no-wrap bg-gradient-to-r from-blue-700 to-red-700 shadow-lg">
                         {movie[0]}
                     </span>
                 </div>
-            </a>
+            </button>
         </div>
     );
 
@@ -101,14 +102,14 @@ export default function Trending( { movie, tv, people, isloggedin } : any) {
     };
     const display_crew = currentcrew.map((person) =>
         <div key={person[5]} className="group cursor-pointer relative inline-block text-center">
-            <a href={"/tv/" + person[4]}>
+            <button onClick={() => router.push("/tv/" + person[4])}>
                 <img id={person[4].toString()} src={person[2].toString()} alt={person[0].toString()} className="rounded-3xl w-60 p-2 h-70" />
                 <div className="absolute bottom-0 flex-col items-center hidden mb-6 group-hover:flex">
                     <span className="z-10 p-3 text-md leading-none rounded-lg text-white whitespace-no-wrap bg-gradient-to-r from-blue-700 to-red-700 shadow-lg">
                         {person[0]}
                     </span>
                 </div>
-            </a>
+            </button>
         </div>
     );
 
@@ -142,14 +143,14 @@ export default function Trending( { movie, tv, people, isloggedin } : any) {
     };
     const display_people = currentpeople.map((person) =>
         <div key={person[5]} className="group cursor-pointer relative inline-block text-center pb-10">
-            <a href={"/person/" + person[4]}>
+            <button onClick={() => router.push("/person/" + person[4])}>
                 <img id={person[4].toString()} src={person[2].toString()} alt={person[0].toString()} className="rounded-3xl w-60 p-2 h-70" />
                 <div className="absolute bottom-0 flex-col items-center hidden mb-6 group-hover:flex">
                     <span className="z-10 p-3 text-md leading-none rounded-lg text-white whitespace-no-wrap bg-gradient-to-r from-blue-700 to-red-700 shadow-lg">
                         {person[0]}
                     </span>
                 </div>
-            </a>
+            </button>
         </div>
     );
     return (

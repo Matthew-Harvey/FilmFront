@@ -6,8 +6,7 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
 import { useRouter } from 'next/router';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
-import { useEffect, useState } from 'react';
-import { Reorder } from 'framer-motion';
+import { useState } from 'react';
 import axios from 'axios';
 import Nav from '../../components/Nav';
 
