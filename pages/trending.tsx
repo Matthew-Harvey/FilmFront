@@ -15,15 +15,18 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     const tv = await fetch("https://api.themoviedb.org/3/trending/tv/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
     const people = await fetch("https://api.themoviedb.org/3/trending/person/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
     // Pass data to the page via props
-    const supabase = createServerSupabaseClient(ctx)
+    const supabase = createServerSupabaseClient(ctx);
+
     // Check if we have a session
     const {
         data: { session },
     } = await supabase.auth.getSession()
+
     let isloggedin = false;
     if (session) {
         isloggedin = true;
     }
+
     return { props: { movie, tv, people, isloggedin} }
 }
 

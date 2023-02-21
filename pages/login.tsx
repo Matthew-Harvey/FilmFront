@@ -9,6 +9,22 @@ import Nav from '../components/Nav';
 import { useRouter } from 'next/router';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+
+    const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
+    const baseimg = "url(https://image.tmdb.org/t/p/original"
+    const movie_arr: (string | number)[][] = [];
+    var counter = 0;
+    movie.results.forEach((movie: { title: string; backdrop_path: string}) => {
+        var imgurl = "";
+        if (movie.backdrop_path == null){
+            imgurl = "https://eu.ui-avatars.com/api/?name=" + movie.title;
+        } else {
+            imgurl = baseimg + movie.backdrop_path + ")";
+        }
+        movie_arr.push([movie.title, imgurl])
+        counter++;
+    });
+    var movie_item = movie_arr[Math.floor(Math.random()*movie_arr.length)];
     // Create authenticated Supabase Client
     const supabase = createServerSupabaseClient(ctx)
     // Check if we have a session
@@ -19,19 +35,21 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     if (!session) {
         return {
             props: {
-                loggedin: false
+                loggedin: false,
+                movie_item
             }
         }
     } else {
         return {
             props: {
-                loggedin: true
+                loggedin: true,
+                movie_item
             },
         }
     }
 }
 
-export default function Login({loggedin}:any) {
+export default function Login({loggedin, movie_item}:any) {
     const supabase = useSupabaseClient();
     const session = useSession();
     const router = useRouter();
@@ -41,11 +59,11 @@ export default function Login({loggedin}:any) {
     return (
         <>
             <Nav isloggedin={loggedin} />
-            <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-6 m-auto text-center'>
-                <div className='max-w-xl m-auto text-center text-lg'>
+            <div className='grid sm:grid-cols-1 md:grid-cols-1 m-auto text-center h-screen bg-cover relative' style={{backgroundImage: movie_item[1].toString()}}>
+                <div className='max-w-xl m-auto text-center text-lg bg-white rounded-xl p-20'>
                     {!session ? (
                         <>
-                            <h1 className='font-semibold text-2xl p-2'>Login to MyMovies</h1>
+                            <h1 className='font-semibold text-2xl p-2 text-black'>Login to MyMovies</h1>
                             <Auth
                                 supabaseClient={supabase}
                                 appearance={{
@@ -68,7 +86,7 @@ export default function Login({loggedin}:any) {
                     ) : (
                         
                         <>
-                            <div>
+                            <div className='bg-black'>
                                 <p className='mt-40 mb-2'><u><b>{session.user?.email}</b></u></p>
                                 <p className='mb-4'>You are now Logged In.</p>
                                 <button onClick={()=> router.back()}
