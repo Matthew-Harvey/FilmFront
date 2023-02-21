@@ -18,13 +18,14 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUr
         data: { session },
     } = await supabase.auth.getSession()
 
-    if (!session)
+    if (!session) {
         return {
-            props: {
-                userquiz: [],
-                loggedin: false
+            redirect: {
+                permanent: false,
+                destination: "/login",
             }
         }
+    }
 
     const { data } = await supabase
     .from('quizcontent')
@@ -50,16 +51,6 @@ async function CreateQuiz(userid: string, router: any) {
 export default function Quiz(this: any, {userquiz, loggedin}: any) {
     const supabase = useSupabaseClient();
     const session = useSession();
-    if (session != undefined && loggedin == false) {
-        router.push({
-            pathname: '/trivia',
-            query: {},
-        })
-    }
-    async function SignOut(){
-        await supabase.auth.signOut();
-        router.replace(router.asPath);
-    }
 
     const [amountnum, setAmountNum] = useState("5");
     const [order, setOrder] = useState("");
@@ -137,10 +128,6 @@ export default function Quiz(this: any, {userquiz, loggedin}: any) {
                     <>
                         <div className='max-w-6xl p-10 justify-center m-auto'>
                             <p className='mb-6 text-lg font-semibold'>Logged in using - {session.user.email}</p>
-                            <button onClick={()=> SignOut()} 
-                                className="inline-block rounded-lg bg-red-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-red-500 hover:text-white hover:scale-110 ease-in-out transition">
-                                    Sign Out
-                            </button>
                         </div>
                     </>
                 )}

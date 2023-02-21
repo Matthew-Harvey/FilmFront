@@ -25,7 +25,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     } else {
         return {
             props: {
-                loggedin: true,
+                loggedin: true
             },
         }
     }
@@ -35,11 +35,8 @@ export default function Login({loggedin}:any) {
     const supabase = useSupabaseClient();
     const session = useSession();
     const router = useRouter();
-    if (session != undefined && loggedin == false) {
-        router.push({
-            pathname: '/login',
-            query: {},
-        })
+    if (session) {
+        router.back();
     }
     return (
         <>
@@ -48,29 +45,28 @@ export default function Login({loggedin}:any) {
                 <div className='max-w-xl m-auto text-center text-lg'>
                     {!session ? (
                         <>
-                            <h1 className='font-semibold text-2xl p-2'>To create/view lists you must login:</h1>
-                            <p>Demo credentials:
-                                <br />
-                                email - matthewtlharvey@gmail.com
-                                <br />
-                                pass - demouser
-                            </p>
+                            <h1 className='font-semibold text-2xl p-2'>Login to MyMovies</h1>
                             <Auth
                                 supabaseClient={supabase}
                                 appearance={{
                                 theme: ThemeSupa,
                                 variables: {
                                     default: {
-                                    colors: {
-                                        brand: 'red',
-                                        brandAccent: 'darkred',
-                                    },
+                                        colors: {
+                                            brand: 'red',
+                                            brandAccent: 'darkred',
+                                        },
                                     },
                                 },
                                 }}
                             />
+                            <button onClick={async ()=> await supabase.auth.signInWithPassword({email: 'matthewtlharvey@gmail.com',password: 'demouser'})}
+                                className="inline-block rounded-lg bg-zinc-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-md hover:bg-zinc-500 hover:text-white hover:scale-110 ease-in-out transition">
+                                Demo User
+                            </button>
                         </>
                     ) : (
+                        
                         <>
                             <div>
                                 <p className='mt-40 mb-2'><u><b>{session.user?.email}</b></u></p>

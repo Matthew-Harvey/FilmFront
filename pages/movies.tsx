@@ -6,7 +6,7 @@ const baseimg = "https://image.tmdb.org/t/p/w500";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import axios from "axios";
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { GetServerSidePropsContext } from "next";
 import router from "next/router";
 import { useEffect, useState } from "react";
 import Nav from "../components/Nav";
