@@ -9,6 +9,7 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useState } from 'react';
 import axios from 'axios';
 import Nav from '../../components/Nav';
+import { getNickName } from '../../functions/getNickname';
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
@@ -20,6 +21,8 @@ export const getServerSideProps = async (ctx: any) => {
         data: { session },
     } = await supabase.auth.getSession()
 
+    let username = await getNickName(session);
+    
     if (!session)
         return {
             props: {
@@ -49,13 +52,14 @@ export const getServerSideProps = async (ctx: any) => {
                 loggedin: true,
                 // @ts-ignore
                 serveruser: data[0].userid,
-                quizid: ctx.query.quizid
+                quizid: ctx.query.quizid,
+                username
             },
         } 
     }
 }
 
-export default function Quiz({quizcontent, loggedin, serveruser, quizid}: any) {
+export default function Quiz({quizcontent, loggedin, serveruser, quizid, username}: any) {
     const supabase = useSupabaseClient();
     const router = useRouter();
     const session = useSession();
@@ -92,7 +96,7 @@ export default function Quiz({quizcontent, loggedin, serveruser, quizid}: any) {
 
     return (
         <>
-            <Nav isloggedin={loggedin} />
+            <Nav isloggedin={loggedin} username={username} />
             <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-6 m-auto justify-center text-center'>
                 {!session ? (
                     <>

@@ -10,6 +10,7 @@ import { GetServerSidePropsContext } from "next";
 import router from "next/router";
 import { useEffect, useState } from "react";
 import Nav from "../components/Nav";
+import { getNickName } from "../functions/getNickname";
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     // Fetch data from external API
@@ -21,14 +22,17 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     const {
         data: { session },
     } = await supabase.auth.getSession()
+    
+    let username = await getNickName(session);
+
     let isloggedin = false;
     if (session) {
         isloggedin = true;
     }
-    return { props: { mediatype: type, movie: movie, isloggedin} }
+    return { props: { mediatype: type, movie: movie, isloggedin, username} }
 }
 
-export default function MoviesHome( { mediatype, movie, isloggedin } : any) {
+export default function MoviesHome( { mediatype, movie, isloggedin, username } : any) {
     
     const [currentdata, setData] = useState(movie);
     const [query, setQuery] = useState("");
@@ -91,7 +95,7 @@ export default function MoviesHome( { mediatype, movie, isloggedin } : any) {
     );
     return (
         <>
-            <Nav isloggedin={isloggedin} />
+            <Nav isloggedin={isloggedin} username={username} />
             <div className="grid p-6 sm:grid-cols-1 md:grid-cols-1 mt-6 max-w-6xl m-auto">
                 <div className="mb-3 justify-center flex text-center m-auto">
                     <div className="input-group grid items-stretch w-full mb-4 grid-cols-6">

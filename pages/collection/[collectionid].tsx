@@ -18,15 +18,20 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext<ParsedUr
     // Check if we have a session
     const {
         data: { session },
-    } = await supabase.auth.getSession()
+    } = await supabase.auth.getSession();
+
+    const {data} = await supabase.from('user_nicknames').select("nickname").eq('userid', session?.user.id.toString())
+    // @ts-ignore
+    let username = data[0].nickname;
+
     let isloggedin = false;
     if (session) {
         isloggedin = true;
     }
-    return { props: { main, isloggedin } }
+    return { props: { main, isloggedin, username } }
 }
 
-export default function DisplayCollection( { main, isloggedin } : any) {
+export default function DisplayCollection( { main, isloggedin, username } : any) {
     const backdrop_img = "url(https://image.tmdb.org/t/p/original" + main.backdrop_path + ")";
     const poster_img = baseimg + main.poster_path;
     const [parent] = useAutoAnimate<HTMLDivElement>();
@@ -68,7 +73,7 @@ export default function DisplayCollection( { main, isloggedin } : any) {
 
     return (
         <>
-            <Nav isloggedin={isloggedin} />
+            <Nav isloggedin={isloggedin} username={username} />
             <main>
                 <div style={{backgroundImage: backdrop_img}} className="relative px-6 lg:px-8 backdrop-brightness-50 bg-fixed bg-center bg-cover h-screen">
                     <div className="grid grid-cols-6 mx-auto max-w-6xl pt-6 pb-32 sm:pt-16 sm:pb-40 items-stretch">

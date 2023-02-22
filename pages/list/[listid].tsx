@@ -2,9 +2,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/rules-of-hooks */
+
 import { useSession } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createServerSupabaseClient, Session } from '@supabase/auth-helpers-nextjs'
 import { useEffect, useState } from 'react';
 import { Reorder } from 'framer-motion';
 import axios from 'axios';
@@ -12,6 +13,7 @@ import { Item } from '../../components/List_item';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Nav from '../../components/Nav';
+import { getNickName } from '../../functions/getNickname';
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
@@ -23,10 +25,12 @@ export const getServerSideProps = async (ctx: any) => {
         data: { session },
     } = await supabase.auth.getSession()
 
+    let username = await getNickName(session);
+
     const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
     const type = "multi";
 
-    const { data } = await supabase
+    let { data } = await supabase
         .from('listcontent')
         .select('userid, created, name, summary, item_imgs, item_names')
         .eq('listid', ctx.query.listid)
@@ -48,6 +52,7 @@ export const getServerSideProps = async (ctx: any) => {
                 movie: movie,
                 mediatype: type,
                 listid: ctx.query.listid,
+                username
             },
         } 
     } else {
@@ -60,12 +65,13 @@ export const getServerSideProps = async (ctx: any) => {
                 movie: movie,
                 mediatype: type,
                 listid: ctx.query.listid,
+                username
             },
         } 
     }
 }
 
-export default function Lists({listcontent, loggedin, serveruser, movie, mediatype, listid}: any) {
+export default function Lists({listcontent, loggedin, serveruser, movie, mediatype, listid, username}: any) {
     const router = useRouter();
     const session = useSession();
 
@@ -209,7 +215,7 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
 
     return (
         <>
-            <Nav isloggedin={loggedin} />
+            <Nav isloggedin={loggedin} username={username} />
             <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-6 m-auto justify-center max-w-6xl'>
                 {editbool == false &&
                     <>

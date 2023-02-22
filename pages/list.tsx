@@ -9,6 +9,7 @@ import { ParsedUrlQuery } from 'querystring';
 import axios from 'axios';
 import Nav from '../components/Nav';
 import router from 'next/router';
+import { getNickName } from '../functions/getNickname';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUrlQuery, PreviewData> | { req: NextApiRequest; res: NextApiResponse<any>; }) => {
     // Create authenticated Supabase Client
@@ -17,6 +18,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUr
     const {
         data: { session },
     } = await supabase.auth.getSession()
+
+    let username = await getNickName(session);
 
     if (!session) {
         return {
@@ -35,6 +38,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUr
         props: {
             userlists: data,
             loggedin: true,
+            username
         },
     }
 }
@@ -47,7 +51,7 @@ async function CreateList(userid: string, router: any) {
     })
 }
 
-export default function Lists({userlists, loggedin}: any) {
+export default function Lists({userlists, loggedin, username}: any) {
     const supabase = useSupabaseClient();
     const session = useSession();
     // get lists that user created.
@@ -79,7 +83,7 @@ export default function Lists({userlists, loggedin}: any) {
     }
     return (
         <>
-            <Nav isloggedin={loggedin} />
+            <Nav isloggedin={loggedin} username={username} />
             <div className='grid p-2 sm:grid-cols-1 md:grid-cols-1 mt-6 m-auto text-center'>
                 {!session ? (
                     <>

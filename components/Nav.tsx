@@ -5,7 +5,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import router from "next/router";
 import { useState } from "react";
 
-export default function Nav({isloggedin} : any) {
+export default function Nav({isloggedin, username} : any) {
     const [show, setShow] = useState(false);
     const supabase = useSupabaseClient();
     async function SignOut(){
@@ -20,11 +20,11 @@ export default function Nav({isloggedin} : any) {
             <div className="w-full bg-zinc-900 z-50 sticky top-0">
             <div className="navbar max-w-6xl m-auto">
                 <div className="navbar-start">
-                    <div className="dropdown">
+                    <div className="dropdown dropdown-hover">
                         <label tabIndex={0} className="btn btn-ghost lg:hidden">
                             <svg xmlns="http://www.w3.org/2000/svg" color="white" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                         </label>
-                        <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow rounded-box w-52 bg-zinc-900">
+                        <ul tabIndex={0} className="menu menu-compact dropdown-content px-1 py-4 shadow rounded-box w-52 bg-zinc-900">
                             <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
                                 <button onClick={() => router.push("/trending")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Trending</button>
                             </li>
@@ -37,12 +37,6 @@ export default function Nav({isloggedin} : any) {
                             <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
                                 <button onClick={() => router.push("/people")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">People</button>
                             </li>
-                            <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
-                                <button onClick={() => router.push("/list")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Lists</button>
-                            </li>
-                            <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
-                                <button onClick={() => router.push("/trivia")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Trivia</button>
-                        </li>
                         </ul>
                     </div>
                     <button onClick={() => router.push("/trending")}>
@@ -66,12 +60,6 @@ export default function Nav({isloggedin} : any) {
                         <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
                             <button onClick={() => router.push("/people")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">People</button>
                         </li>
-                        <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
-                            <button onClick={() => router.push("/list")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Lists</button>
-                        </li>
-                        <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
-                            <button onClick={() => router.push("/trivia")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Trivia</button>
-                        </li>
                     </ul>
                 </div>
                 <div className="navbar-end">
@@ -81,10 +69,34 @@ export default function Nav({isloggedin} : any) {
                             Sign In
                         </button>
                         ) :
-                        <button onClick={()=> SignOut()} 
-                            className="inline-block rounded-lg bg-red-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-red-500 hover:text-white hover:scale-110 ease-in-out transition">
-                            Sign Out
-                        </button>
+                        <>
+                            <div className="dropdown dropdown-hover dropdown-bottom dropdown-end">
+                                <button tabIndex={0} className="btn btn-ghost" onClick={() => router.push("/profile")}>
+                                    {username}
+                                    <div className="pl-3">
+                                        <svg color="white" fill="#FFFFFF" height="12px" width="12px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 330 330" xmlSpace="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path id="XMLID_225_" d="M325.607,79.393c-5.857-5.857-15.355-5.858-21.213,0.001l-139.39,139.393L25.607,79.393 c-5.857-5.857-15.355-5.858-21.213,0.001c-5.858,5.858-5.858,15.355,0,21.213l150.004,150c2.813,2.813,6.628,4.393,10.606,4.393 s7.794-1.581,10.606-4.394l149.996-150C331.465,94.749,331.465,85.251,325.607,79.393z"></path> </g></svg>
+                                    </div>
+                                </button>
+                                <ul tabIndex={0} className="menu menu-compact dropdown-content px-1 py-4 shadow rounded-box w-52 bg-zinc-900">
+                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
+                                        <button onClick={() => router.push("/watchlist")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Watchlist</button>
+                                    </li>
+                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
+                                        <button onClick={() => router.push("/rating")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Rating</button>
+                                    </li> 
+                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
+                                        <button onClick={() => router.push("/trivia")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Trivia</button>
+                                    </li>
+                                    
+                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
+                                        <button onClick={() => router.push("/list")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Lists</button>
+                                    </li>
+                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-rose-600">
+                                        <button onClick={() => SignOut()} className="m-auto text-center btn btn-link text-lg font-normal normal-case underline">Sign Out</button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </>
                     }
                 </div>
             </div>

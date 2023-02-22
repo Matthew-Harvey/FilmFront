@@ -3,10 +3,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
 import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createServerSupabaseClient, Session, SupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { GetServerSidePropsContext } from 'next';
 import Nav from '../components/Nav';
-import { useRouter } from 'next/router';
+import router, { useRouter } from 'next/router';
+import { getNickName } from '../functions/getNickname';
+import axios from 'axios';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
@@ -32,33 +34,43 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         data: { session },
     } = await supabase.auth.getSession()
 
+    let username = await getNickName(session);
+
     if (!session) {
         return {
             props: {
                 loggedin: false,
-                movie_item
+                movie_item,
+                username
             }
         }
     } else {
         return {
             props: {
                 loggedin: true,
-                movie_item
+                movie_item,
+                username
             },
         }
     }
 }
 
-export default function Login({loggedin, movie_item}:any) {
+async function LogUserNickNames(session: Session) { 
+    const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/UpsertNickname", {params: {userid: session.user.id}});
+    router.back();
+}
+
+export default function Login({loggedin, movie_item, username}:any) {
     const supabase = useSupabaseClient();
     const session = useSession();
     const router = useRouter();
     if (session) {
-        router.back();
+        LogUserNickNames(session);
+        //router.back();
     }
     return (
         <>
-            <Nav isloggedin={loggedin} />
+            <Nav isloggedin={loggedin} username={username} />
             <div className='grid sm:grid-cols-1 md:grid-cols-1 m-auto text-center h-screen bg-cover relative' style={{backgroundImage: movie_item[1].toString()}}>
                 <div className='max-w-xl m-auto text-center text-lg bg-white rounded-xl p-20'>
                     {!session ? (
@@ -73,6 +85,7 @@ export default function Login({loggedin, movie_item}:any) {
                                         colors: {
                                             brand: 'red',
                                             brandAccent: 'darkred',
+                                            messageText: "black"
                                         },
                                     },
                                 },
@@ -86,7 +99,7 @@ export default function Login({loggedin, movie_item}:any) {
                     ) : (
                         
                         <>
-                            <div className='bg-black'>
+                            <div>
                                 <p className='mt-40 mb-2'><u><b>{session.user?.email}</b></u></p>
                                 <p className='mb-4'>You are now Logged In.</p>
                                 <button onClick={()=> router.back()}
