@@ -6,7 +6,7 @@ import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { GetServerSidePropsContext } from "next";
 import Nav from "../components/Nav";
 import router from "next/router";
-import { getNickName } from "../functions/getNickname";
+import { getAvatarName } from "../functions/getAvatarName";
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
@@ -23,17 +23,21 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
         data: { session },
     } = await supabase.auth.getSession()
 
-    let username = await getNickName(session);
+    let UserData = await getAvatarName(session);
+    // @ts-ignore
+    let username = UserData.username;
+    // @ts-ignore
+    let avatar = UserData.avatar;
 
     let isloggedin = false;
     if (session) {
         isloggedin = true;
     }
 
-    return { props: { movie, tv, people, isloggedin, username} }
+    return { props: { movie, tv, people, isloggedin, username, avatar} }
 }
 
-export default function Trending( { movie, tv, people, isloggedin, username } : any) {
+export default function Trending( { movie, tv, people, isloggedin, username, avatar } : any) {
     const [movie_animate] = useAutoAnimate<HTMLDivElement>();
     const [tv_animate] = useAutoAnimate<HTMLDivElement>();
     const [people_animate] = useAutoAnimate<HTMLDivElement>();
@@ -161,7 +165,7 @@ export default function Trending( { movie, tv, people, isloggedin, username } : 
     );
     return (
         <>
-            <Nav isloggedin={isloggedin} username={username} />
+            <Nav isloggedin={isloggedin} username={username} avatar={avatar} />
             <div className="grid p-6 sm:grid-cols-1 md:grid-cols-1 mt-6 max-w-6xl m-auto">
                 <div className="col-span-2 sm:ml-0 md:ml-5 lg:ml-10">
                     <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch">

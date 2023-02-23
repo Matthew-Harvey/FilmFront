@@ -7,7 +7,7 @@ import { createServerSupabaseClient, Session, SupabaseClient } from '@supabase/a
 import { GetServerSidePropsContext } from 'next';
 import Nav from '../components/Nav';
 import router, { useRouter } from 'next/router';
-import { getNickName } from '../functions/getNickname';
+import { getAvatarName } from '../functions/getAvatarName';
 import axios from 'axios';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
@@ -34,14 +34,17 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         data: { session },
     } = await supabase.auth.getSession()
 
-    let username = await getNickName(session);
+    let UserData = await getAvatarName(session);
+    // @ts-ignore
+    let username = UserData.username;
+    // @ts-ignore
+    let avatar = UserData.avatar;
 
     if (!session) {
         return {
             props: {
                 loggedin: false,
-                movie_item,
-                username
+                movie_item
             }
         }
     } else {
@@ -49,7 +52,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
             props: {
                 loggedin: true,
                 movie_item,
-                username
+                username,
+                avatar
             },
         }
     }
@@ -60,7 +64,7 @@ async function LogUserNickNames(session: Session) {
     router.back();
 }
 
-export default function Login({loggedin, movie_item, username}:any) {
+export default function Login({loggedin, movie_item, username, avatar}:any) {
     const supabase = useSupabaseClient();
     const session = useSession();
     const router = useRouter();
@@ -70,7 +74,7 @@ export default function Login({loggedin, movie_item, username}:any) {
     }
     return (
         <>
-            <Nav isloggedin={loggedin} username={username} />
+            <Nav isloggedin={loggedin} username={username} avatar={avatar} />
             <div className='grid sm:grid-cols-1 md:grid-cols-1 m-auto text-center h-screen bg-cover relative' style={{backgroundImage: movie_item[1].toString()}}>
                 <div className='max-w-xl m-auto text-center text-lg bg-white rounded-xl p-20'>
                     {!session ? (

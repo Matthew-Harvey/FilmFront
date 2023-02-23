@@ -6,7 +6,7 @@ import { GetServerSidePropsContext } from "next";
 import router from "next/router";
 import { useState } from "react";
 import Nav from "../../components/Nav";
-import { getNickName } from "../../functions/getNickname";
+import { getAvatarName } from "../../functions/getAvatarName";
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     // Fetch data from external API
@@ -19,17 +19,21 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
         data: { session },
     } = await supabase.auth.getSession()
 
-    let username = await getNickName(session);
+    let UserData = await getAvatarName(session);
+    // @ts-ignore
+    let username = UserData.username;
+    // @ts-ignore
+    let avatar = UserData.avatar;
     
     let isloggedin = false;
     if (session) {
         isloggedin = true;
     }
     // Pass data to the page via props
-    return { props: { main, credits, isloggedin, username} }
+    return { props: { main, credits, isloggedin, username, avatar} }
 }
 
-export default function DisplayPerson( { main, credits, isloggedin, username } : any) {
+export default function DisplayPerson( { main, credits, isloggedin, username, avatar } : any) {
     const baseimg = "https://image.tmdb.org/t/p/w500";
     const poster_img = baseimg + main.profile_path;
     const imdblink = "https://www.imdb.com/name/" + main.imdb_id;
@@ -136,7 +140,7 @@ export default function DisplayPerson( { main, credits, isloggedin, username } :
 
     return (
         <>
-            <Nav isloggedin={isloggedin} username={username} />
+            <Nav isloggedin={isloggedin} username={username} avatar={avatar} />
             <main>
                 <div className="relative px-6 lg:px-8 backdrop-brightness-50 bg-fixed bg-center bg-cover bg-gradient-to-br from-blue-400 to-red-500 h-screen">
                     <div className="grid grid-cols-6 mx-auto pt-6 pb-32 md:pt-16 sm:pb-40 items-stretch max-w-6xl m-auto">

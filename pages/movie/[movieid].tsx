@@ -8,7 +8,7 @@ import { Videos } from "../../components/Videos";
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import Nav from '../../components/Nav';
 import router from 'next/router';
-import { getNickName } from '../../functions/getNickname';
+import { getAvatarName } from '../../functions/getAvatarName';
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
@@ -18,7 +18,11 @@ export const getServerSideProps = async (ctx: any) => {
         data: { session },
     } = await supabase.auth.getSession()
     
-    let username = await getNickName(session);
+    let UserData = await getAvatarName(session);
+    // @ts-ignore
+    let username = UserData.username;
+    // @ts-ignore
+    let avatar = UserData.avatar;
 
     let isloggedin = false;
     if (session) {
@@ -41,10 +45,10 @@ export const getServerSideProps = async (ctx: any) => {
     const recommend = await fetch("https://api.themoviedb.org/3/movie/" + movieid + "/recommendations?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
     const videos = await fetch("https://api.themoviedb.org/3/movie/" + movieid + "/videos?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
     // Pass data to the page via props
-    return { props: { main, credits, recommend, videos, response, isloggedin, username} }
+    return { props: { main, credits, recommend, videos, response, isloggedin, username, avatar} }
 }
 
-export default function DisplayMovie( { main, credits, recommend, videos, response, isloggedin, username} : any) {
+export default function DisplayMovie( { main, credits, recommend, videos, response, isloggedin, username, avatar} : any) {
     const backdrop_img = "url(https://image.tmdb.org/t/p/original" + main.backdrop_path + ")";
     const poster_img = baseimg + main.poster_path;
     const imdblink = "https://www.imdb.com/title/" + main.imdb_id;
@@ -61,7 +65,7 @@ export default function DisplayMovie( { main, credits, recommend, videos, respon
 
     return (
         <>
-            <Nav isloggedin={isloggedin} username={username} />
+            <Nav isloggedin={isloggedin} username={username} avatar={avatar} />
             <main>
                 <div style={{backgroundImage: backdrop_img}} className="relative px-6 lg:px-8 backdrop-brightness-50 bg-fixed bg-center bg-cover h-screen">
                 <div className="grid grid-cols-6 mx-auto max-w-6xl pt-6 pb-32 md:pt-16 sm:pb-40 items-stretch">

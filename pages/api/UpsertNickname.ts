@@ -10,7 +10,7 @@ export default async function UpsertNickname(req: NextApiRequest, res: NextApiRe
         // @ts-ignore
         let test = data[0].nickname;
     } catch{
-        await supabase.from('user_nicknames').upsert({'userid': userid, 'nickname': 'Username'}).select();
+        await supabase.from('user_nicknames').upsert({'userid': userid, 'nickname': 'Username', 'avatar': 1}).select();
     }
     res.status(200).json({message: "Complete"});
 }

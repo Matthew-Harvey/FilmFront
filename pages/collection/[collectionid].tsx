@@ -6,6 +6,7 @@ import { GetServerSidePropsContext, NextApiRequest, NextApiResponse, PreviewData
 import router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import Nav from "../../components/Nav";
+import { getAvatarName } from '../../functions/getAvatarName';
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
@@ -20,18 +21,20 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext<ParsedUr
         data: { session },
     } = await supabase.auth.getSession();
 
-    const {data} = await supabase.from('user_nicknames').select("nickname").eq('userid', session?.user.id.toString())
+    let UserData = await getAvatarName(session);
     // @ts-ignore
-    let username = data[0].nickname;
+    let username = UserData.username;
+    // @ts-ignore
+    let avatar = UserData.avatar;
 
     let isloggedin = false;
     if (session) {
         isloggedin = true;
     }
-    return { props: { main, isloggedin, username } }
+    return { props: { main, isloggedin, username, avatar } }
 }
 
-export default function DisplayCollection( { main, isloggedin, username } : any) {
+export default function DisplayCollection( { main, isloggedin, username, avatar } : any) {
     const backdrop_img = "url(https://image.tmdb.org/t/p/original" + main.backdrop_path + ")";
     const poster_img = baseimg + main.poster_path;
     const [parent] = useAutoAnimate<HTMLDivElement>();
@@ -73,7 +76,7 @@ export default function DisplayCollection( { main, isloggedin, username } : any)
 
     return (
         <>
-            <Nav isloggedin={isloggedin} username={username} />
+            <Nav isloggedin={isloggedin} username={username} avatar={avatar} />
             <main>
                 <div style={{backgroundImage: backdrop_img}} className="relative px-6 lg:px-8 backdrop-brightness-50 bg-fixed bg-center bg-cover h-screen">
                     <div className="grid grid-cols-6 mx-auto max-w-6xl pt-6 pb-32 sm:pt-16 sm:pb-40 items-stretch">
