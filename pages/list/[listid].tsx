@@ -197,7 +197,7 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        theme: "dark",
     });
     const add_list = () => toast.success('Added Item', {
         position: "bottom-right",
@@ -207,7 +207,7 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
+        theme: "dark",
     });
 
     async function addToItems(movie: any) {
@@ -287,7 +287,7 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
                             pauseOnFocusLoss
                             draggable
                             pauseOnHover
-                            theme="light"
+                            theme="dark"
                         />
                     </>
                 }
