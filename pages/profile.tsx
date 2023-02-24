@@ -12,6 +12,7 @@ import { getAvatarName } from '../functions/getAvatarName';
 import { useState } from 'react';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUrlQuery, PreviewData> | { req: NextApiRequest; res: NextApiResponse<any>; }) => {
     // Create authenticated Supabase Client
@@ -74,17 +75,8 @@ export default function Profile({loggedin, username, avatar}: any) {
     const InputChange = (value: any) => {
         setNickname(value);
     }
-    async function saveAvatar(user_avatar: number) {
-        saveAvatarToast();
-        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/SaveAvatar", {params: {user_avatar: user_avatar, userid: session?.user.id}});
-        router.replace(router.asPath);
-    }
-    async function saveNickName(nickname: string) {
-        saveNicknameToast();
-        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/SaveNickname", {params: {nickname: nickname, userid: session?.user.id}});
-        router.replace(router.asPath);
-    }
-    const saveAvatarToast = () => toast.success('Saved List', {
+
+    const saveAvatarToast = () => toast.success('Saved Avatar', {
         position: "bottom-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -104,6 +96,23 @@ export default function Profile({loggedin, username, avatar}: any) {
         progress: undefined,
         theme: "light",
     });
+    
+    async function saveAvatar(user_avatar: number) {
+        saveAvatarToast();
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/SaveAvatar", {params: {user_avatar: user_avatar, userid: session?.user.id}});
+        router.push({
+            pathname: router.pathname,
+            query: { ...router.query },
+        }, undefined, { scroll: false });
+    }
+    async function saveNickName(nickname: string) {
+        saveNicknameToast();
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/SaveNickname", {params: {nickname: nickname, userid: session?.user.id}});
+        router.push({
+            pathname: router.pathname,
+            query: { ...router.query },
+        }, undefined, { scroll: false });
+    }
     return (
         <>
             <Nav isloggedin={loggedin} username={username} avatar={avatar} />
@@ -196,21 +205,21 @@ export default function Profile({loggedin, username, avatar}: any) {
                                 </div>
                             </div>
                         </div>
-                        <ToastContainer
-                            position="bottom-right"
-                            autoClose={5000}
-                            hideProgressBar={false}
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={false}
-                            pauseOnFocusLoss
-                            draggable
-                            pauseOnHover
-                            theme="light"
-                        />
                     </>
                 )}
             </div>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
         </>
     )
 }

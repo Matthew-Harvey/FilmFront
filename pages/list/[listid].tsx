@@ -70,7 +70,8 @@ export const getServerSideProps = async (ctx: any) => {
                 movie: movie,
                 mediatype: type,
                 listid: ctx.query.listid,
-                username
+                username,
+                avatar
             },
         } 
     }
