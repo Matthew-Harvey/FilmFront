@@ -94,7 +94,7 @@ export default function Nav({isloggedin, username, avatar} : any) {
                                     </li>
                                 </ul>
                             </div>
-                            <button tabIndex={0} className="pr-1 -mb-2 hover:scale-125" onClick={() => router.push("/profile")}>
+                            <button tabIndex={0} className="pr-1 -mb-1 hover:scale-125" onClick={() => router.push("/profile")}>
                                 <img src={"/avatar" + avatar + ".svg"} alt={"avatar" + avatar} width="50px" height="30px" />
                             </button>
                         </>

@@ -61,7 +61,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
 async function LogUserNickNames(session: Session) { 
     const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/UpsertNickname", {params: {userid: session.user.id}});
-    router.back();
 }
 
 export default function Login({loggedin, movie_item, username, avatar}:any) {
@@ -70,7 +69,7 @@ export default function Login({loggedin, movie_item, username, avatar}:any) {
     const router = useRouter();
     if (session) {
         LogUserNickNames(session);
-        //router.back();
+        router.back();
     }
     return (
         <>
