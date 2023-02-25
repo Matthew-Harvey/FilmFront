@@ -9,6 +9,10 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import Nav from '../../components/Nav';
 import router from 'next/router';
 import { getAvatarName } from '../../functions/getAvatarName';
+import { useSession } from '@supabase/auth-helpers-react';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
@@ -44,11 +48,20 @@ export const getServerSideProps = async (ctx: any) => {
     const credits = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/credits?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
     const recommend = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/recommendations?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
     const videos = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/videos?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
+
+    // @ts-ignore
+    let is_watchlist = await supabase.from('watchlist').select().eq("itemid", main.id).eq("userid", session?.user.id.toString()).eq("type", "tv");
+    let watchlist_bool = false;
+    // @ts-ignore
+    if (is_watchlist.data?.length > 0) {
+        watchlist_bool = true;
+    }
+
     // Pass data to the page via props
-    return { props: { main, credits, recommend, videos, response, isloggedin, username, avatar} }
+    return { props: { main, credits, recommend, videos, response, isloggedin, username, avatar, watchlist_bool} }
 }
 
-export default function DisplayTv( { main, credits, recommend, videos, response, isloggedin, username, avatar} : any) {
+export default function DisplayTv( { main, credits, recommend, videos, response, isloggedin, username, avatar, watchlist_bool} : any) {
     const backdrop_img = "url(https://image.tmdb.org/t/p/original" + main.backdrop_path + ")";
     const poster_img = baseimg + main.poster_path;
     const tag = main.status + " / " + main.number_of_episodes + " episodes / " + main.number_of_seasons + " season(s)";
@@ -60,6 +73,28 @@ export default function DisplayTv( { main, credits, recommend, videos, response,
             lang = response.content[x].english_name;
         }
     }
+
+    const session = useSession();
+
+    const AddWatchlistToast = () => toast.success('Added to watchlist', {position: "bottom-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
+    async function AddWatchlist(userid: string, itemid: any, itemname: any, image: any, type: any) { 
+        AddWatchlistToast();
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/AddWatchlist", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image}});
+        router.push({
+            pathname: router.pathname,
+            query: { ...router.query },
+        }, undefined, { scroll: false });
+    }
+    const RemoveWatchlistToast = () => toast.success('Removed from watchlist', {position: "bottom-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
+    async function RemoveWatchlist(userid: string, itemid: any, type: any) { 
+        RemoveWatchlistToast();
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/RemoveWatchlist", {params: {userid: userid, itemid: itemid, type: type}});
+        router.push({
+            pathname: router.pathname,
+            query: { ...router.query },
+        }, undefined, { scroll: false });
+    }
+    
     return (
         <>
             <Nav isloggedin={isloggedin} username={username} avatar={avatar} />
@@ -109,6 +144,22 @@ export default function DisplayTv( { main, credits, recommend, videos, response,
                                     >
                                         Watch Movie
                                     </a>
+                                    {session && watchlist_bool == false &&
+                                        <button
+                                            onClick={() => AddWatchlist(session.user.id, main.id, main.name, poster_img, "tv")}
+                                            className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-zinc-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-white ease-in-out transition"
+                                        >
+                                            Add to watchlist
+                                        </button>
+                                    }
+                                    {session && watchlist_bool == true &&
+                                        <button
+                                            onClick={() => RemoveWatchlist(session.user.id, main.id, "tv")}
+                                            className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition"
+                                        >
+                                            Remove from watchlist
+                                        </button>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -132,6 +183,18 @@ export default function DisplayTv( { main, credits, recommend, videos, response,
                     }
                 </div>
             </div>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
         </>
     )
 }
