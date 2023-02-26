@@ -13,6 +13,7 @@ import { useSession } from '@supabase/auth-helpers-react';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useState } from 'react';
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
@@ -57,11 +58,17 @@ export const getServerSideProps = async (ctx: any) => {
         watchlist_bool = true;
     }
 
+    // @ts-ignore
+    let is_rating = await supabase.from('rating').select().eq("itemid", main.id).eq("userid", session?.user.id.toString()).eq("type", "movie");
+    let rating_bool = false;
+    // @ts-ignore
+    if (is_rating.data?.length > 0) {rating_bool = is_rating.data[0];};
+
     // Pass data to the page via props
-    return { props: { main, credits, recommend, videos, response, isloggedin, username, avatar, watchlist_bool} }
+    return { props: { main, credits, recommend, videos, response, isloggedin, username, avatar, watchlist_bool, rating_bool} }
 }
 
-export default function DisplayMovie( { main, credits, recommend, videos, response, isloggedin, username, avatar, watchlist_bool} : any) {
+export default function DisplayMovie( { main, credits, recommend, videos, response, isloggedin, username, avatar, watchlist_bool, rating_bool} : any) {
     const backdrop_img = "url(https://image.tmdb.org/t/p/original" + main.backdrop_path + ")";
     const poster_img = baseimg + main.poster_path;
     const imdblink = "https://www.imdb.com/title/" + main.imdb_id;
@@ -97,6 +104,25 @@ export default function DisplayMovie( { main, credits, recommend, videos, respon
         }, undefined, { scroll: false });
     }
 
+    const AddRatingToast = () => toast.success('Added rating', {position: "bottom-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
+    async function AddRating(userid: string, itemid: any, itemname: any, image: any, type: any, comment: any, rating: any) { 
+        AddRatingToast();
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/AddRating", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image, comment: comment, rating: rating}});
+        console.log(getResult.data);
+        router.push({
+            pathname: router.pathname,
+            query: { ...router.query },
+        }, undefined, { scroll: false });
+    }
+    
+    const [currentinput, setInput] = useState(rating_bool.comment);
+    const InputChange = (value: any) => {
+        setInput(value);
+    }
+    const [ratingRange, setRatingRange] = useState(rating_bool.rating);
+    const RatingChange = (value: any) => {
+        setRatingRange(value);
+    }
     return (
         <>
             <Nav isloggedin={isloggedin} username={username} avatar={avatar} />
@@ -154,10 +180,44 @@ export default function DisplayMovie( { main, credits, recommend, videos, respon
                                     >
                                         Watch Movie
                                     </a>
+                                    {session && 
+                                        <>
+                                            <input type="checkbox" id="my-modal" className="modal-toggle" />
+                                            <div className="modal">
+                                                <div className="modal-box m-auto max-w-2xl">
+                                                    <div className="mb-3 justify-center flex text-center m-auto max-w-6xl">
+                                                        <div className="input-group grid items-stretch w-full mb-4">
+                                                            <textarea value={currentinput} onChange={(e) => InputChange(e.target.value)}
+                                                                className="textarea textarea-bordered textarea-md w-full max-w-xs text-black" 
+                                                                placeholder="Rating Comment" aria-label="Text" aria-describedby="button-addon2"
+                                                             />
+                                                        </div>
+                                                    </div>
+                                                    <input type="range" min="0" max="100" className="range range-primary" step="1" value={ratingRange} onChange={(e) => RatingChange(e.target.value)} />
+                                                    <div className="w-full flex justify-between text-xs px-2 text-black">
+                                                        <span>0</span>
+                                                        <span>2.5</span>
+                                                        <span>5</span>
+                                                        <span>7.5</span>
+                                                        <span>10</span>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => AddRating(session.user.id, main.id, main.title, poster_img, "movie", currentinput, ratingRange)}
+                                                        className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
+                                                    >
+                                                        Confirm
+                                                    </button>
+                                                    <div className="modal-action">
+                                                        <label htmlFor="my-modal" className="inline-block rounded-lg bg-slate-600 px-4 py-1.5 text-lg font-semibold leading-7 text-white shadow-md hover:bg-slate-500 hover:text-white hover:scale-110 ease-in-out transition">Close</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </>
+                                    }
                                     {session && watchlist_bool == false &&
                                         <button
                                             onClick={() => AddWatchlist(session.user.id, main.id, main.title, poster_img, "movie")}
-                                            className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-zinc-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-white ease-in-out transition"
+                                            className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
                                         >
                                             Add to watchlist
                                         </button>
@@ -169,6 +229,16 @@ export default function DisplayMovie( { main, credits, recommend, videos, respon
                                         >
                                             Remove from watchlist
                                         </button>
+                                    }
+                                    {session && rating_bool != false &&
+                                        <label htmlFor="my-modal" className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition">
+                                            Edit rating
+                                        </label>
+                                    }
+                                    {session && rating_bool == false &&
+                                        <label htmlFor="my-modal" className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition">
+                                            Add rating
+                                        </label>
                                     }
                                 </div>
                             </div>

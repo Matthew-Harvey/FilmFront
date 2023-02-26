@@ -87,56 +87,13 @@ export default function Watchlist({userwatchlist, loggedin, username, avatar}: a
     }
 
     let display_watchlist_movie;
-    try{ display_watchlist_movie = item_display(userwatchlist_movie);} catch {display_watchlist_movie = <p>You have not added anything to watchlist.</p>};
+    try{ display_watchlist_movie = item_display(userwatchlist_movie);} catch {display_watchlist_movie = <p>You have not added any movies to your watchlist.</p>};
     
     let display_watchlist_tv;
-    try{ 
-        display_watchlist_tv = userwatchlist_tv.map((item: any) =>
-            <>
-                <li key={item.itemid} className="card card-side bg-gray-900 shadow-xl">
-                    <figure><img src={item.image} alt="List Cover" className='w-full h-full'/></figure>
-                    <div className="card-body">
-                        <h2 className="text-2xl font-bold mb-4">{item.itemname}</h2>
-                        <p>Added: {item.added}</p>
-                        <div className="card-actions justify-center">
-                            <button onClick={() => router.push("/" + item.type + "/" + item.itemid)}>
-                                <button type="button"
-                                    className="inline-block rounded-lg bg-blue-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-md hover:bg-blue-500 hover:text-white hover:scale-110 ease-in-out transition">
-                                    View
-                                </button>
-                            </button>
-                        </div>
-                    </div>
-                </li>
-            </>
-        );
-    } catch {
-        display_watchlist_tv = <p>You have not added anything to watchlist.</p>
-    }
+    try{ display_watchlist_tv = item_display(userwatchlist_tv);} catch {display_watchlist_tv = <p>You have not added any tv to your watchlist.</p>};
+    
     let display_watchlist_people;
-    try{ 
-        display_watchlist_people = userwatchlist_people.map((item: any) =>
-            <>
-                <li key={item.itemid} className="card card-side bg-gray-900 shadow-xl">
-                    <figure><img src={item.image} alt="List Cover" className='w-full h-full'/></figure>
-                    <div className="card-body">
-                        <h2 className="text-2xl font-bold mb-4">{item.itemname}</h2>
-                        <p>Added: {item.added}</p>
-                        <div className="card-actions justify-center">
-                            <button onClick={() => router.push("/" + item.type + "/" + item.itemid)}>
-                                <button type="button"
-                                    className="inline-block rounded-lg bg-blue-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-md hover:bg-blue-500 hover:text-white hover:scale-110 ease-in-out transition">
-                                    View
-                                </button>
-                            </button>
-                        </div>
-                    </div>
-                </li>
-            </>
-        );
-    } catch {
-        display_watchlist_people = <p>You have not added anything to watchlist.</p>
-    }
+    try{ display_watchlist_people = item_display(userwatchlist_people);} catch {display_watchlist_people = <p>You have not added any people to your watchlist.</p>};
 
     if (session != undefined && loggedin == false) {
         router.push({
