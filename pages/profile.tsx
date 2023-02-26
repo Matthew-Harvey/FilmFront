@@ -81,7 +81,7 @@ export default function Profile({loggedin, username, avatar, list_stat, watchlis
 
     const saveAvatarToast = () => toast.success('Saved Avatar', {
         position: "bottom-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -91,7 +91,7 @@ export default function Profile({loggedin, username, avatar, list_stat, watchlis
     });
     const saveNicknameToast = () => toast.success('Saved Nickname', {
         position: "bottom-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -213,7 +213,7 @@ export default function Profile({loggedin, username, avatar, list_stat, watchlis
             </div>
             <ToastContainer
                 position="bottom-right"
-                autoClose={5000}
+                autoClose={2000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick

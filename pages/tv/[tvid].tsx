@@ -83,7 +83,7 @@ export default function DisplayTv( { main, credits, recommend, videos, response,
 
     const session = useSession();
 
-    const AddWatchlistToast = () => toast.success('Added to watchlist', {position: "bottom-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
+    const AddWatchlistToast = () => toast.success('Added to watchlist', {position: "bottom-right",autoClose: 2000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
     async function AddWatchlist(userid: string, itemid: any, itemname: any, image: any, type: any) { 
         AddWatchlistToast();
         const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/AddWatchlist", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image}});
@@ -92,7 +92,7 @@ export default function DisplayTv( { main, credits, recommend, videos, response,
             query: { ...router.query },
         }, undefined, { scroll: false });
     }
-    const RemoveWatchlistToast = () => toast.success('Removed from watchlist', {position: "bottom-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
+    const RemoveWatchlistToast = () => toast.success('Removed from watchlist', {position: "bottom-right",autoClose: 2000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
     async function RemoveWatchlist(userid: string, itemid: any, type: any) { 
         RemoveWatchlistToast();
         const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/RemoveWatchlist", {params: {userid: userid, itemid: itemid, type: type}});
@@ -102,11 +102,10 @@ export default function DisplayTv( { main, credits, recommend, videos, response,
         }, undefined, { scroll: false });
     }
     
-    const AddRatingToast = () => toast.success('Added rating', {position: "bottom-right",autoClose: 5000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
+    const AddRatingToast = () => toast.success('Added rating', {position: "bottom-right",autoClose: 2000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
     async function AddRating(userid: string, itemid: any, itemname: any, image: any, type: any, comment: any, rating: any) { 
         AddRatingToast();
         const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/AddRating", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image, comment: comment, rating: rating}});
-        console.log(getResult.data);
         router.push({
             pathname: router.pathname,
             query: { ...router.query },
@@ -210,7 +209,7 @@ export default function DisplayTv( { main, credits, recommend, videos, response,
                                             onClick={() => AddWatchlist(session.user.id, main.id, main.name, poster_img, "tv")}
                                             className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
                                         >
-                                            Add to watchlist
+                                            Watchlist
                                         </button>
                                     }
                                     {session && watchlist_bool == true &&
@@ -218,17 +217,17 @@ export default function DisplayTv( { main, credits, recommend, videos, response,
                                             onClick={() => RemoveWatchlist(session.user.id, main.id, "tv")}
                                             className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition"
                                         >
-                                            Remove from watchlist
+                                            Watchlist
                                         </button>
                                     }
                                     {session && rating_bool != false &&
                                         <label htmlFor="my-modal" className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition">
-                                            Edit rating
+                                            Rating
                                         </label>
                                     }
                                     {session && rating_bool == false &&
                                         <label htmlFor="my-modal" className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition">
-                                            Add rating
+                                            Rating
                                         </label>
                                     }
                                 </div>
@@ -256,7 +255,7 @@ export default function DisplayTv( { main, credits, recommend, videos, response,
             </div>
             <ToastContainer
                 position="bottom-right"
-                autoClose={5000}
+                autoClose={2000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick

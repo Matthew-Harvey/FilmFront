@@ -191,7 +191,7 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
 
     const save_list = () => toast.success('Saved List', {
         position: "bottom-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -201,7 +201,7 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
     });
     const add_list = () => toast.success('Added Item', {
         position: "bottom-right",
-        autoClose: 5000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -279,7 +279,7 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
                         </div>
                         <ToastContainer
                             position="bottom-right"
-                            autoClose={5000}
+                            autoClose={2000}
                             hideProgressBar={false}
                             newestOnTop={false}
                             closeOnClick
