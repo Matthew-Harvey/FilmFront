@@ -9,6 +9,7 @@ import { ParsedUrlQuery } from 'querystring';
 import Nav from '../components/Nav';
 import router from 'next/router';
 import { getAvatarName } from '../functions/getAvatarName';
+import { RatingWatchCard } from '../components/RateWatchCard';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUrlQuery, PreviewData> | { req: NextApiRequest; res: NextApiResponse<any>; }) => {
     // Create authenticated Supabase Client
@@ -67,23 +68,7 @@ export default function Rating({userwatchlist, loggedin, username, avatar}: any)
     const item_display = (arg: any) => {
         return arg.map((item: any) =>
             <>
-                <li key={item.itemid} className="card card-side bg-gray-900 shadow-xl">
-                    <figure><img src={item.image} alt="List Cover" className='w-full h-full'/></figure>
-                    <div className="card-body">
-                        <h2 className="text-2xl font-bold mb-4">{item.itemname}</h2>
-                        <h2 className="text-xl font-semibold mb-4">Rating: {item.rating}</h2>
-                        <h2 className="text-md font-semibold mb-4">{item.comment}</h2>
-                        <p>Added: {item.added}</p>
-                        <div className="card-actions justify-center">
-                            <button onClick={() => router.push("/" + item.type + "/" + item.itemid)}>
-                                <button type="button"
-                                    className="inline-block rounded-lg bg-blue-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-md hover:bg-blue-500 hover:text-white hover:scale-110 ease-in-out transition">
-                                    View
-                                </button>
-                            </button>
-                        </div>
-                    </div>
-                </li>
+                <RatingWatchCard itemdata={item} type={"rating"} />
             </>
         );
     }
@@ -131,15 +116,15 @@ export default function Rating({userwatchlist, loggedin, username, avatar}: any)
                         <div className='max-w-6xl justify-center m-auto mb-20'>
                             <p className='mb-6 text-lg font-semibold'>Logged in using - {session.user.email}</p>
                             <p className="text-3xl leading-8 font-bold pr-4 pb-10 pt-6 text-left">Movies: </p>
-                            <div className='grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 max-w-6xl m-auto gap-6'>
+                            <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-6xl m-auto gap-2'>
                                 {display_watchlist_movie}
                             </div>
                             <p className="text-3xl leading-8 font-bold pr-4 py-10 text-left">Tv: </p>
-                            <div className='grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 max-w-6xl m-auto gap-6'>
+                            <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-6xl m-auto gap-2'>
                                 {display_watchlist_tv}
                             </div>
                             <p className="text-3xl leading-8 font-bold pr-4 py-10 text-left">People: </p>
-                            <div className='grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 max-w-6xl m-auto gap-6'>
+                            <div className='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-6xl m-auto gap-2'>
                                 {display_watchlist_people}
                             </div>
                         </div>

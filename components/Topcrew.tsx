@@ -4,7 +4,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import router from "next/router";
 import { useState } from "react";
 const baseimg = "https://image.tmdb.org/t/p/w500";
-import { compareSecondColumn } from "./SortSecond";
+import { compareSecondColumn } from "../functions/SortSecond";
 
 export default function Topcrew( { crewcredit } : any) {
 

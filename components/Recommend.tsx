@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { useRouter } from "next/router";
-import {compareSecondColumn} from "./SortSecond";
+import {compareSecondColumn} from "../functions/SortSecond";
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
