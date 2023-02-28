@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -255,29 +256,32 @@ export default function DisplayPerson( { main, credits, isloggedin, username, av
                                             <input type="checkbox" id="my-modal2" className="modal-toggle" />
                                             <div className="modal">
                                                 <div className="modal-box m-auto max-w-2xl">
-                                                    <div className="mb-3 justify-center flex text-center m-auto max-w-6xl">
-                                                        <div className="input-group grid items-stretch w-full mb-4">
+                                                    <p className='pb-4 font-bold text-xl text-black'>Rate '{main.name}'</p>
+                                                    <p className='pb-4 font-normal text-md text-black'>Score from 0-100:</p>
+                                                    <input type="range" min="0" max="100" className="range range-primary p-4" step="1" value={ratingRange} onChange={(e) => RatingChange(e.target.value)} />
+                                                    <div className="w-full flex justify-between text-xs text-black pb-4 px-4">
+                                                        <span>0</span>
+                                                        <span>25</span>
+                                                        <span>50</span>
+                                                        <span>75</span>
+                                                        <span>100</span>
+                                                    </div>
+                                                    <p className='pb-4 font-normal text-md text-black'>Your comment:</p>
+                                                    <div className="mb-3 text-left m-auto w-full">
+                                                        <div className="input-group items-stretch w-full mb-4">
                                                             <textarea value={currentinput} onChange={(e) => InputChange(e.target.value)}
-                                                                className="textarea textarea-bordered textarea-md w-full max-w-xs text-black" 
+                                                                className="textarea textarea-bordered textarea-md w-full text-black" 
                                                                 placeholder="Rating Comment" aria-label="Text" aria-describedby="button-addon2"
                                                              />
                                                         </div>
                                                     </div>
-                                                    <input type="range" min="0" max="100" className="range range-primary" step="1" value={ratingRange} onChange={(e) => RatingChange(e.target.value)} />
-                                                    <div className="w-full flex justify-between text-xs px-2 text-black">
-                                                        <span>0</span>
-                                                        <span>2.5</span>
-                                                        <span>5</span>
-                                                        <span>7.5</span>
-                                                        <span>10</span>
-                                                    </div>
-                                                    <button
-                                                        onClick={() => AddRating(session.user.id, main.id, main.name, poster_img, "person", currentinput, ratingRange)}
-                                                        className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
-                                                    >
-                                                        Confirm
-                                                    </button>
                                                     <div className="modal-action">
+                                                        <button
+                                                            onClick={() => AddRating(session.user.id, main.id, main.name, poster_img, "person", currentinput, ratingRange)}
+                                                            className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
+                                                        >
+                                                            Confirm
+                                                        </button>
                                                         <label htmlFor="my-modal2" className="inline-block rounded-lg bg-slate-600 px-4 py-1.5 text-lg font-semibold leading-7 text-white shadow-md hover:bg-slate-500 hover:text-white hover:scale-110 ease-in-out transition">Close</label>
                                                     </div>
                                                 </div>
