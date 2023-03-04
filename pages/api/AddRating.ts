@@ -2,7 +2,7 @@
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function AddWatchlist(req: NextApiRequest, res: NextApiResponse<any>) {
+export default async function AddRating(req: NextApiRequest, res: NextApiResponse<any>) {
     const userid = req.query.userid;
     let itemid = req.query.itemid;
     let itemname = req.query.itemname;

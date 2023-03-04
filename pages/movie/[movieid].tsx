@@ -114,6 +114,17 @@ export default function DisplayMovie( { main, credits, recommend, videos, respon
             query: { ...router.query },
         }, undefined, { scroll: false });
     }
+    const DeleteRatingToast = () => toast.success('Deleted rating', {position: "bottom-right",autoClose: 2000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
+    async function DeleteRating(userid: string, itemid: any, itemname: any, image: any, type: any, comment: any, rating: any) { 
+        DeleteRatingToast();
+        setInput("");
+        setRatingRange(50);
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/DeleteRating", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image, comment: comment, rating: rating}});
+        router.push({
+            pathname: router.pathname,
+            query: { ...router.query },
+        }, undefined, { scroll: false });
+    }
     
     const [currentinput, setInput] = useState(rating_bool.comment);
     const InputChange = (value: any) => {
@@ -211,6 +222,14 @@ export default function DisplayMovie( { main, credits, recommend, videos, respon
                                                         >
                                                             Confirm
                                                         </button>
+                                                        {session && rating_bool != false &&
+                                                            <button
+                                                                onClick={() => DeleteRating(session.user.id, main.id, main.name, poster_img, "person", currentinput, ratingRange)}
+                                                                className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition"
+                                                            >
+                                                                Delete Existing Rating
+                                                            </button>
+                                                        }
                                                         <label htmlFor="my-modal" className="inline-block rounded-lg bg-slate-600 px-4 py-1.5 text-lg font-semibold leading-7 text-white shadow-md hover:bg-slate-500 hover:text-white hover:scale-110 ease-in-out transition">Close</label>
                                                     </div>
                                                 </div>
