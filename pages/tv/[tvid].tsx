@@ -215,7 +215,7 @@ export default function DisplayTv( { main, credits, recommend, videos, response,
                                                         </button>
                                                         {session && rating_bool != false &&
                                                             <button
-                                                                onClick={() => DeleteRating(session.user.id, main.id, main.name, poster_img, "person", currentinput, ratingRange)}
+                                                                onClick={() => DeleteRating(session.user.id, main.id, main.name, poster_img, "tv", currentinput, ratingRange)}
                                                                 className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition"
                                                             >
                                                                 Delete Existing Rating
