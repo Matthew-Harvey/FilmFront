@@ -1,10 +1,15 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { useSession } from '@supabase/auth-helpers-react';
+import axios from 'axios';
 import { GetServerSidePropsContext, NextApiRequest, NextApiResponse, PreviewData } from 'next';
 import router from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 import Nav from "../../components/Nav";
 import { getAvatarName } from '../../functions/getAvatarName';
 
@@ -31,10 +36,25 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext<ParsedUr
     if (session) {
         isloggedin = true;
     }
-    return { props: { main, isloggedin, username, avatar } }
+
+     // @ts-ignore
+     let is_watchlist = await supabase.from('watchlist').select().eq("itemid", main.id).eq("userid", session?.user.id.toString()).eq("type", "collection");
+     let watchlist_bool = false;
+     // @ts-ignore
+     if (is_watchlist.data?.length > 0) {
+         watchlist_bool = true;
+     }
+ 
+     // @ts-ignore
+     let is_rating = await supabase.from('rating').select().eq("itemid", main.id).eq("userid", session?.user.id.toString()).eq("type", "collection");
+     let rating_bool = false;
+     // @ts-ignore
+     if (is_rating.data?.length > 0) {rating_bool = is_rating.data[0];};
+     
+    return { props: { main, isloggedin, username, avatar, watchlist_bool, rating_bool } }
 }
 
-export default function DisplayCollection( { main, isloggedin, username, avatar } : any) {
+export default function DisplayCollection( { main, isloggedin, username, avatar, watchlist_bool, rating_bool } : any) {
     const backdrop_img = "url(https://image.tmdb.org/t/p/original" + main.backdrop_path + ")";
     const poster_img = baseimg + main.poster_path;
     const [parent] = useAutoAnimate<HTMLDivElement>();
@@ -74,6 +94,57 @@ export default function DisplayCollection( { main, isloggedin, username, avatar 
         </li>
     );
 
+    const session = useSession();
+
+    const AddWatchlistToast = () => toast.success('Added to watchlist', {position: "bottom-right",autoClose: 2000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
+    async function AddWatchlist(userid: string, itemid: any, itemname: any, image: any, type: any) { 
+        AddWatchlistToast();
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/AddWatchlist", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image}});
+        router.push({
+            pathname: router.pathname,
+            query: { ...router.query },
+        }, undefined, { scroll: false });
+    }
+    const RemoveWatchlistToast = () => toast.success('Removed from watchlist', {position: "bottom-right",autoClose: 2000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
+    async function RemoveWatchlist(userid: string, itemid: any, type: any) { 
+        RemoveWatchlistToast();
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/RemoveWatchlist", {params: {userid: userid, itemid: itemid, type: type}});
+        router.push({
+            pathname: router.pathname,
+            query: { ...router.query },
+        }, undefined, { scroll: false });
+    }
+
+    const AddRatingToast = () => toast.success('Added rating', {position: "bottom-right",autoClose: 2000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
+    async function AddRating(userid: string, itemid: any, itemname: any, image: any, type: any, comment: any, rating: any) { 
+        AddRatingToast();
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/AddRating", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image, comment: comment, rating: rating}});
+        router.push({
+            pathname: router.pathname,
+            query: { ...router.query },
+        }, undefined, { scroll: false });
+    }
+    const DeleteRatingToast = () => toast.success('Deleted rating', {position: "bottom-right",autoClose: 2000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
+    async function DeleteRating(userid: string, itemid: any, itemname: any, image: any, type: any, comment: any, rating: any) { 
+        DeleteRatingToast();
+        setInput("");
+        setRatingRange(50);
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/DeleteRating", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image, comment: comment, rating: rating}});
+        router.push({
+            pathname: router.pathname,
+            query: { ...router.query },
+        }, undefined, { scroll: false });
+    }
+    
+    const [currentinput, setInput] = useState(rating_bool.comment);
+    const InputChange = (value: any) => {
+        setInput(value);
+    }
+    const [ratingRange, setRatingRange] = useState(rating_bool.rating);
+    const RatingChange = (value: any) => {
+        setRatingRange(value);
+    }
+    
     return (
         <>
             <Nav isloggedin={isloggedin} username={username} avatar={avatar} />
@@ -92,6 +163,79 @@ export default function DisplayCollection( { main, isloggedin, username, avatar 
                                 <ul className="mt-6 text-lg leading-8 text-black list-disc pl-6">
                                     {display_names}
                                 </ul>
+                            </div>
+                            <div className="mt-6 flex gap-x-4">
+                                {session && 
+                                    <>
+                                        <input type="checkbox" id="my-modal" className="modal-toggle" />
+                                        <div className="modal">
+                                            <div className="modal-box m-auto max-w-2xl">
+                                                <p className='pb-4 font-bold text-xl text-black'>Rate '{main.name}'</p>
+                                                <p className='pb-4 font-normal text-md text-black'>Score from 0-100:</p>
+                                                <input type="range" min="0" max="100" className="range range-primary p-4" step="1" value={ratingRange} onChange={(e) => RatingChange(e.target.value)} />
+                                                <div className="w-full flex justify-between text-xs text-black pb-4 px-4">
+                                                    <span>0</span>
+                                                    <span>25</span>
+                                                    <span>50</span>
+                                                    <span>75</span>
+                                                    <span>100</span>
+                                                </div>
+                                                <p className='pb-4 font-normal text-md text-black'>Your comment:</p>
+                                                <div className="mb-3 text-left m-auto w-full">
+                                                    <div className="input-group items-stretch w-full mb-4">
+                                                        <textarea value={currentinput} onChange={(e) => InputChange(e.target.value)}
+                                                            className="textarea textarea-bordered textarea-md w-full text-black" 
+                                                            placeholder="Rating Comment" aria-label="Text" aria-describedby="button-addon2"
+                                                            />
+                                                    </div>
+                                                </div>
+                                                <div className="modal-action">
+                                                    <button
+                                                        onClick={() => AddRating(session.user.id, main.id, main.name, poster_img, "collection", currentinput, ratingRange)}
+                                                        className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
+                                                    >
+                                                        Confirm
+                                                    </button>
+                                                    {session && rating_bool != false &&
+                                                        <button
+                                                            onClick={() => DeleteRating(session.user.id, main.id, main.name, poster_img, "collection", currentinput, ratingRange)}
+                                                            className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition"
+                                                        >
+                                                            Delete Existing Rating
+                                                        </button>
+                                                    }
+                                                    <label htmlFor="my-modal" className="inline-block rounded-lg bg-slate-600 px-4 py-1.5 text-lg font-semibold leading-7 text-white shadow-md hover:bg-slate-500 hover:text-white hover:scale-110 ease-in-out transition">Close</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                }
+                                {session && watchlist_bool == false &&
+                                    <button
+                                        onClick={() => AddWatchlist(session.user.id, main.id, main.name, poster_img, "collection")}
+                                        className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
+                                    >
+                                        Watchlist
+                                    </button>
+                                }
+                                {session && watchlist_bool == true &&
+                                    <button
+                                        onClick={() => RemoveWatchlist(session.user.id, main.id, "collection")}
+                                        className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition"
+                                    >
+                                        Watchlist
+                                    </button>
+                                }
+                                {session && rating_bool != false &&
+                                    <label htmlFor="my-modal" className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition">
+                                        Rating
+                                    </label>
+                                }
+                                {session && rating_bool == false &&
+                                    <label htmlFor="my-modal" className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition">
+                                        Rating
+                                    </label>
+                                }
                             </div>
                         </div>
                     </div>

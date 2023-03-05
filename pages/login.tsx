@@ -69,7 +69,7 @@ export default function Login({loggedin, movie_item, username, avatar}:any) {
     const router = useRouter();
     if (session) {
         LogUserNickNames(session);
-        router.back();
+        router.push("/trending");
     }
     return (
         <>
