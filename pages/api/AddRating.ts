@@ -10,7 +10,7 @@ export default async function AddRating(req: NextApiRequest, res: NextApiRespons
     let type = req.query.type;
     let rating = req.query.rating;
     let comment = req.query.comment;
-    const added = new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString();
+    const added = new Date().toLocaleDateString().toString();
     const supabase = createBrowserSupabaseClient();
     const {error, data} = await supabase.from('rating').upsert({ userid: userid, itemid: itemid, type: type, itemname: itemname, image: image, added: added, rating: rating?.toString(), comment: comment});
     res.status(200).json({message: "Added to ratings!", data: data, error: error});

@@ -5,7 +5,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 export default async function CreateList(req: NextApiRequest, res: NextApiResponse<any>) {
     const userid = req.query.userid;
     const listid = makeid(12);
-    const datecreated = new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString();
+    const datecreated = new Date().toLocaleDateString().toString();
     const supabase = createBrowserSupabaseClient();
     await supabase
         .from('listcontent')

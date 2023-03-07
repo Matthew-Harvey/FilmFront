@@ -11,6 +11,7 @@ import router from 'next/router';
 import { getAvatarName } from '../functions/getAvatarName';
 import { RatingWatchCard } from '../components/RateWatchCard';
 import { useState } from 'react';
+import { WatchlistAZ, WatchlistZA } from '../functions/SortWatchlist';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUrlQuery, PreviewData> | { req: NextApiRequest; res: NextApiResponse<any>; }) => {
     // Create authenticated Supabase Client
@@ -53,10 +54,10 @@ export default function Rating({userwatchlist, loggedin, username, avatar}: any)
     const supabase = useSupabaseClient();
     const session = useSession();
     // get items that user added.
-    let userwatchlist_movie = [];
-    let userwatchlist_tv = [];
-    let userwatchlist_people = [];
-    let userwatchlist_collection = [];
+    let userwatchlist_movie: any[] | (() => any[]) = [];
+    let userwatchlist_tv: any[] | (() => any[]) = [];
+    let userwatchlist_people: any[] | (() => any[]) = [];
+    let userwatchlist_collection: any[] | (() => any[]) = [];
     for (var item in userwatchlist) {
         if (userwatchlist[item].type == "movie") {
             userwatchlist_movie.push(userwatchlist[item]);
@@ -79,18 +80,6 @@ export default function Rating({userwatchlist, loggedin, username, avatar}: any)
         );
     }
 
-    let display_watchlist_movie;
-    try{ display_watchlist_movie = item_display(userwatchlist_movie);} catch {display_watchlist_movie = <p>You have not added any movies to your watchlist.</p>};
-    
-    let display_watchlist_tv;
-    try{ display_watchlist_tv = item_display(userwatchlist_tv);} catch {display_watchlist_tv = <p>You have not added any tv to your watchlist.</p>};
-    
-    let display_watchlist_people;
-    try{ display_watchlist_people = item_display(userwatchlist_people);} catch {display_watchlist_people = <p>You have not added any people to your watchlist.</p>};
-
-    let display_watchlist_collection;
-    try{ display_watchlist_collection = item_display(userwatchlist_collection);} catch {display_watchlist_collection = <p>You have not added any collections to your watchlist.</p>}
-
     if (session != undefined && loggedin == false) {
         router.push({
             pathname: '/rating',
@@ -102,7 +91,50 @@ export default function Rating({userwatchlist, loggedin, username, avatar}: any)
     let [checkTv, setCheckTv] = useState(true);
     let [checkPeople, setCheckPeople] = useState(true);
     let [checkCollection, setCheckCollection] = useState(true);
+
+    let [movieWatch, setMovieWatch] = useState(userwatchlist_movie);
+    let [tvWatch, setTvWatch] = useState(userwatchlist_tv);
+    let [peopleWatch, setPeopleWatch] = useState(userwatchlist_people);
+    let [collectionWatch, setCollectionWatch] = useState(userwatchlist_collection);
+
+    let [sortValue, setsortValue] = useState("A-Z");
+    function run_sort_check (value:any, userwatchlist_movie:any, userwatchlist_tv:any, userwatchlist_people:any, userwatchlist_collection:any) {
+        setsortValue(value);
+        if (value == "A-Z") {
+            setMovieWatch(userwatchlist_movie.sort(WatchlistAZ));
+            setTvWatch(userwatchlist_tv.sort(WatchlistAZ));
+            setPeopleWatch(userwatchlist_people.sort(WatchlistAZ));
+            setCollectionWatch(userwatchlist_collection.sort(WatchlistAZ));
+        } else if (value == "Z-A") {
+            setMovieWatch(userwatchlist_movie.sort(WatchlistZA));
+            setTvWatch(userwatchlist_tv.sort(WatchlistZA));
+            setPeopleWatch(userwatchlist_people.sort(WatchlistZA));
+            setCollectionWatch(userwatchlist_collection.sort(WatchlistZA));
+        } else if (value == "Newest") {
+            setMovieWatch(userwatchlist_movie.sort());
+            setTvWatch(userwatchlist_tv.sort());
+            setPeopleWatch(userwatchlist_people.sort());
+            setCollectionWatch(userwatchlist_collection.sort());
+        } else {
+            setMovieWatch([...userwatchlist_movie].reverse());
+            setTvWatch([...userwatchlist_tv].reverse());
+            setPeopleWatch([...userwatchlist_people].reverse());
+            setCollectionWatch([...userwatchlist_collection].reverse());
+        } 
+    }
     
+    let display_watchlist_movie;
+    try{ display_watchlist_movie = item_display(movieWatch);} catch {display_watchlist_movie = <p>You have not added any movies to your watchlist.</p>};
+    
+    let display_watchlist_tv;
+    try{ display_watchlist_tv = item_display(tvWatch);} catch {display_watchlist_tv = <p>You have not added any tv to your watchlist.</p>};
+    
+    let display_watchlist_people;
+    try{ display_watchlist_people = item_display(peopleWatch);} catch {display_watchlist_people = <p>You have not added any people to your watchlist.</p>};
+
+    let display_watchlist_collection;
+    try{ display_watchlist_collection = item_display(collectionWatch);} catch {display_watchlist_collection = <p>You have not added any collections to your watchlist.</p>}
+        
     return (
         <>
             <Nav isloggedin={loggedin} username={username} avatar={avatar} />
@@ -130,24 +162,37 @@ export default function Rating({userwatchlist, loggedin, username, avatar}: any)
                     <>
                         <div className='max-w-6xl justify-center m-auto mb-20'>
                             <p className='mb-6 text-lg font-semibold'>Logged in using - {session.user.email}</p>
-                            <div className="form-control grid grid-cols-2 md:grid-cols-4">
-                                <div>
-                                    <label className="cursor-pointer label">
-                                        <span className="label-text text-white text-lg">Movie</span>
-                                        <input type="checkbox" className="checkbox checkbox-info" checked={checkMovie} name="MovieCheckbox" onChange={(e) => setCheckMovie(!checkMovie)} />
-                                    </label>
-                                    <label className="cursor-pointer label">
-                                        <span className="label-text text-white text-lg">Tv</span>
-                                        <input type="checkbox" className="checkbox checkbox-info" checked={checkTv} name="TvCheckbox" onChange={(e) => setCheckTv(!checkTv)} />
-                                    </label>
-                                    <label className="cursor-pointer label">
-                                        <span className="label-text text-white text-lg">People</span>
-                                        <input type="checkbox" className="checkbox checkbox-info" checked={checkPeople} name="PeopleCheckbox" onChange={(e) => setCheckPeople(!checkPeople)} />
-                                    </label>
-                                    <label className="cursor-pointer label">
-                                        <span className="label-text text-white text-lg">Collection</span>
-                                        <input type="checkbox" className="checkbox checkbox-info" checked={checkCollection} name="CollectionCheckbox" onChange={(e) => setCheckCollection(!checkCollection)} />
-                                    </label>
+                            <div className=' bg-slate-900 rounded-lg p-4'>
+                                <div className="form-control grid grid-cols-2 gap-6">
+                                    <div>
+                                        <p className="label-text text-white text-lg text-left">Include:</p>
+                                        <div className='grid grid-cols-2 gap-2 mt-4'>
+                                            <label className="cursor-pointer label">
+                                                <span className="label-text text-white text-lg">Movie</span>
+                                                <input type="checkbox" className="checkbox checkbox-info" checked={checkMovie} name="MovieCheckbox" onChange={(e) => setCheckMovie(!checkMovie)} />
+                                            </label>
+                                            <label className="cursor-pointer label">
+                                                <span className="label-text text-white text-lg">Tv</span>
+                                                <input type="checkbox" className="checkbox checkbox-info" checked={checkTv} name="TvCheckbox" onChange={(e) => setCheckTv(!checkTv)} />
+                                            </label>
+                                            <label className="cursor-pointer label">
+                                                <span className="label-text text-white text-lg">People</span>
+                                                <input type="checkbox" className="checkbox checkbox-info" checked={checkPeople} name="PeopleCheckbox" onChange={(e) => setCheckPeople(!checkPeople)} />
+                                            </label>
+                                            <label className="cursor-pointer label">
+                                                <span className="label-text text-white text-lg">Collection</span>
+                                                <input type="checkbox" className="checkbox checkbox-info" checked={checkCollection} name="CollectionCheckbox" onChange={(e) => setCheckCollection(!checkCollection)} />
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="label-text text-white text-lg text-left">Sort By:</p>
+                                        <select className="select select-ghost w-full text-left mt-4 text-md font-normal" value={sortValue} onChange={(e) => run_sort_check(e.target.value, userwatchlist_movie, userwatchlist_tv, userwatchlist_people, userwatchlist_collection)}>
+                                            <option value="New">Newest</option>
+                                            <option value="A-Z">A-Z</option>
+                                            <option value="Z-A">Z-A</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             {checkMovie &&
