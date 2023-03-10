@@ -23,17 +23,17 @@ export default function Nav({isloggedin, username, avatar} : any) {
                             <svg xmlns="http://www.w3.org/2000/svg" color="white" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                         </label>
                         <ul tabIndex={0} className="menu menu-compact dropdown-content px-1 py-4 shadow rounded-box w-52 bg-zinc-900">
-                            <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
-                                <button onClick={() => router.push("/trending")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Trending</button>
+                            <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-left text-white">
+                                <button onClick={() => router.push("/trending")} className="m-auto text-left btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Trending</button>
                             </li>
-                            <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
-                                <button onClick={() => router.push("/movies")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Movies</button>
+                            <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-left text-white">
+                                <button onClick={() => router.push("/movies")} className="m-auto text-left btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Movies</button>
                             </li>
-                            <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
-                                <button onClick={() => router.push("/tvshows")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">TV Shows</button>
+                            <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-left text-white">
+                                <button onClick={() => router.push("/tvshows")} className="m-auto text-left btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">TV Shows</button>
                             </li>
-                            <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
-                                <button onClick={() => router.push("/people")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">People</button>
+                            <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-left text-white">
+                                <button onClick={() => router.push("/people")} className="m-auto text-left btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">People</button>
                             </li>
                         </ul>
                     </div>
@@ -46,17 +46,17 @@ export default function Nav({isloggedin, username, avatar} : any) {
                 </div>
                 <div className="navbar-center hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
-                        <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
-                            <button onClick={() => router.push("/trending")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Trending</button>
+                        <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-left text-white">
+                            <button onClick={() => router.push("/trending")} className="m-auto text-left btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Trending</button>
                         </li>
-                        <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
-                            <button onClick={() => router.push("/movies")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Movies</button>
+                        <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-left text-white">
+                            <button onClick={() => router.push("/movies")} className="m-auto text-left btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Movies</button>
                         </li>
-                        <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
-                            <button onClick={() => router.push("/tvshows")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">TV Shows</button>
+                        <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-left text-white">
+                            <button onClick={() => router.push("/tvshows")} className="m-auto text-left btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">TV Shows</button>
                         </li>
-                        <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
-                            <button onClick={() => router.push("/people")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">People</button>
+                        <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-left text-white">
+                            <button onClick={() => router.push("/people")} className="m-auto text-left btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">People</button>
                         </li>
                     </ul>
                 </div>
@@ -76,21 +76,21 @@ export default function Nav({isloggedin, username, avatar} : any) {
                                     </div>
                                 </button>
                                 <ul tabIndex={0} className="menu menu-compact dropdown-content px-1 py-4 shadow rounded-box w-52 bg-zinc-900">
-                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
-                                        <button onClick={() => router.push("/watchlist")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Watchlist</button>
+                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-left text-white">
+                                        <button onClick={() => router.push("/watchlist")} className="m-auto text-left btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Watchlist</button>
                                     </li>
-                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
-                                        <button onClick={() => router.push("/rating")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Rating</button>
+                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-left text-white">
+                                        <button onClick={() => router.push("/rating")} className="m-auto text-left btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Rating</button>
                                     </li> 
-                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
-                                        <button onClick={() => router.push("/trivia")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Trivia</button>
+                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-left text-white">
+                                        <button onClick={() => router.push("/trivia")} className="m-auto text-left btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Trivia</button>
                                     </li>
                                     
-                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-white">
-                                        <button onClick={() => router.push("/list")} className="m-auto text-center btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Lists</button>
+                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-left text-white">
+                                        <button onClick={() => router.push("/list")} className="m-auto text-left btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Lists</button>
                                     </li>
-                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-center text-rose-600">
-                                        <button onClick={() => SignOut()} className="m-auto text-center btn btn-link text-lg font-normal normal-case underline">Sign Out</button>
+                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-left text-rose-600">
+                                        <button onClick={() => SignOut()} className="m-auto text-left btn btn-link text-lg font-normal normal-case underline">Sign Out</button>
                                     </li>
                                 </ul>
                             </div>

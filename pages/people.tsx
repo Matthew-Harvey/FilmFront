@@ -112,7 +112,7 @@ export default function MoviesHome( { mediatype, movie, isloggedin, username, av
                         </button>
                     </div>
                 </div>
-                <div className="col-span-2 sm:ml-0 md:ml-5 lg:ml-10" ref={parent}>
+                <div className="col-span-2" ref={parent}>
                     <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch">
                         <span>
                             {query != "" && (

@@ -167,10 +167,10 @@ export default function Trending( { movie, tv, people, isloggedin, username, ava
         <>
             <Nav isloggedin={isloggedin} username={username} avatar={avatar} />
             <div className="grid p-6 sm:grid-cols-1 md:grid-cols-1 mt-6 max-w-6xl m-auto">
-                <div className="col-span-2 sm:ml-0 md:ml-5 lg:ml-10">
+                <div className="col-span-2">
                     <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch">
                         <span>
-                            <span className="text-3xl leading-8 font-bold pr-4">Trending Movies: </span>
+                            <span className="text-2xl leading-8 font-bold pr-4 md:text-3xl">Trending Movies: </span>
                             <button onClick={() => paginate(castpage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>
                             <span className="font-normal text-sm"> {castpage + " / " + Math.ceil(movie_arr.length / castperpage)} </span>
                             <button onClick={() => paginate(castpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
@@ -181,7 +181,7 @@ export default function Trending( { movie, tv, people, isloggedin, username, ava
                     </div>
                     <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch mt-6">
                         <span>
-                            <span className="text-3xl leading-8 font-bold pr-4">Trending TV Shows: </span>
+                            <span className="text-2xl leading-8 font-bold pr-4 md:text-3xl">Trending TV Shows: </span>
                             <button onClick={() => crewpaginate(crewpage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>
                             <span className="font-normal text-sm"> {crewpage + " / " + Math.ceil(crewarr.length / crewperpage)} </span>
                             <button onClick={() => crewpaginate(crewpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
@@ -192,7 +192,7 @@ export default function Trending( { movie, tv, people, isloggedin, username, ava
                     </div>
                     <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch mt-6">
                         <span>
-                            <span className="text-3xl leading-8 font-bold pr-4">Trending People: </span>
+                            <span className="text-2xl leading-8 font-bold pr-4 md:text-3xl">Trending People: </span>
                             <button onClick={() => peoplePaginate(personpage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>
                             <span className="font-normal text-sm"> {personpage + " / " + Math.ceil(personarr.length / peopleperpage)} </span>
                             <button onClick={() => peoplePaginate(personpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
