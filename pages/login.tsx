@@ -12,6 +12,11 @@ import axios from 'axios';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
+    let callback = ctx.query.callback;
+    if (callback == undefined) {
+        callback = "/trending";
+    }
+    
     const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
     const baseimg = "url(https://image.tmdb.org/t/p/original"
     const movie_arr: (string | number)[][] = [];
@@ -44,7 +49,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         return {
             props: {
                 loggedin: false,
-                movie_item
+                movie_item,
+                callback
             }
         }
     } else {
@@ -53,7 +59,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
                 loggedin: true,
                 movie_item,
                 username,
-                avatar
+                avatar,
+                callback
             },
         }
     }
@@ -63,13 +70,13 @@ async function LogUserNickNames(session: Session) {
     const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/UpsertNickname", {params: {userid: session.user.id}});
 }
 
-export default function Login({loggedin, movie_item, username, avatar}:any) {
+export default function Login({loggedin, movie_item, username, avatar, callback}:any) {
     const supabase = useSupabaseClient();
     const session = useSession();
     const router = useRouter();
     if (session) {
         LogUserNickNames(session);
-        router.push("/trending");
+        router.push(callback);
     }
     return (
         <>
@@ -103,8 +110,8 @@ export default function Login({loggedin, movie_item, username, avatar}:any) {
                         
                         <>
                             <div>
-                                <p className='mt-40 mb-2'><u><b>{session.user?.email}</b></u></p>
-                                <p className='mb-4'>You are now Logged In.</p>
+                                <p className='mt-40 mb-2 text-black'><u><b>{session.user?.email}</b></u></p>
+                                <p className='mb-4 text-black'>You are now Logged In.</p>
                                 <button onClick={()=> router.back()}
                                     className="inline-block rounded-lg bg-slate-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-md hover:bg-slate-500 hover:text-white hover:scale-110 ease-in-out transition">
                                     Return to where you left off.

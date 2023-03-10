@@ -7,7 +7,7 @@ export default async function CreateList(req: NextApiRequest, res: NextApiRespon
     const summary = req.query.summary;
     const title = req.query.title;
     const items = req.query.items;
-    const datecreated = new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString();
+    const datecreated = new Date().toLocaleTimeString("en-GB") + " " + new Date().toLocaleDateString();
     const supabase = createBrowserSupabaseClient();
     const { error } = await supabase
         .from('quizcontent')

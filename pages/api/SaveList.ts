@@ -8,7 +8,7 @@ export default async function SaveList(req: NextApiRequest, res: NextApiResponse
     const title = req.query.title;
     const items = req.query.items;
     const item_imgs = req.query.item_imgs;
-    const datecreated = new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString();
+    const datecreated = new Date().toLocaleTimeString("en-GB") + " " + new Date().toLocaleDateString();
     const supabase = createBrowserSupabaseClient();
     let ifitem = "";
     if (item_imgs) {

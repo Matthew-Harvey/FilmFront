@@ -11,7 +11,7 @@ export default function Nav({isloggedin, username, avatar} : any) {
         router.replace(router.asPath);
     }
     async function SignIn(){
-        router.push('/login');
+        router.push({pathname: '/login', query: { callback: router.asPath}});
     }
     return (
         <>

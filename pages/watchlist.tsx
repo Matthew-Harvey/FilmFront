@@ -92,10 +92,10 @@ export default function Watchlist({userwatchlist, loggedin, username, avatar}: a
     let [checkPeople, setCheckPeople] = useState(true);
     let [checkCollection, setCheckCollection] = useState(true);
 
-    let [movieWatch, setMovieWatch] = useState(userwatchlist_movie);
-    let [tvWatch, setTvWatch] = useState(userwatchlist_tv);
-    let [peopleWatch, setPeopleWatch] = useState(userwatchlist_people);
-    let [collectionWatch, setCollectionWatch] = useState(userwatchlist_collection);
+    let [movieWatch, setMovieWatch] = useState(userwatchlist_movie.sort(WatchlistAZ));
+    let [tvWatch, setTvWatch] = useState(userwatchlist_tv.sort(WatchlistAZ));
+    let [peopleWatch, setPeopleWatch] = useState(userwatchlist_people.sort(WatchlistAZ));
+    let [collectionWatch, setCollectionWatch] = useState(userwatchlist_collection.sort(WatchlistAZ));
 
     let [sortValue, setsortValue] = useState("A-Z");
     function run_sort_check (value:any, userwatchlist_movie:any, userwatchlist_tv:any, userwatchlist_people:any, userwatchlist_collection:any) {
@@ -161,7 +161,6 @@ export default function Watchlist({userwatchlist, loggedin, username, avatar}: a
                 ) : (
                     <>
                         <div className='max-w-6xl justify-center m-auto mb-20'>
-                            <p className='mb-6 text-lg font-semibold'>Logged in using - {session.user.email}</p>
                             <div className=' bg-slate-900 rounded-lg p-4'>
                                 <div className="form-control grid grid-cols-2 gap-6">
                                     <div>

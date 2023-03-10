@@ -142,6 +142,7 @@ export default function Profile({loggedin, username, avatar, list_stat, watchlis
                 ) : (
                     <>
                         <div className='max-w-6xl m-auto'>
+                            <p className='mb-6 text-lg font-semibold'>Logged in using - {session.user.email}</p>
                             <div className='grid grid-cols-3 justify-center gap-3 text-left mt-10'>
                                 <div>
                                     <span className="text-3xl leading-8 font-bold pr-4 text-left">Your Stats: </span>
