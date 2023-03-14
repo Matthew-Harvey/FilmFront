@@ -169,7 +169,7 @@ export default function Profile({loggedin, username, avatar, list_stat, watchlis
                                         </p>
                                     </div>
                                     <div className="text-center">
-                                        <h6 className="text-4xl font-bold lg:text-5xl xl:text-6xl">{trivia_stat}</h6>
+                                        <h6 className="text-4xl font-bold lg:text-5xl xl:text-6xl">{trivia_stat}%</h6>
                                         <p className="text-sm font-medium tracking-widest text-blue-800 uppercase lg:text-base">
                                             Trivia
                                         </p>

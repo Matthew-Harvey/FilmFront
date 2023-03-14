@@ -92,9 +92,10 @@ export default function Trivia(this: any, {loggedin, username, avatar, movie, tv
             setT1(a);
             setT2(b);
         }
+        setClicked(false);
     }
 
-    function GetAnswer (arr: any[], movieid: number) {
+    async function GetAnswer (arr: any[], movieid: number) {
         let other_index = 0;
         let index = 1;
         let other_movieid = arr[0][3];
@@ -104,7 +105,7 @@ export default function Trivia(this: any, {loggedin, username, avatar, movie, tv
         if (order == "rel") {
             bool = new Date(arr[index][5]) < new Date(arr[other_index][5]);
         } if (order == "sco") {
-            bool = arr[index][6] < arr[other_index][6];
+            bool = arr[index][6] > arr[other_index][6];
         }
 
         if (bool) {
@@ -113,6 +114,7 @@ export default function Trivia(this: any, {loggedin, username, avatar, movie, tv
             setBorder(other_movieid);
         }
         setClicked(true);
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/UpdateTrivia", {params: {userid: session?.user.id, answer: JSON.stringify({"arr": arr, "movieid": movieid, "correct": bool})}});
     }
     
     // @ts-ignore
@@ -129,20 +131,47 @@ export default function Trivia(this: any, {loggedin, username, avatar, movie, tv
                                 </span>
                             </div>
                         </button>
+                        {order == "rel" &&
+                            <p className='text-lg'>{new Date(m[5]).toLocaleDateString("en-GB") }</p>
+                        }
+                        {order == "sco" &&
+                            <p className='text-lg'>{m[6]}</p>
+                        }
                     </div>
                 </>
                 :
                 <>
-                    <div key={m[3]} className="group cursor-pointer relative inline-block text-center">
-                        <button onClick={() => GetAnswer(triviaArr_range_mov, m[3])}>
-                            <img id={m[3].toString()} src={m[2].toString()} alt={m[0].toString()} className="rounded-3xl w-80 p-2 h-full" />
-                            <div className="absolute bottom-0 flex-col items-center hidden mb-6 group-hover:flex">
-                                <span className="z-10 p-3 text-md leading-none rounded-lg text-white whitespace-no-wrap bg-gradient-to-r from-blue-700 to-red-700 shadow-lg">
-                                    {m[0]}
-                                </span>
+                    {clicked ?
+                        <>
+                            <div key={m[3]} className="group cursor-pointer relative inline-block text-center ring-4 ring-red-600 rounded-xl">
+                                <button onClick={() => GetAnswer(triviaArr_range_mov, m[3])}>
+                                    <img id={m[3].toString()} src={m[2].toString()} alt={m[0].toString()} className="rounded-3xl w-80 p-2 h-full" />
+                                    <div className="absolute bottom-0 flex-col items-center hidden mb-6 group-hover:flex">
+                                        <span className="z-10 p-3 text-md leading-none rounded-lg text-white whitespace-no-wrap bg-gradient-to-r from-blue-700 to-red-700 shadow-lg">
+                                            {m[0]}
+                                        </span>
+                                    </div>
+                                </button>
+                                {order == "rel" &&
+                                    <p className='text-lg'>{new Date(m[5]).toLocaleDateString("en-GB") }</p>
+                                }
+                                {order == "sco" &&
+                                    <p className='text-lg'>{m[6]}</p>
+                                }
                             </div>
-                        </button>
-                    </div>
+                        </>
+                        :
+                        <div key={m[3]} className="group cursor-pointer relative inline-block text-center">
+                            <button onClick={() => GetAnswer(triviaArr_range_mov, m[3])}>
+                                <img id={m[3].toString()} src={m[2].toString()} alt={m[0].toString()} className="rounded-3xl w-80 p-2 h-full" />
+                                <div className="absolute bottom-0 flex-col items-center hidden mb-6 group-hover:flex">
+                                    <span className="z-10 p-3 text-md leading-none rounded-lg text-white whitespace-no-wrap bg-gradient-to-r from-blue-700 to-red-700 shadow-lg">
+                                        {m[0]}
+                                    </span>
+                                </div>
+                            </button>
+                        </div>
+                    }
                 </>
             }
         </>
@@ -161,20 +190,47 @@ export default function Trivia(this: any, {loggedin, username, avatar, movie, tv
                                 </span>
                             </div>
                         </button>
+                        {order == "rel" &&
+                            <p className='text-lg'>{new Date(t[5]).toLocaleDateString("en-GB") }</p>
+                        }
+                        {order == "sco" &&
+                            <p className='text-lg'>{t[6]}</p>
+                        }
                     </div>
                 </>
                 :
                 <>
-                    <div key={t[3]} className="group cursor-pointer relative inline-block text-center">
-                        <button onClick={() => GetAnswer(triviaArr_range_tv, t[3])}>
-                            <img id={t[3].toString()} src={t[2].toString()} alt={t[0].toString()} className="rounded-3xl w-80 p-2 h-full" />
-                            <div className="absolute bottom-0 flex-col items-center hidden mb-6 group-hover:flex">
-                                <span className="z-10 p-3 text-md leading-none rounded-lg text-white whitespace-no-wrap bg-gradient-to-r from-blue-700 to-red-700 shadow-lg">
-                                    {t[0]}
-                                </span>
+                    {clicked ?
+                        <>
+                            <div key={t[3]} className="group cursor-pointer relative inline-block text-center ring-4 ring-red-600 rounded-xl">
+                                <button onClick={() => GetAnswer(triviaArr_range_tv, t[3])}>
+                                    <img id={t[3].toString()} src={t[2].toString()} alt={t[0].toString()} className="rounded-3xl w-80 p-2 h-full" />
+                                    <div className="absolute bottom-0 flex-col items-center hidden mb-6 group-hover:flex">
+                                        <span className="z-10 p-3 text-md leading-none rounded-lg text-white whitespace-no-wrap bg-gradient-to-r from-blue-700 to-red-700 shadow-lg">
+                                            {t[0]}
+                                        </span>
+                                    </div>
+                                </button>
                             </div>
-                        </button>
-                    </div>
+                            {order == "rel" &&
+                                <p className='text-lg'>{new Date(t[5]).toLocaleDateString("en-GB") }</p>
+                            }
+                            {order == "sco" &&
+                                <p className='text-lg'>{t[6]}</p>
+                            }
+                        </>
+                        :
+                        <div key={t[3]} className="group cursor-pointer relative inline-block text-center">
+                            <button onClick={() => GetAnswer(triviaArr_range_tv, t[3])}>
+                                <img id={t[3].toString()} src={t[2].toString()} alt={t[0].toString()} className="rounded-3xl w-80 p-2 h-full" />
+                                <div className="absolute bottom-0 flex-col items-center hidden mb-6 group-hover:flex">
+                                    <span className="z-10 p-3 text-md leading-none rounded-lg text-white whitespace-no-wrap bg-gradient-to-r from-blue-700 to-red-700 shadow-lg">
+                                        {t[0]}
+                                    </span>
+                                </div>
+                            </button>
+                        </div>
+                    }
                 </>
             }
         </>
@@ -192,14 +248,14 @@ export default function Trivia(this: any, {loggedin, username, avatar, movie, tv
                 <div className='grid grid-cols-1 md:grid-cols-2 max-w-6xl m-auto'>
                     <div className='p-4'>
                         <label htmlFor="type" className="block mb-2 text-m font-medium text-slate-600 dark:text-white m-auto">Type</label>
-                        <select id="type" value={type_ofshow} onChange={(e) => setTypeOfShow(e.target.value)}className="m-auto bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <select id="type" value={type_ofshow} onChange={(e) => {setTypeOfShow(e.target.value); setClicked(false)}} className="m-auto bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="mov">Movie</option>
                             <option value="tv">Tv Shows</option>
                         </select>
                     </div>
                     <div className='p-4'>
                         <label htmlFor="order" className="block mb-2 text-m font-medium text-slate-600 dark:text-white m-auto">Compare By</label>
-                        <select id="order" value={order} onChange={(e) => setOrder(e.target.value)} className="m-auto bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <select id="order" value={order} onChange={(e) => {setOrder(e.target.value); setClicked(false)}} className="m-auto bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="rel">Release Date</option>
                             <option value="sco">Imdb Score</option>
                         </select>
@@ -236,7 +292,7 @@ export default function Trivia(this: any, {loggedin, username, avatar, movie, tv
                 ) : (
                     <>
                         <button onClick={() => newOptions()} className="max-w-xs m-auto inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Get new options</button>
-                        <p className='max-w-6xl p-4 m-auto'>{text}</p>
+                        <p className='max-w-6xl p-4 m-auto text-lg'>{text}</p>
                         <div className='max-w-6xl p-4 justify-center m-auto grid grid-cols-2 gap-6'>
                             {type_ofshow == "mov" && 
                                 <>
