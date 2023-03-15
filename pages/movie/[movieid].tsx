@@ -196,16 +196,9 @@ export default function DisplayMovie( { main, credits, recommend, videos, respon
                                             <input type="checkbox" id="my-modal" className="modal-toggle" />
                                             <div className="modal">
                                                 <div className="modal-box m-auto max-w-2xl">
-                                                    <p className='pb-4 font-bold text-xl text-black'>Rate '{main.title}'</p>
-                                                    <p className='pb-4 font-normal text-md text-black'>Score from 0-100:</p>
-                                                    <input type="range" min="0" max="100" className="range range-primary p-4" step="1" value={ratingRange} onChange={(e) => RatingChange(e.target.value)} />
-                                                    <div className="w-full flex justify-between text-xs text-black pb-4 px-4">
-                                                        <span>0</span>
-                                                        <span>25</span>
-                                                        <span>50</span>
-                                                        <span>75</span>
-                                                        <span>100</span>
-                                                    </div>
+                                                    <p className='pb-4 font-bold text-xl text-black'>Rate '{main.name}'</p>
+                                                    <p className='pb-4 font-normal text-md text-black'>Score: {ratingRange}</p>
+                                                    <input type="range" min="0" max="100" className="range range-primary p-4 ring-1 ring-slate-700 px-4" step="1" value={ratingRange} onChange={(e) => RatingChange(e.target.value)} />
                                                     <p className='pb-4 font-normal text-md text-black'>Your comment:</p>
                                                     <div className="mb-3 text-left m-auto w-full">
                                                         <div className="input-group items-stretch w-full mb-4">
@@ -279,7 +272,7 @@ export default function DisplayMovie( { main, credits, recommend, videos, respon
                     {main.belongs_to_collection != null &&
                         <div key={main.belongs_to_collection} className="group cursor-pointer relative inline-block text-center">
                             <button onClick={() => router.push("/collection/" + main.belongs_to_collection.id)}>
-                                <img id={main.belongs_to_collection.id.toString()} src={baseimg + main.belongs_to_collection.poster_path.toString()} alt={main.belongs_to_collection.name.toString()} className="rounded-3xl p-2" />
+                                <img id={main.belongs_to_collection.id} src={baseimg + main.belongs_to_collection.poster_path} alt={main.belongs_to_collection.name} className="rounded-3xl p-2" />
                             </button>
                         </div>
                     }

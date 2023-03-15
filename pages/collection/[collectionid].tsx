@@ -171,15 +171,8 @@ export default function DisplayCollection( { main, isloggedin, username, avatar,
                                         <div className="modal">
                                             <div className="modal-box m-auto max-w-2xl">
                                                 <p className='pb-4 font-bold text-xl text-black'>Rate '{main.name}'</p>
-                                                <p className='pb-4 font-normal text-md text-black'>Score from 0-100:</p>
-                                                <input type="range" min="0" max="100" className="range range-primary p-4" step="1" value={ratingRange} onChange={(e) => RatingChange(e.target.value)} />
-                                                <div className="w-full flex justify-between text-xs text-black pb-4 px-4">
-                                                    <span>0</span>
-                                                    <span>25</span>
-                                                    <span>50</span>
-                                                    <span>75</span>
-                                                    <span>100</span>
-                                                </div>
+                                                <p className='pb-4 font-normal text-md text-black'>Score: {ratingRange}</p>
+                                                <input type="range" min="0" max="100" className="range range-primary p-4 ring-1 ring-slate-700 px-4" step="1" value={ratingRange} onChange={(e) => RatingChange(e.target.value)} />
                                                 <p className='pb-4 font-normal text-md text-black'>Your comment:</p>
                                                 <div className="mb-3 text-left m-auto w-full">
                                                     <div className="input-group items-stretch w-full mb-4">
