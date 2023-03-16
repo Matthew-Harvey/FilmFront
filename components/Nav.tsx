@@ -40,7 +40,7 @@ export default function Nav({isloggedin, username, avatar} : any) {
                     <button onClick={() => router.push("/trending")}>
                         <div className="flex items-center" aria-label="Home" role="img">
                             <img className="cursor-pointer w-9 h-9 sm:w-auto" src="/movie.png" alt="logo" />
-                            <p className="ml-2 lg:ml-4 text-3xl font-bold bg-clip-text text-transparent bg-white invisible md:visible">MyMovies</p>
+                            <p className="ml-2 lg:ml-4 text-3xl font-bold bg-clip-text text-transparent bg-white invisible md:visible">FilmFront</p>
                         </div>
                     </button>
                 </div>

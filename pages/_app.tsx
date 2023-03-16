@@ -15,7 +15,7 @@ export default function App({Component, pageProps }: AppProps<{ initialSession: 
   return (
     <>
       <Head>
-          <title>MyMovies</title>
+          <title>FilmFront</title>
           <meta name="title" content="MyMovies" />
           <meta name="description" content="Discover new movies/tvshows/people all in one place. Dont forget to rate, watchlist, complete trivia and create lists!" />
           <meta name="keywords" content="movies, tvshows, actors, actresses, lists, mymovies, trivia, watchlist, ratings" />
