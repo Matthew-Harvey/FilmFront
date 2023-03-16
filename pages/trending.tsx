@@ -166,9 +166,9 @@ export default function Trending( { movie, tv, people, isloggedin, username, ava
     return (
         <>
             <Nav isloggedin={isloggedin} username={username} avatar={avatar} />
-            <div className="grid p-6 sm:grid-cols-1 md:grid-cols-1 mt-6 max-w-6xl m-auto">
+            <div className="grid p-6 sm:grid-cols-1 md:grid-cols-1 mt-2 max-w-6xl m-auto">
                 <div className="col-span-2">
-                    <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch mt-6">
+                    <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch mt-2">
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
                             <div className="grid grid-flow-col">
                                 <span className="text-3xl leading-8 font-bold pr-4">Movies: </span>

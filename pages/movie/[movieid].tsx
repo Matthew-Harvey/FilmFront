@@ -142,7 +142,7 @@ export default function DisplayMovie( { main, credits, recommend, videos, respon
         <>
             <Nav isloggedin={isloggedin} username={username} avatar={avatar} />
             <main>
-                <div style={{backgroundImage: backdrop_img}} className="relative px-6 lg:px-8 backdrop-brightness-50 bg-fixed bg-center bg-cover h-screen">
+                <div style={{backgroundImage: backdrop_img}} className="relative px-6 lg:px-8 backdrop-brightness-50 bg-scroll bg-center bg-cover bg-no-repeat h-screen">
                 <div className="grid grid-cols-6 mx-auto max-w-6xl pt-2 pb-32 md:pt-10 sm:pb-40 items-stretch">
                         <img src={poster_img} alt={main.title.toString()} className="w-100 invisible md:visible md:rounded-l-3xl md:col-span-2" />
                         <div className="bg-white bg-opacity-75 shadow-md rounded-3xl md:rounded-r-3xl md:rounded-none col-span-6 md:col-span-4 pl-6 p-4">
@@ -177,7 +177,7 @@ export default function DisplayMovie( { main, credits, recommend, videos, respon
                                 <div className="text-xl leading-8 font-normal mt-6 text-black">
                                     {main.tagline}
                                 </div>
-                                <p className="mt-6 text-lg leading-8 text-black">
+                                <p className="mt-6 text-lg leading-8 text-black hidden md:flex">
                                     {main.overview}
                                 </p>
                                 <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 m-auto">
@@ -267,6 +267,9 @@ export default function DisplayMovie( { main, credits, recommend, videos, respon
                     </div>
                 </div>
             </main>
+            <p className="mt-6 text-lg leading-8 text-white flex md:hidden max-w-xl m-auto p-6">
+                {main.overview}
+            </p>
             <div className="grid p-2 grid-cols-1 max-w-6xl m-auto">
                 <div className="" ref={parent}>
                     <Topcast castcredit={credits.cast} />
