@@ -60,10 +60,16 @@ export default function Recommended ({ recommend, type } : any) {
     );
     return (
         <>
-            <div className="text-3xl leading-8 font-bold pr-4 mt-6">Recommended: </div>
+            <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch mt-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid grid-flow-col">
+                        <span className="text-3xl leading-8 font-bold pr-4">Recommended: </span>
+                    </div>
+                </div>
+            </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6">
                 {rec_result}
-            </div> 
+            </div>
         </>
     )
 }

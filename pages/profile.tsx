@@ -141,7 +141,8 @@ export default function Profile({loggedin, username, avatar, list_stat, watchlis
                     </>
                 ) : (
                     <>
-                        <div className='max-w-6xl m-auto'>
+                        <div className='max-w-sm sm:max-w-xl md:max-w-3xl lg:max-w-6xl m-auto'>
+                            <p className='mb-6 text-lg font-semibold'>Logged in using - {session.user.email}</p>
                             <div className='grid grid-cols-3 justify-center gap-3 text-left mt-10'>
                                 <div>
                                     <span className="text-3xl leading-8 font-bold pr-4 text-left">Your Stats: </span>
@@ -151,25 +152,25 @@ export default function Profile({loggedin, username, avatar, list_stat, watchlis
                                 <div className="grid grid-cols-2 row-gap-8 md:grid-cols-4">
                                     <div className="text-center md:border-r">
                                         <h6 className="text-4xl font-bold lg:text-5xl xl:text-6xl">{list_stat}</h6>
-                                        <p className="text-sm font-medium tracking-widest text-blue-800 uppercase lg:text-base">
+                                        <p className="text-sm font-medium tracking-widest text-blue-600 uppercase lg:text-base">
                                             Lists
                                         </p>
                                     </div>
                                     <div className="text-center md:border-r">
                                         <h6 className="text-4xl font-bold lg:text-5xl xl:text-6xl">{watchlist_stat}</h6>
-                                        <p className="text-sm font-medium tracking-widest text-blue-800 uppercase lg:text-base">
+                                        <p className="text-sm font-medium tracking-widest text-blue-600 uppercase lg:text-base">
                                             Watchlist
                                         </p>
                                     </div>
                                     <div className="text-center md:border-r">
                                         <h6 className="text-4xl font-bold lg:text-5xl xl:text-6xl">{rating_stat}</h6>
-                                        <p className="text-sm font-medium tracking-widest text-blue-800 uppercase lg:text-base">
+                                        <p className="text-sm font-medium tracking-widest text-blue-600 uppercase lg:text-base">
                                             Ratings
                                         </p>
                                     </div>
                                     <div className="text-center">
                                         <h6 className="text-4xl font-bold lg:text-5xl xl:text-6xl">{trivia_stat}%</h6>
-                                        <p className="text-sm font-medium tracking-widest text-blue-800 uppercase lg:text-base">
+                                        <p className="text-sm font-medium tracking-widest text-blue-600 uppercase lg:text-base">
                                             Trivia
                                         </p>
                                     </div>
@@ -183,7 +184,7 @@ export default function Profile({loggedin, username, avatar, list_stat, watchlis
                             <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-10">
                                 <div className="grid grid-cols-1 row-gap-8 md:grid-cols-1">
                                     <div className='flex m-auto'>
-                                        <input type="text" onChange={(e) => InputChange(e.target.value)} placeholder={username} value={nickname} style={{borderTopLeftRadius:"0.5rem", borderBottomLeftRadius:"0.5rem", borderTopRightRadius:"0px", borderBottomRightRadius:"0px"}} className="input text-black w-full max-w-sm"  />
+                                        <input type="text" onChange={(e) => InputChange(e.target.value)} placeholder={username} value={nickname} style={{borderTopLeftRadius:"0.5rem", borderBottomLeftRadius:"0.5rem", borderTopRightRadius:"0px", borderBottomRightRadius:"0px"}} className="input text-black w-full max-w-sm bg-white"  />
                                         <button type="button"
                                             onClick={() => saveNickName(nickname)}
                                             className="rounded-r-lg bg-blue-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-md hover:bg-blue-500 hover:text-white hover:scale-110 ease-in-out transition">

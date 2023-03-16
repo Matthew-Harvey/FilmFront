@@ -40,7 +40,7 @@ export default function Nav({isloggedin, username, avatar} : any) {
                     <button onClick={() => router.push("/trending")}>
                         <div className="flex items-center" aria-label="Home" role="img">
                             <img className="cursor-pointer w-9 h-9 sm:w-auto" src="/movie.png" alt="logo" />
-                            <p className="ml-2 lg:ml-4 text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-red-700">MyMovies</p>
+                            <p className="ml-2 lg:ml-4 text-3xl font-bold bg-clip-text text-transparent bg-white invisible md:visible">MyMovies</p>
                         </div>
                     </button>
                 </div>
@@ -89,7 +89,7 @@ export default function Nav({isloggedin, username, avatar} : any) {
                                     <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-left text-white">
                                         <button onClick={() => router.push("/list")} className="m-auto text-left btn hover:text-blue-400 btn-link text-lg font-normal no-underline normal-case">Lists</button>
                                     </li>
-                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-left text-rose-600">
+                                    <li className="cursor-pointer sm:ml-1 lg:ml-4 m-auto text-left text-rose-500">
                                         <button onClick={() => SignOut()} className="m-auto text-left btn btn-link text-lg font-normal normal-case underline">Sign Out</button>
                                     </li>
                                 </ul>

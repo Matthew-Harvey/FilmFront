@@ -160,7 +160,7 @@ export default function Rating({userwatchlist, loggedin, username, avatar}: any)
                     </>
                 ) : (
                     <>
-                        <div className='max-w-6xl justify-center m-auto mb-20'>
+                        <div className='max-w-sm sm:max-w-xl md:max-w-3xl lg:max-w-6xl m-auto justify-center mb-20'>
                             <div className=' bg-slate-900 rounded-lg p-4'>
                                 <div className="form-control grid grid-cols-2 gap-6">
                                     <div>

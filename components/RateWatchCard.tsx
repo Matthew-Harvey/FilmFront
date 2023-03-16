@@ -12,7 +12,7 @@ export function RatingWatchCard ({type, itemdata, height} : any) {
                     <h5 className="pt-2 mb-2 font-base text-white">{itemdata.comment}</h5>
                     {type == "rating" && 
                         <p className="mt-auto mb-0 font-semibold leading-normal text-white group text-sm">
-                            {itemdata.rating}/100
+                            {itemdata.rating}/10
                         </p>
                     }
                     <p className="mt-auto mb-0 font-semibold leading-normal text-white group text-sm">{itemdata.added}</p>

@@ -244,7 +244,7 @@ export default function Trivia(this: any, {loggedin, username, avatar, movie, tv
     return (
         <>
             <Nav isloggedin={loggedin} username={username} avatar={avatar} />
-            <div className='mt-6 m-auto'>
+            <div className='mt-6 max-w-sm sm:max-w-xl md:max-w-3xl lg:max-w-6xl m-auto'>
                 <div className='grid grid-cols-1 md:grid-cols-2 max-w-6xl m-auto'>
                     <div className='p-4'>
                         <label htmlFor="type" className="block mb-2 text-m font-medium text-slate-600 dark:text-white m-auto">Type</label>

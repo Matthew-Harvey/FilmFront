@@ -37,20 +37,19 @@ export function Videos ({ videos } : any) {
     const [parent] = useAutoAnimate<HTMLDivElement>();
     return (
         <>
-            <div className="grid md:grid-cols-3 sm:grid-cols-2 p-2 mt-6">
+            <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch mt-6">
                 {video_arr.length != 0 &&
                     <>
-                        <div className="text-3xl leading-8 font-bold pr-4">
-                            <span>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+                            <div className="grid grid-flow-col">
                                 <span className="text-3xl leading-8 font-bold pr-4">Videos: </span>
                                 <button onClick={() => video_paginate(videopage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>
-                                <span className="font-normal text-sm"> {videopage + " / " + Math.ceil(video_arr.length / videoperpage)} </span>
+                                <span className="font-normal text-sm m-auto"> {videopage + " / " + Math.ceil(video_arr.length / videoperpage)} </span>
                                 <button onClick={() => video_paginate(videopage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
-                            </span>
+                            </div>
                         </div>
                     </>
                 }
-                <br />
             </div>
             <div ref={parent}>
                 {videoresult}

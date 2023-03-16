@@ -9,15 +9,21 @@ import { compareSecondColumn } from "../functions/SortSecond";
 export default function Topcrew( { crewcredit } : any) {
 
     const crewarr: (string | number)[][] = [];
+    const namesarr: (string)[] = [];
     var counter = 0;
     crewcredit.forEach((person: { original_name: string; popularity: number; profile_path: string; job: string; id: number}) => {
-        var imgurl = "";
-        if (person.profile_path == null){
-            imgurl = "https://eu.ui-avatars.com/api/?name=" + person.original_name;
+        if (namesarr.indexOf(person.original_name) > -1){
+            crewarr[namesarr.indexOf(person.original_name)][3] = crewarr[namesarr.indexOf(person.original_name)][3] + " / " + person.job;
         } else {
-            imgurl = baseimg + person.profile_path;
+            var imgurl = "";
+            if (person.profile_path == null){
+                imgurl = "https://eu.ui-avatars.com/api/?name=" + person.original_name;
+            } else {
+                imgurl = baseimg + person.profile_path;
+            }
+            namesarr.push(person.original_name);
+            crewarr.push([person.original_name, person.popularity, imgurl, person.job, person.id, counter])
         }
-        crewarr.push([person.original_name, person.popularity, imgurl, person.job, person.id, counter])
         counter++;
     });
     crewarr.sort(compareSecondColumn);
@@ -52,12 +58,14 @@ export default function Topcrew( { crewcredit } : any) {
     return (
         <> 
         <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch mt-6">
-            <span>
-                <span className="text-3xl leading-8 font-bold pr-4">Top Crew: </span>
-                <button onClick={() => crewpaginate(crewpage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>
-                <span className="font-normal text-sm"> {crewpage + " / " + Math.ceil(crewarr.length / crewperpage)} </span>
-                <button onClick={() => crewpaginate(crewpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
-            </span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid grid-flow-col">
+                    <span className="text-3xl leading-8 font-bold pr-4">Top Crew: </span>
+                    <button onClick={() => crewpaginate(crewpage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>
+                    <span className="font-normal text-sm m-auto"> {crewpage + " / " + Math.ceil(crewarr.length / crewperpage)} </span>
+                    <button onClick={() => crewpaginate(crewpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
+                </div>
+            </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6" ref={parent}>
             {display_crew}
