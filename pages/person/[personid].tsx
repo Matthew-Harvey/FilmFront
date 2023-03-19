@@ -58,7 +58,9 @@ export default function DisplayPerson( { main, credits, isloggedin, username, av
     const poster_img = baseimg + main.profile_path;
     const imdblink = "https://www.imdb.com/name/" + main.imdb_id;
     const tag = main.birthday + " / " + main.place_of_birth;
+
     const [parent] = useAutoAnimate<HTMLDivElement>();
+    const [parent2] = useAutoAnimate<HTMLDivElement>();
 
     const castarr: (string | number)[][] = [];
     var counter = 0;
@@ -359,7 +361,7 @@ export default function DisplayPerson( { main, credits, isloggedin, username, av
                             </div>
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6" ref={parent}>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6" ref={parent2}>
                         {display_crew}
                     </div>
                 </div>
