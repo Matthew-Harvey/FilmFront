@@ -60,10 +60,16 @@ export default function Topcrew( { crewcredit } : any) {
         <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch mt-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
                 <div className="grid grid-flow-col">
-                    <span className="text-3xl leading-8 font-bold pr-4">Top Crew: </span>
-                    <button onClick={() => crewpaginate(crewpage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>
-                    <span className="font-normal text-sm m-auto"> {crewpage + " / " + Math.ceil(crewarr.length / crewperpage)} </span>
-                    <button onClick={() => crewpaginate(crewpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
+                    {Math.ceil(crewarr.length / crewperpage) > 0 && 
+                        <span className="text-3xl leading-8 font-bold pr-4">Top Crew: </span>
+                    }
+                    {Math.ceil(crewarr.length / crewperpage) > 1 && 
+                        <>
+                            <button onClick={() => crewpaginate(crewpage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>
+                            <span className="font-normal text-sm m-auto"> {crewpage + " / " + Math.ceil(crewarr.length / crewperpage)} </span>
+                            <button onClick={() => crewpaginate(crewpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
+                        </>
+                    }
                 </div>
             </div>
         </div>

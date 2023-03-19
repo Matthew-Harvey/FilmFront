@@ -192,7 +192,7 @@ export default function DisplayPerson( { main, credits, isloggedin, username, av
     async function DeleteRating(userid: string, itemid: any, itemname: any, image: any, type: any, comment: any, rating: any) { 
         DeleteRatingToast();
         setInput("");
-        setRatingRange(50);
+        setRatingRange(5);
         const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/DeleteRating", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image, comment: comment, rating: rating}});
         router.push({
             pathname: router.pathname,
@@ -213,79 +213,69 @@ export default function DisplayPerson( { main, credits, isloggedin, username, av
         <>
             <Nav isloggedin={isloggedin} username={username} avatar={avatar} />
             <main>
-                <div className="relative px-6 lg:px-8 backdrop-brightness-50 bg-fixed bg-center bg-cover bg-gradient-to-br from-blue-400 to-red-500 h-screen">
-                    <div className="grid grid-cols-6 mx-auto pt-6 pb-32 md:pt-16 sm:pb-40 items-stretch max-w-6xl m-auto">
-                        <img src={poster_img} alt={main.name.toString()} className="w-100 invisible md:visible md:rounded-l-3xl md:col-span-2" />
+                <div className="bg-gradient-to-br from-blue-400 to-red-500 relative px-6 lg:px-8 backdrop-brightness-50 bg-scroll lg:bg-fixed bg-center bg-cover bg-no-repeat h-screen">
+                <div className="grid grid-cols-6 mx-auto max-w-6xl pt-2 pb-32 md:pt-10 sm:pb-40 items-stretch">
+                        <img src={poster_img} alt={main.name?.toString()} className="w-100 invisible md:visible md:rounded-l-3xl md:col-span-2" />
                         <div className="bg-white bg-opacity-75 shadow-md rounded-3xl md:rounded-r-3xl md:rounded-none col-span-6 md:col-span-4 pl-6 p-4">
-                            <div className="hidden sm:flex p-2 py-6">
-                                <div className="relative overflow-hidden rounded-full py-1.5 px-4 text-xl leading-6 ring-1 ring-gray-900/50 hover:ring-gray-900/5">
+                            <div className="hidden sm:flex py-4">
+                                <div className="relative overflow-hidden rounded-full py-1.5 px-4 text-lg leading-6 ring-1 ring-gray-900/50 hover:ring-gray-900/5">
                                     <span className="text-gray-600">
                                         {tag}
                                     </span>
                                 </div>
                             </div>
-                            <div className="p-2">
-                                <h1 className="text-4xl font-bold tracking-tight sm:text-6xl drop-shadow-sm text-black">
+                            <div className="">
+                                <h1 className="text-4xl text-black font-bold tracking-tight sm:text-6xl drop-shadow-sm">
                                     {main.name}
                                 </h1>
-                                <div className="text-2xl leading-8 font-normal mt-6 text-black">
+                                <div className="text-xl leading-8 font-normal mt-6 text-black">
                                     Known for {main.known_for_department}
                                 </div>
-                                <div className="text-lg leading-8 font-normal mt-6 text-black">
+                                <p className="mt-6 text-lg leading-8 text-black hidden md:flex">
                                     {short_overview}
-                                </div>
-                                <input type="checkbox" id="my-modal" className="modal-toggle" />
-                                <div className="modal">
-                                    <div className="modal-box m-auto max-w-2xl">
-                                        <div className="text-lg leading-8 font-normal mt-6 text-black">
-                                            {main.biography}
-                                        </div>
-                                        <div className="modal-action">
-                                            <label htmlFor="my-modal" className="inline-block rounded-lg bg-slate-600 px-4 py-1.5 text-lg font-semibold leading-7 text-white shadow-md hover:bg-slate-500 hover:text-white hover:scale-110 ease-in-out transition">Close</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="mt-6 flex gap-x-4">
+                                </p>
+                                <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 m-auto">
                                     <a
                                         href={imdblink}
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition"
+                                        className="text-center inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition"
                                     >
                                         IMDb
                                     </a>
-                                    {main.biography.length > 400 &&
-                                        <label
-                                            htmlFor="my-modal"
-                                            className="inline-block rounded-lg bg-slate-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-md hover:bg-slate-500 hover:text-white hover:scale-110 ease-in-out transition"
-                                        >
-                                            Full Biography
-                                        </label>
-                                    }
                                     {session && 
                                         <>
-                                            <input type="checkbox" id="my-modal2" className="modal-toggle" />
+                                            <input type="checkbox" id="my-modal" className="modal-toggle" />
                                             <div className="modal">
-                                                <div className="modal-box m-auto max-w-2xl">
+                                                <div className="modal-box m-auto max-w-2xl text-left">
                                                     <p className='pb-4 font-bold text-xl text-black'>Rate '{main.name}'</p>
                                                     <p className='pb-4 font-normal text-md text-black'>Score: {ratingRange}</p>
-                                                    <input type="range" min="0" max="100" className="range range-primary p-4 ring-1 ring-slate-700 px-4" step="1" value={ratingRange} onChange={(e) => RatingChange(e.target.value)} />
+                                                    <input type="range" min="0" max="10" className="range range-primary p-4 ring-1 ring-slate-700 mb-4 " step="0.1" value={ratingRange} onChange={(e) => RatingChange(e.target.value)} />
                                                     <p className='pb-4 font-normal text-md text-black'>Your comment:</p>
                                                     <div className="mb-3 text-left m-auto w-full">
-                                                        <div className="input-group items-stretch w-full mb-4">
+                                                        <div className="input-group items-stretch w-full mb-6">
                                                             <textarea value={currentinput} onChange={(e) => InputChange(e.target.value)}
                                                                 className="textarea textarea-bordered textarea-md w-full text-black" 
                                                                 placeholder="Rating Comment" aria-label="Text" aria-describedby="button-addon2"
                                                              />
                                                         </div>
                                                     </div>
-                                                    <div className="modal-action">
-                                                        <button
-                                                            onClick={() => AddRating(session.user.id, main.id, main.name, poster_img, "person", currentinput, ratingRange)}
-                                                            className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
-                                                        >
-                                                            Confirm
-                                                        </button>
+                                                    <div className="modal-action gap-2">
+                                                        {session && rating_bool != false ?
+                                                            <button
+                                                                onClick={() => AddRating(session.user.id, main.id, main.name, poster_img, "person", currentinput, ratingRange)}
+                                                                className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
+                                                            >
+                                                                Update Rating
+                                                            </button>
+                                                            :
+                                                            <button
+                                                                onClick={() => AddRating(session.user.id, main.id, main.name, poster_img, "person", currentinput, ratingRange)}
+                                                                className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
+                                                            >
+                                                                Create Rating
+                                                            </button>
+                                                        }
                                                         {session && rating_bool != false &&
                                                             <button
                                                                 onClick={() => DeleteRating(session.user.id, main.id, main.name, poster_img, "person", currentinput, ratingRange)}
@@ -294,7 +284,7 @@ export default function DisplayPerson( { main, credits, isloggedin, username, av
                                                                 Delete Existing Rating
                                                             </button>
                                                         }
-                                                        <label htmlFor="my-modal2" className="inline-block rounded-lg bg-slate-600 px-4 py-1.5 text-lg font-semibold leading-7 text-white shadow-md hover:bg-slate-500 hover:text-white hover:scale-110 ease-in-out transition">Close</label>
+                                                        <label htmlFor="my-modal" className="inline-block rounded-lg bg-slate-600 px-4 py-1.5 text-lg font-semibold leading-7 text-white shadow-md hover:bg-slate-500 hover:text-white hover:scale-110 ease-in-out transition">Close</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -303,27 +293,27 @@ export default function DisplayPerson( { main, credits, isloggedin, username, av
                                     {session && watchlist_bool == false &&
                                         <button
                                             onClick={() => AddWatchlist(session.user.id, main.id, main.name, poster_img, "person")}
-                                            className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
+                                            className="text-center inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
                                         >
-                                            Watchlist
+                                            Watchlist+
                                         </button>
                                     }
                                     {session && watchlist_bool == true &&
                                         <button
                                             onClick={() => RemoveWatchlist(session.user.id, main.id, "person")}
-                                            className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition"
+                                            className="text-center inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition"
                                         >
-                                            Watchlist
+                                            Watchlist-
                                         </button>
                                     }
                                     {session && rating_bool != false &&
-                                        <label htmlFor="my-modal2" className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition">
-                                            Rating
+                                        <label htmlFor="my-modal" className="text-center inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition">
+                                            Rating-
                                         </label>
                                     }
                                     {session && rating_bool == false &&
-                                        <label htmlFor="my-modal2" className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition">
-                                            Rating
+                                        <label htmlFor="my-modal" className="text-center inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition">
+                                            Rating+
                                         </label>
                                     }
                                 </div>
@@ -334,24 +324,44 @@ export default function DisplayPerson( { main, credits, isloggedin, username, av
             </main>
             <div className="grid sm:grid-cols-1 md:grid-cols-1 max-w-6xl m-auto mt-6">
                 <div className="" ref={parent}>
-                    <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch">
-                        <span>
-                            <span className="text-3xl leading-8 font-bold pr-4">In Cast: </span>
-                            <button onClick={() => paginate(castpage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>
-                            <span className="font-normal text-sm"> {castpage + " / " + Math.ceil(castarr.length / castperpage)} </span>
-                            <button onClick={() => paginate(castpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
-                        </span>
-                    </div>
-                    {display_cast}
                     <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch mt-6">
-                        <span>
-                            <span className="text-3xl leading-8 font-bold pr-4">In Crew: </span>
-                            <button onClick={() => crewpaginate(crewpage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>
-                            <span className="font-normal text-sm"> {crewpage + " / " + Math.ceil(crewarr.length / crewperpage)} </span>
-                            <button onClick={() => crewpaginate(crewpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
-                        </span>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+                            <div className="grid grid-flow-col">
+                                {Math.ceil(castarr.length / castperpage) > 0 && 
+                                    <span className="text-3xl leading-8 font-bold pr-4">In Cast: </span>
+                                }
+                                {Math.ceil(castarr.length / castperpage) > 1 && 
+                                    <>
+                                        <button onClick={() => paginate(castpage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>
+                                        <span className="font-normal text-sm m-auto"> {castpage + " / " + Math.ceil(castarr.length / castperpage)} </span>
+                                        <button onClick={() => paginate(castpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
+                                    </>
+                                }
+                            </div>
+                        </div>
                     </div>
-                    {display_crew}
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6" ref={parent}>
+                        {display_cast}
+                    </div>
+                    <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch mt-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
+                            <div className="grid grid-flow-col">
+                                {Math.ceil(crewarr.length / crewperpage) > 0 && 
+                                    <span className="text-3xl leading-8 font-bold pr-4">In Crew: </span>
+                                }
+                                {Math.ceil(crewarr.length / crewperpage) > 1 && 
+                                    <>
+                                        <button onClick={() => crewpaginate(crewpage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>
+                                        <span className="font-normal text-sm m-auto"> {crewpage + " / " + Math.ceil(crewarr.length / crewperpage)} </span>
+                                        <button onClick={() => crewpaginate(crewpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
+                                    </>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6" ref={parent}>
+                        {display_crew}
+                    </div>
                 </div>
             </div>
             <ToastContainer

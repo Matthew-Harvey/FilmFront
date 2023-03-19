@@ -52,10 +52,16 @@ export default function Topcast( { castcredit } : any) {
             <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch mt-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
                     <div className="grid grid-flow-col">
-                        <span className="text-3xl leading-8 font-bold pr-4">Top Cast: </span>
-                        <button onClick={() => paginate(castpage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>
-                        <span className="font-normal text-sm m-auto"> {castpage + " / " + Math.ceil(castarr.length / castperpage)} </span>
-                        <button onClick={() => paginate(castpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
+                        {Math.ceil(castarr.length / castperpage) > 0 && 
+                            <span className="text-3xl leading-8 font-bold pr-4">Top Cast: </span>
+                        }
+                        {Math.ceil(castarr.length / castperpage) > 1 && 
+                            <>
+                                <button onClick={() => paginate(castpage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>
+                                <span className="font-normal text-sm m-auto"> {castpage + " / " + Math.ceil(castarr.length / castperpage)} </span>
+                                <button onClick={() => paginate(castpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
+                            </>
+                        }
                     </div>
                 </div>
             </div>
