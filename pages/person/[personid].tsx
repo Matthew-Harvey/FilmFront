@@ -61,6 +61,7 @@ export default function DisplayPerson( { main, credits, isloggedin, username, av
 
     const [parent] = useAutoAnimate<HTMLDivElement>();
     const [parent2] = useAutoAnimate<HTMLDivElement>();
+    const [parent3] = useAutoAnimate<HTMLDivElement>();
 
     const castarr: (string | number)[][] = [];
     var counter = 0;
@@ -324,7 +325,7 @@ export default function DisplayPerson( { main, credits, isloggedin, username, av
                     </div>
                 </div>
             </main>
-            <div className="grid sm:grid-cols-1 md:grid-cols-1 max-w-6xl m-auto mt-6">
+            <div className="grid sm:grid-cols-1 md:grid-cols-1 max-w-6xl m-auto mt-6 pb-40">
                 <div className="" ref={parent}>
                     <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch mt-6">
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
@@ -342,7 +343,7 @@ export default function DisplayPerson( { main, credits, isloggedin, username, av
                             </div>
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6" ref={parent}>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6" ref={parent2}>
                         {display_cast}
                     </div>
                     <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch mt-6">
@@ -361,7 +362,7 @@ export default function DisplayPerson( { main, credits, isloggedin, username, av
                             </div>
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6" ref={parent2}>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 xl:grid-cols-6" ref={parent3}>
                         {display_crew}
                     </div>
                 </div>
