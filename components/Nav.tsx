@@ -37,10 +37,10 @@ export default function Nav({isloggedin, username, avatar} : any) {
                             </li>
                         </ul>
                     </div>
-                    <button onClick={() => router.push("/trending")}>
+                    <button onClick={() => router.push("/")}>
                         <div className="flex items-center" aria-label="Home" role="img">
                             <img className="cursor-pointer w-9 h-9 sm:w-auto" src="/movie.png" alt="logo" />
-                            <p className="ml-2 lg:ml-4 text-3xl font-bold bg-clip-text text-transparent bg-white invisible md:visible">FilmFront</p>
+                            <p className="ml-2 lg:ml-4 text-3xl font-bold invisible text-white md:visible"><span className="text-[hsl(226,45%,45%)]">Film</span>Front</p>
                         </div>
                     </button>
                 </div>

@@ -81,8 +81,8 @@ export default function Login({loggedin, movie_item, username, avatar, callback}
     return (
         <>
             <Nav isloggedin={loggedin} username={username} avatar={avatar} />
-            <div className='grid sm:grid-cols-1 md:grid-cols-1 m-auto text-center h-screen bg-cover relative' style={{backgroundImage: movie_item[1].toString()}}>
-                <div className='max-w-xl m-auto text-center text-lg bg-white rounded-xl p-20'>
+            <div className='grid sm:grid-cols-1 md:grid-cols-1 m-auto text-center relative backdrop-brightness-50 bg-scroll lg:bg-fixed bg-center bg-cover bg-no-repeat min-h-screen' style={{backgroundImage: movie_item[1].toString()}}>
+                <div className='max-w-xl m-auto text-center text-lg bg-white rounded-xl px-20 py-10'>
                     {!session ? (
                         <>
                             <h1 className='font-semibold text-2xl p-2 text-black'>Login to MyMovies</h1>
@@ -102,7 +102,7 @@ export default function Login({loggedin, movie_item, username, avatar, callback}
                                 }}
                             />
                             <button onClick={async ()=> await supabase.auth.signInWithPassword({email: 'matthewtlharvey@gmail.com',password: 'demouser'})}
-                                className="inline-block rounded-lg bg-zinc-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-md hover:bg-zinc-500 hover:text-white hover:scale-110 ease-in-out transition">
+                                className="inline-block rounded-lg bg-zinc-700 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-md hover:bg-zinc-900 hover:text-white hover:scale-110 ease-in-out transition">
                                 Demo User
                             </button>
                         </>
@@ -113,7 +113,7 @@ export default function Login({loggedin, movie_item, username, avatar, callback}
                                 <p className='mt-40 mb-2 text-black'><u><b>{session.user?.email}</b></u></p>
                                 <p className='mb-4 text-black'>You are now Logged In.</p>
                                 <button onClick={()=> router.back()}
-                                    className="inline-block rounded-lg bg-slate-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-md hover:bg-slate-500 hover:text-white hover:scale-110 ease-in-out transition">
+                                    className="inline-block rounded-lg bg-zinc-700 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-md hover:bg-zinc-900 hover:text-white hover:scale-110 ease-in-out transition">
                                     Return to where you left off.
                                 </button>
                             </div>
