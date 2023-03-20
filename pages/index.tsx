@@ -32,6 +32,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     let rand3 = Math.floor(Math.random()*movie_arr.length);
     var movie_item3 = movie_arr[rand3];
     movie_arr.splice(rand3-1, rand3+1);
+
     // Create authenticated Supabase Client
     const supabase = createServerSupabaseClient(ctx)
     // Check if we have a session
@@ -68,17 +69,17 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     }
 }
 
-export default function Home( { isloggedin, username, avatar, movie_item1, movie_item2, movie_item3 } : any) {
+export default function Home( { loggedin, username, avatar, movie_item1, movie_item2, movie_item3 } : any) {
     return (
         <>
-            <Nav isloggedin={isloggedin} username={username} avatar={avatar} />
+            <Nav isloggedin={loggedin} username={username} avatar={avatar} />
             <section>
                 <div className="bg-black text-white md:py-2 max-w-6xl m-auto">
                     <div className="container mx-auto flex flex-col md:flex-row items-center my-6 md:my-24">
                         <div className="flex flex-col w-full lg:w-1/3 justify-center items-start p-8">
                             <h1 className="text-5xl md:text-7xl py-2 tracking-loose font-bold"><span className="text-[hsl(226,45%,45%)]">Film</span>Front</h1>
                             <p className="text-sm md:text-lg text-gray-50 mb-4">Explore your favourite movies and
-                                login now to watchlist your favouites, rate shows and share lists.</p>
+                                login now to watchlist the upcoming, rate watched shows and share lists to others.</p>
                             <Link href="/trending"
                                 className="bg-transparent hover:bg-[hsl(226,45%,45%)] text-[hsl(226,45%,45%)] hover:text-black rounded shadow hover:shadow-lg py-2 px-4 border border-[hsl(226,45%,45%)] hover:border-transparent">
                                 View Trending
@@ -96,50 +97,55 @@ export default function Home( { isloggedin, username, avatar, movie_item1, movie
                 <div className="grid md:grid-cols-2 lg:grid-cols-6 px-6">
                     <div className="mb-12 lg:mb-0 mx-auto">
                         <img
-                        src="https://mdbootstrap.com/img/Photos/new-templates/landing-page/8.png"
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/640px-Disney%2B_logo.svg.png"
                         className="img-fluid grayscale"
                         style={{maxWidth:"90px"}}
+                        alt="DisneyPlus - logo"
                         />
                     </div>
 
                     <div className="mb-12 lg:mb-0 mx-auto">
                         <img
-                        src="https://mdbootstrap.com/img/Photos/new-templates/landing-page/2.png"
+                        src="https://ia.media-imdb.com/images/M/MV5BMTk3ODA4Mjc0NF5BMl5BcG5nXkFtZTgwNDc1MzQ2OTE@._V1_.png"
                         className="img-fluid grayscale"
                         style={{maxWidth:"90px"}}
+                        alt="Imdb - logo"
                         />
                     </div>
 
                     <div className="mb-12 lg:mb-0 mx-auto">
                         <img
-                        src="https://mdbootstrap.com/img/Photos/new-templates/landing-page/7.png"
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Apple_TV_Plus_Logo.svg/640px-Apple_TV_Plus_Logo.svg.png"
                         className="img-fluid grayscale"
                         style={{maxWidth:"90px"}}
+                        alt="Apple TV Plus - logo"
                         />
                     </div>
 
                     <div className="mb-12 lg:mb-0 mx-auto">
                         <img
-                        src="https://mdbootstrap.com/img/Photos/new-templates/landing-page/1.png"
+                        src="https://images.ctfassets.net/4cd45et68cgf/7LrExJ6PAj6MSIPkDyCO86/542b1dfabbf3959908f69be546879952/Netflix-Brand-Logo.png?w=684&h=456"
                         className="img-fluid grayscale"
                         style={{maxWidth:"90px"}}
+                        alt="Netflix - logo"
                         />
                     </div>
 
-                    <div className="mb-12 lg:mb-0 mx-auto">
+                    <div className="mb-12 lg:mb-0 mx-auto mt-2">
                         <img
-                        src="https://mdbootstrap.com/img/Photos/new-templates/landing-page/4.png"
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/640px-Amazon_Prime_Video_logo.svg.png"
                         className="img-fluid grayscale"
                         style={{maxWidth:"90px"}}
+                        alt="Prime Video - logo"
                         />
                     </div>
 
-                    <div className="mb-12 lg:mb-0 mx-auto">
+                    <div className="mb-12 lg:mb-0 mx-auto mt-2">
                         <img
-                        src="https://mdbootstrap.com/img/Photos/new-templates/landing-page/5.png"
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/HBO_Max_Logo.svg/640px-HBO_Max_Logo.svg.png"
                         className="img-fluid grayscale"
                         style={{maxWidth:"90px"}}
-                        alt="Sony - logo"
+                        alt="HBO Max - logo"
                         />
                     </div>
                 </div>
@@ -150,15 +156,10 @@ export default function Home( { isloggedin, username, avatar, movie_item1, movie
                     <div className="grow-0 shrink-0 basis-auto w-full lg:w-12/12 xl:w-12/12">
                         <div className="px-6 py-12 md:px-12">
                             <div className="flex">
-                                <h2 className="text-3xl font-bold mb-6 pb-2">Top quality product</h2>
-                                <button type="button"
-                                    className="inline-block px-7 py-3 mx-6 mb-6 bg-green-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-gray-900 hover:shadow-lg focus:bg-gray-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-900 active:shadow-lg transition duration-150 ease-in-out">
-                                    Sign in
-                                </button>
+                                <h2 className="text-4xl font-bold mb-6 pb-2">What we do</h2>
                             </div>
-                            <p className="text-gray-500 mb-6 pb-2">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A soluta corporis
-                            voluptate ab error quam dolores doloremque, quae consectetur.
+                            <p className="text-gray-300 mb-6 pb-2 text-lg">
+                                The platform has a simple and user-friendly interface that allows users to browse popular movies and TV shows, search for specific titles. Users can also create a personal account to save their favorite titles and keep track of their reviews. In addition, the website provides detailed information about each title, including a synopsis, cast and crew information, ratings from popular movie and TV show review websites, and related titles that users might also enjoy. Overall, it seems that FilmFront is a useful tool for movie and TV show enthusiasts looking for a quick and easy way to discover new titles to watch.
                             </p>
                             <div className="flex flex-wrap mb-6">
                             <div className="w-full lg:w-6/12 xl:w-4/12 mb-4">
@@ -167,7 +168,7 @@ export default function Home( { isloggedin, username, avatar, movie_item1, movie
                                     <path fill="currentColor"
                                     d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
                                     </path>
-                                </svg>Noise cancelling
+                                </svg>Watchlist
                                 </p>
                             </div>
                             <div className="w-full lg:w-6/12 xl:w-4/12 mb-4">
@@ -176,7 +177,7 @@ export default function Home( { isloggedin, username, avatar, movie_item1, movie
                                     <path fill="currentColor"
                                     d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
                                     </path>
-                                </svg>Touch controls
+                                </svg>Rating
                                 </p>
                             </div>
                             <div className="w-full lg:w-6/12 xl:w-4/12 mb-4">
@@ -185,7 +186,7 @@ export default function Home( { isloggedin, username, avatar, movie_item1, movie
                                     <path fill="currentColor"
                                     d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
                                     </path>
-                                </svg>Clear calls
+                                </svg>Trivia
                                 </p>
                             </div>
                             <div className="w-full lg:w-6/12 xl:w-4/12 mb-4">
@@ -194,7 +195,7 @@ export default function Home( { isloggedin, username, avatar, movie_item1, movie
                                     <path fill="currentColor"
                                     d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
                                     </path>
-                                </svg>Quite mode
+                                </svg>Trending
                                 </p>
                             </div>
                             <div className="w-full lg:w-6/12 xl:w-4/12 mb-4">
@@ -203,7 +204,7 @@ export default function Home( { isloggedin, username, avatar, movie_item1, movie
                                     <path fill="currentColor"
                                     d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
                                     </path>
-                                </svg>Secure
+                                </svg>Stats
                                 </p>
                             </div>
                             <div className="w-full lg:w-6/12 xl:w-4/12 mb-4">
@@ -212,7 +213,7 @@ export default function Home( { isloggedin, username, avatar, movie_item1, movie
                                     <path fill="currentColor"
                                     d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
                                     </path>
-                                </svg>Comfortable
+                                </svg>Recommended
                                 </p>
                             </div>
                             </div>
@@ -229,7 +230,8 @@ export default function Home( { isloggedin, username, avatar, movie_item1, movie
                         </div>
                     </div>
                     <div className="pb-10 text-left pl-10 p-2">
-                        <h2 className="text-5xl font-bold tracking-tight leading-tight pb-4 text-blue-600">
+                        <p className="text-xl font-bold tracking-tight leading-tight pb-2 text-slate-300">Created using TypeScript, React, Nextjs, Supabase and tailwindcss.</p>
+                        <h2 className="text-5xl font-bold tracking-tight leading-tight pb-6 text-blue-600">
                             Follow Us
                         </h2>
                         <div className="grid grid-cols-1 flex-wrap justify-center max-w-xs">
