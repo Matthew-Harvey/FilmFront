@@ -128,7 +128,7 @@ export default function DisplayCollection( { main, isloggedin, username, avatar,
     async function DeleteRating(userid: string, itemid: any, itemname: any, image: any, type: any, comment: any, rating: any) { 
         DeleteRatingToast();
         setInput("");
-        setRatingRange(50);
+        setRatingRange(5);
         const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/DeleteRating", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image, comment: comment, rating: rating}});
         router.push({
             pathname: router.pathname,
@@ -140,7 +140,11 @@ export default function DisplayCollection( { main, isloggedin, username, avatar,
     const InputChange = (value: any) => {
         setInput(value);
     }
-    const [ratingRange, setRatingRange] = useState(rating_bool.rating);
+    let start_rating = rating_bool.rating;
+    if (rating_bool.rating){
+        start_rating = 5;
+    }
+    const [ratingRange, setRatingRange] = useState(start_rating);
     const RatingChange = (value: any) => {
         setRatingRange(value);
     }
@@ -165,70 +169,79 @@ export default function DisplayCollection( { main, isloggedin, username, avatar,
                                 </ul>
                             </div>
                             <div className="mt-6 flex gap-x-4">
-                                {session && 
-                                    <>
-                                        <input type="checkbox" id="my-modal" className="modal-toggle" />
-                                        <div className="modal">
-                                            <div className="modal-box m-auto max-w-2xl">
-                                                <p className='pb-4 font-bold text-xl text-black'>Rate '{main.name}'</p>
-                                                <p className='pb-4 font-normal text-md text-black'>Score: {ratingRange}</p>
-                                                <input type="range" min="0" max="100" className="range range-primary p-4 ring-1 ring-slate-700 px-4" step="1" value={ratingRange} onChange={(e) => RatingChange(e.target.value)} />
-                                                <p className='pb-4 font-normal text-md text-black'>Your comment:</p>
-                                                <div className="mb-3 text-left m-auto w-full">
-                                                    <div className="input-group items-stretch w-full mb-4">
-                                                        <textarea value={currentinput} onChange={(e) => InputChange(e.target.value)}
-                                                            className="textarea textarea-bordered textarea-md w-full text-black" 
-                                                            placeholder="Rating Comment" aria-label="Text" aria-describedby="button-addon2"
-                                                            />
+                                    {session && 
+                                        <>
+                                            <input type="checkbox" id="my-modal" className="modal-toggle" />
+                                            <div className="modal">
+                                                <div className="modal-box m-auto max-w-2xl text-left">
+                                                    <p className='pb-4 font-bold text-xl text-black'>Rate '{main.name}'</p>
+                                                    <p className='pb-4 font-normal text-md text-black'>Score: {ratingRange}</p>
+                                                    <input type="range" min="0" max="10" className="range range-primary p-4 ring-1 ring-slate-700 mb-4 " step="0.1" value={ratingRange} onChange={(e) => RatingChange(e.target.value)} />
+                                                    <p className='pb-4 font-normal text-md text-black'>Your comment:</p>
+                                                    <div className="mb-3 text-left m-auto w-full">
+                                                        <div className="input-group items-stretch w-full mb-6">
+                                                            <textarea value={currentinput} onChange={(e) => InputChange(e.target.value)}
+                                                                className="textarea textarea-bordered textarea-md w-full text-black" 
+                                                                placeholder="Rating Comment" aria-label="Text" aria-describedby="button-addon2"
+                                                             />
+                                                        </div>
+                                                    </div>
+                                                    <div className="modal-action gap-2">
+                                                        {session && rating_bool != false ?
+                                                            <button
+                                                                onClick={() => AddRating(session.user.id, main.id, main.name, poster_img, "collection", currentinput, ratingRange)}
+                                                                className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
+                                                            >
+                                                                Update Rating
+                                                            </button>
+                                                            :
+                                                            <button
+                                                                onClick={() => AddRating(session.user.id, main.id, main.name, poster_img, "collection", currentinput, ratingRange)}
+                                                                className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
+                                                            >
+                                                                Create Rating
+                                                            </button>
+                                                        }
+                                                        {session && rating_bool != false &&
+                                                            <button
+                                                                onClick={() => DeleteRating(session.user.id, main.id, main.name, poster_img, "collection", currentinput, ratingRange)}
+                                                                className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition"
+                                                            >
+                                                                Delete Existing Rating
+                                                            </button>
+                                                        }
+                                                        <label htmlFor="my-modal" className="inline-block rounded-lg bg-slate-600 px-4 py-1.5 text-lg font-semibold leading-7 text-white shadow-md hover:bg-slate-500 hover:text-white hover:scale-110 ease-in-out transition">Close</label>
                                                     </div>
                                                 </div>
-                                                <div className="modal-action">
-                                                    <button
-                                                        onClick={() => AddRating(session.user.id, main.id, main.name, poster_img, "collection", currentinput, ratingRange)}
-                                                        className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
-                                                    >
-                                                        Confirm
-                                                    </button>
-                                                    {session && rating_bool != false &&
-                                                        <button
-                                                            onClick={() => DeleteRating(session.user.id, main.id, main.name, poster_img, "collection", currentinput, ratingRange)}
-                                                            className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition"
-                                                        >
-                                                            Delete Existing Rating
-                                                        </button>
-                                                    }
-                                                    <label htmlFor="my-modal" className="inline-block rounded-lg bg-slate-600 px-4 py-1.5 text-lg font-semibold leading-7 text-white shadow-md hover:bg-slate-500 hover:text-white hover:scale-110 ease-in-out transition">Close</label>
-                                                </div>
                                             </div>
-                                        </div>
-                                    </>
-                                }
-                                {session && watchlist_bool == false &&
-                                    <button
-                                        onClick={() => AddWatchlist(session.user.id, main.id, main.name, poster_img, "collection")}
-                                        className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
-                                    >
-                                        Watchlist
-                                    </button>
-                                }
-                                {session && watchlist_bool == true &&
-                                    <button
-                                        onClick={() => RemoveWatchlist(session.user.id, main.id, "collection")}
-                                        className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition"
-                                    >
-                                        Watchlist
-                                    </button>
-                                }
-                                {session && rating_bool != false &&
-                                    <label htmlFor="my-modal" className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition">
-                                        Rating
-                                    </label>
-                                }
-                                {session && rating_bool == false &&
-                                    <label htmlFor="my-modal" className="inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition">
-                                        Rating
-                                    </label>
-                                }
+                                        </>
+                                    }
+                                    {session && watchlist_bool == false &&
+                                        <button
+                                            onClick={() => AddWatchlist(session.user.id, main.id, main.name, poster_img, "collection")}
+                                            className="text-center inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
+                                        >
+                                            Watchlist+
+                                        </button>
+                                    }
+                                    {session && watchlist_bool == true &&
+                                        <button
+                                            onClick={() => RemoveWatchlist(session.user.id, main.id, "collection")}
+                                            className="text-center inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition"
+                                        >
+                                            Watchlist-
+                                        </button>
+                                    }
+                                    {session && rating_bool != false &&
+                                        <label htmlFor="my-modal" className="text-center inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition">
+                                            Rating-
+                                        </label>
+                                    }
+                                    {session && rating_bool == false &&
+                                        <label htmlFor="my-modal" className="text-center inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition">
+                                            Rating+
+                                        </label>
+                                    }
                             </div>
                         </div>
                     </div>

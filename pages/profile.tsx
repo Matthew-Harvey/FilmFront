@@ -65,7 +65,7 @@ export default function Profile({loggedin, username, avatar, list_stat, watchlis
     }
     let avatar_list = [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     const display_avatar_list = avatar_list.map((count) =>
-        <div key={count} className="group cursor-pointer" onClick={() => selectAvatar(count)}>
+        <div key={count} className="group cursor-pointer m-auto" onClick={() => selectAvatar(count)}>
             {user_avatar == count &&
                 <img alt="avatar" src={"/avatar" + count + ".svg"} width="60%" className='bg-zinc-600 rounded-xl' />
             }
@@ -204,7 +204,7 @@ export default function Profile({loggedin, username, avatar, list_stat, watchlis
                                     </button>                                  
                                     <img alt="avatar" src={"/avatar" + user_avatar + ".svg"} width="100%" />
                                 </div>
-                                <div className='col-span-2 grid grid-cols-2 md:grid-cols-4'>
+                                <div className='col-span-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 m-auto'>
                                     {display_avatar_list}
                                 </div>
                             </div>
