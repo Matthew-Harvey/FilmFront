@@ -3,6 +3,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
+export const config = {
+    runtime: "experimental-edge",
+};
+
 export default async function Top500(req: NextApiRequest, res: NextApiResponse) {
     const supabase = createBrowserSupabaseClient();
     const checkmonth = await supabase.from("top500").select().eq("month", new Date().getMonth().toString() + new Date().getFullYear().toString());
@@ -50,5 +54,6 @@ export default async function Top500(req: NextApiRequest, res: NextApiResponse) 
         }
         await supabase.from("top500").upsert({"month": new Date().getMonth().toString() + new Date().getFullYear().toString(), "movie": movie_arr, "tv": tv_arr})
     }
-    res.status(200).json({result: "Updated top rated tv/movie. "});
+    const body = "Completed function. Was it a new month -> " + new_month;
+    return new Response(body);
 }

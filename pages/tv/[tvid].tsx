@@ -10,11 +10,8 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import Nav from '../../components/Nav';
 import router from 'next/router';
 import { getAvatarName } from '../../functions/getAvatarName';
-import { useSession } from '@supabase/auth-helpers-react';
-import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState } from 'react';
 import { Hero } from '../../components/Hero';
 
 const baseimg = "https://image.tmdb.org/t/p/w500";

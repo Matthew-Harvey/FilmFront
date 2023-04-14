@@ -9,7 +9,6 @@ import { ParsedUrlQuery } from 'querystring';
 import { useState } from 'react';
 import Nav from '../components/Nav';
 import { getAvatarName } from '../functions/getAvatarName';
-import router from 'next/router';
 import axios from 'axios';
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUrlQuery, PreviewData> | { req: NextApiRequest; res: NextApiResponse<any>; }) => {
