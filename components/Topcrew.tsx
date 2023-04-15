@@ -2,7 +2,7 @@
 
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import router from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const baseimg = "https://image.tmdb.org/t/p/w500";
 import { compareSecondColumn } from "../functions/SortSecond";
 
@@ -54,6 +54,15 @@ export default function Topcrew( { crewcredit } : any) {
             </button>
         </div>
     );
+
+    useEffect(() => {
+        //preloading image
+        crewarr.forEach((movie) => {
+          const img = new Image();
+          img.src = movie[2].toString();
+        });
+    }, [crewarr]);
+
     const [parent] = useAutoAnimate<HTMLDivElement>();
     return (
         <> 

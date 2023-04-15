@@ -89,9 +89,6 @@ export default function Quiz({quizcontent, loggedin, serveruser, quizid, usernam
         setSummary(value);
     }
 
-    const [quizQuestions, setQuestions] = useState(quizcontent.questions);
-
-
     if (session != undefined && loggedin == false) {
         router.push({
             pathname: '/trivia',
@@ -163,7 +160,7 @@ export default function Quiz({quizcontent, loggedin, serveruser, quizid, usernam
 }
 
 async function SaveContent(quizid: any, summary: any, title: any){
-    let itemstr = ""
+    let itemstr = "";
     let items = ["lol"];
     for (let item in items){
         itemstr+= items[item] + "$%$"

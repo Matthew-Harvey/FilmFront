@@ -37,17 +37,30 @@ export const getServerSideProps = async (ctx: any) => {
     let already_exists = false;
     let response = "";
     // @ts-ignore
-    try {already_exists = data[0].created_at == new Date().toDateString(); response = data[0];} catch {already_exists = false;}
+    try {already_exists = (data[0].created_at == new Date().toDateString()); response = data[0];} catch {already_exists = false;}
     if (already_exists == false) {
         response = await fetch('https://api.themoviedb.org/3/configuration/languages' + "?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
         await supabase.from('store_api').insert({ id: new Date().getTime(), created_at: new Date().toDateString(), content: response})
     }
+
     // Fetch data from external API
     const tvid = ctx.query.tvid;
-    const main = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
-    const credits = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/credits?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
-    const recommend = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/recommendations?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
-    const videos = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/videos?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
+    let itemresponse = await supabase.from('itemresponse').select().eq("id", tvid).eq("type", "tv");
+    let does_exist = false;
+    let main= null;
+    let videos= null;
+    let recommend= null;
+    let credits= null;
+    // @ts-ignore
+    try {if(itemresponse.data[0]){does_exist = true; main = itemresponse.data[0].main; credits = itemresponse.data[0].credits; recommned = itemresponse.data[0].recommend; videos = itemresponse.data[0].videos}}
+    catch {does_exist = false;}
+    if (does_exist == false) {
+        main = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
+        credits = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/credits?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
+        recommend = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/recommendations?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
+        videos = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/videos?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());   
+        await supabase.from('itemresponse').insert({ id: tvid, type: "tv", main: main, credits: credits, recommend: recommend, videos: videos})
+    }
 
     // @ts-ignore
     let is_watchlist = await supabase.from('watchlist').select().eq("itemid", main.id).eq("userid", session?.user.id.toString()).eq("type", "tv");

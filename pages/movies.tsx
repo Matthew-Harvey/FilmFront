@@ -103,6 +103,7 @@ export default function MoviesHome( { mediatype, movie, isloggedin, username, av
             setQuery(currentinput)
         }
     };
+    
     return (
         <>
             <Nav isloggedin={isloggedin} username={username} avatar={avatar} />

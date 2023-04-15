@@ -5,7 +5,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { GetServerSidePropsContext } from "next";
 import router from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Nav from "../../components/Nav";
 import { getAvatarName } from "../../functions/getAvatarName";
 import { useSession } from '@supabase/auth-helpers-react';
@@ -161,6 +161,16 @@ export default function DisplayPerson( { main, credits, isloggedin, username, av
         }
     }
 
+    const allarr = crewarr.concat(castarr);
+    useEffect(() => {
+        //preloading image
+        allarr.forEach((movie) => {
+          const img = new Image();
+          img.src = movie[2].toString();
+          console.log(movie[0])
+        });
+    }, [allarr]);
+    
     const session = useSession();
 
     const AddWatchlistToast = () => toast.success('Added to watchlist', {position: "bottom-right",autoClose: 2000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});

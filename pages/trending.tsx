@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { GetServerSidePropsContext } from "next";
@@ -54,7 +54,7 @@ export default function Trending( { movie, tv, people, isloggedin, username, ava
         movie_arr.push([movie.title, movie.popularity, imgurl, movie.job, movie.id, counter])
         counter++;
     });
-    
+
     const [castpage, setCastPage] = useState(1);
     const [castperpage] = useState(6);
     const indexoflast = castpage * castperpage;
@@ -163,6 +163,16 @@ export default function Trending( { movie, tv, people, isloggedin, username, ava
             </button>
         </div>
     );
+
+    const allarr = crewarr.concat(movie_arr).concat(personarr);
+    useEffect(() => {
+        //preloading image
+        allarr.forEach((movie) => {
+          const img = new Image();
+          img.src = movie[2].toString();
+        });
+    }, [allarr]);
+
     return (
         <>
             <Nav isloggedin={isloggedin} username={username} avatar={avatar} />

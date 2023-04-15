@@ -91,6 +91,7 @@ export default function MoviesHome( { mediatype, movie, isloggedin, username, av
             setQuery(currentinput)
         }
     };
+    
     const display_movies = currentcast.map((movie) =>
         <div key={movie[4]} className="group cursor-pointer relative inline-block text-center">
             <button onClick={() => router.push("/person/" + movie[3])}>

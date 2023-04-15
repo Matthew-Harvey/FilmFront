@@ -42,10 +42,22 @@ export const getServerSideProps = async (ctx: any) => {
     }
     // Fetch data from external API
     const movieid = ctx.query.movieid;
-    const main = await fetch("https://api.themoviedb.org/3/movie/" + movieid + "?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
-    const credits = await fetch("https://api.themoviedb.org/3/movie/" + movieid + "/credits?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
-    const recommend = await fetch("https://api.themoviedb.org/3/movie/" + movieid + "/recommendations?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
-    const videos = await fetch("https://api.themoviedb.org/3/movie/" + movieid + "/videos?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
+    let itemresponse = await supabase.from('itemresponse').select().eq("id", movieid).eq("type", "movie");
+    let does_exist = false;
+    let main= null;
+    let videos= null;
+    let recommend= null;
+    let credits= null;
+    // @ts-ignore
+    try {if(itemresponse.data[0]){does_exist = true; main = itemresponse.data[0].main; credits = itemresponse.data[0].credits; recommned = itemresponse.data[0].recommend; videos = itemresponse.data[0].videos}}
+    catch {does_exist = false;}
+    if (does_exist == false) {
+        main = await fetch("https://api.themoviedb.org/3/movie/" + movieid + "?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
+        credits = await fetch("https://api.themoviedb.org/3/movie/" + movieid + "/credits?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
+        recommend = await fetch("https://api.themoviedb.org/3/movie/" + movieid + "/recommendations?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
+        videos = await fetch("https://api.themoviedb.org/3/movie/" + movieid + "/videos?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());   
+        await supabase.from('itemresponse').insert({ id: movieid, type: "movie", main: main, credits: credits, recommend: recommend, videos: videos})
+    }
 
     // @ts-ignore
     let is_watchlist = await supabase.from('watchlist').select().eq("itemid", main.id).eq("userid", session?.user.id.toString()).eq("type", "movie");
