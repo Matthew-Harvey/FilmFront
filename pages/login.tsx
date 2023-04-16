@@ -93,8 +93,8 @@ export default function Login({loggedin, movie_item, username, avatar, callback}
                                 variables: {
                                     default: {
                                         colors: {
-                                            brand: 'red',
-                                            brandAccent: 'darkred',
+                                            brand: 'blue',
+                                            brandAccent: 'darkblue',
                                             messageText: "black"
                                         },
                                     },

@@ -7,21 +7,21 @@ import { GetServerSidePropsContext } from "next";
 import Link from "next/link";
 import Nav from "../components/Nav";
 import { getAvatarName } from "../functions/getAvatarName";
+import { useState } from "react";
+import router from "next/router";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
     const baseimg = "https://image.tmdb.org/t/p/original"
     const movie_arr: (string | number)[][] = [];
-    var counter = 0;
-    movie.results.forEach((movie: { title: string; backdrop_path: string}) => {
+    movie.results.forEach((movie: { title: string; backdrop_path: string, id: number}) => {
         var imgurl = "";
         if (movie.backdrop_path == null){
             imgurl = "https://eu.ui-avatars.com/api/?name=" + movie.title;
         } else {
             imgurl = baseimg + movie.backdrop_path;
         }
-        movie_arr.push([movie.title, imgurl])
-        counter++;
+        movie_arr.push([movie.title, imgurl, movie.id])
     });
     let rand1 = Math.floor(Math.random()*movie_arr.length);
     var movie_item1 = movie_arr[rand1];
@@ -29,9 +29,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     let rand2 = Math.floor(Math.random()*movie_arr.length);
     var movie_item2 = movie_arr[rand2];
     movie_arr.splice(rand2-1, rand2+1);
-    let rand3 = Math.floor(Math.random()*movie_arr.length);
-    var movie_item3 = movie_arr[rand3];
-    movie_arr.splice(rand3-1, rand3+1);
 
     // Create authenticated Supabase Client
     const supabase = createServerSupabaseClient(ctx)
@@ -51,8 +48,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
             props: {
                 loggedin: false,
                 movie_item1,
-                movie_item2,
-                movie_item3
+                movie_item2
             }
         }
     } else {
@@ -61,7 +57,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
                 loggedin: true,
                 movie_item1,
                 movie_item2,
-                movie_item3,
                 username,
                 avatar            
             }
@@ -69,31 +64,51 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     }
 }
 
-export default function Home( { loggedin, username, avatar, movie_item1, movie_item2, movie_item3 } : any) {
+export default function Home( { loggedin, username, avatar, movie_item1, movie_item2 } : any) {
+    const [movie_loading, setMovieLoading] = useState("test");
     return (
         <>
             <Nav isloggedin={loggedin} username={username} avatar={avatar} />
             <section>
-                <div className="bg-black text-white md:py-2 max-w-6xl m-auto">
-                    <div className="container mx-auto flex flex-col md:flex-row items-center my-6 md:my-24">
-                        <div className="flex flex-col w-full lg:w-1/3 justify-center items-start p-8">
-                            <h1 className="text-5xl md:text-7xl py-2 tracking-loose font-bold"><span className="text-[hsl(226,45%,45%)]">Film</span>Front</h1>
+                <div className="bg-black text-white max-w-6xl m-auto">
+                    <div className="container mx-auto flex flex-col md:flex-row items-center my-6 md:my-10">
+                        <div className="flex flex-col w-full lg:w-1/3 justify-center items-start">
+                            <h1 className="text-5xl md:text-7xl py-2 tracking-loose font-bold"><span className="text-blue-600">Film</span>Front</h1>
                             <p className="text-sm md:text-lg text-gray-50 mb-4">Explore your favourite movies and
                                 login now to watchlist the upcoming, rate watched shows and share lists to others.</p>
                             <Link href="/trending"
-                                className="bg-transparent hover:bg-[hsl(226,45%,45%)] text-[hsl(226,45%,45%)] hover:text-black rounded shadow hover:shadow-lg py-2 px-4 border border-[hsl(226,45%,45%)] hover:border-transparent">
+                                className="bg-transparent hover:bg-blue-600 text-blue-600 hover:text-black rounded shadow hover:shadow-lg py-2 px-4 border border-blue-600 hover:border-transparent">
                                 View Trending
                             </Link>
                         </div>
-                        <div className="p-8 mt-6 mb-6 md:mb-0 md:mt-0 ml-0 md:ml-12 lg:w-2/3  justify-center">
-                            <div className="h-72 grid flex-wrap grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 content-center">
-                                <img className="inline-block xl:block h-full w-auto rounded-xl" src={movie_item1[1]} alt="movie banner" />
+                        <div className="p-8 mt-6 mb-6 w-full md:mb-0 md:mt-0 ml-0 md:ml-12 lg:w-2/3">
+                            <div className="h-96 relative">
+                                {movie_loading.toString() == movie_item1[2].toString() ?
+                                    <>
+                                        <button onClick={() => {setMovieLoading(movie_item1[2].toString()); router.push("/movie/" + movie_item1[2])}}>
+                                            <img src={movie_item1[1]} className="absolute h-full w-auto rounded-xl grayscale" />
+                                        </button>
+                                        <div role="status" className="absolute z-10 m-auto left-[45%] top-[43%]">
+                                            <svg aria-hidden="true" className="inline w-14 h-14 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-500" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                                                <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                                            </svg>
+                                            <span className="sr-only">Loading...</span>
+                                        </div>
+                                    </>
+                                    :
+                                    <>
+                                        <button onClick={() => {setMovieLoading(movie_item1[2].toString()); router.push("/movie/" + movie_item1[2])}}>
+                                            <img src={movie_item1[1]} className="absolute h-full w-auto rounded-xl" />
+                                        </button>
+                                    </>
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-            <section className="mb-32 text-gray-800 text-center max-w-6xl m-auto">
+            <section className="mb-12 text-gray-800 text-center max-w-6xl m-auto">
                 <div className="grid md:grid-cols-2 lg:grid-cols-6 px-6">
                     <div className="mb-12 lg:mb-0 mx-auto">
                         <img
@@ -225,8 +240,27 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
             <section className="text-gray-800 max-w-6xl m-auto pb-40">
                 <div className="grid grid-cols-1 md:grid-cols-3">
                     <div className="mt-6 mb-6 md:mb-0 md:mt-0 ml-0 md:ml-12 justify-center col-span-2">
-                        <div className="h-72 grid flex-wrap grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 content-center">
-                            <img className="inline-block xl:block h-full w-auto rounded-xl" src={movie_item3[1]} alt="movie banner" />
+                        <div className="h-96 relative">
+                            {movie_loading.toString() == movie_item2[2].toString() ?
+                                <>
+                                    <button onClick={() => {setMovieLoading(movie_item2[2].toString()); router.push("/movie/" + movie_item2[2])}}>
+                                        <img src={movie_item2[1]} className="absolute h-full w-auto rounded-xl grayscale" />
+                                    </button>
+                                    <div role="status" className="absolute z-10 m-auto left-[43%] top-[45%]">
+                                        <svg aria-hidden="true" className="inline w-14 h-14 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-500" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+                                            <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+                                        </svg>
+                                        <span className="sr-only">Loading...</span>
+                                    </div>
+                                </>
+                                :
+                                <>
+                                    <button onClick={() => {setMovieLoading(movie_item2[2].toString()); router.push("/movie/" + movie_item2[2])}}>
+                                        <img src={movie_item2[1]} className="absolute h-full w-auto rounded-xl" />
+                                    </button>
+                                </>
+                            }
                         </div>
                     </div>
                     <div className="pb-10 text-left pl-10 p-2">
@@ -236,7 +270,7 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                         </h2>
                         <div className="grid grid-cols-1 flex-wrap justify-center max-w-xs">
                             <button type="button" data-mdb-ripple="true" data-mdb-ripple-color="light"
-                            className="inline-block py-2.5 px-6 mb-2 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out flex items-center"
+                            className="py-2.5 px-6 mb-2 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out flex items-center"
                             style={{backgroundColor: "#1877f2"}}>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" className="w-4 h-4 mr-2">
                                 <path fill="currentColor"
@@ -246,7 +280,7 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                             </button>
 
                             <button type="button" data-mdb-ripple="true" data-mdb-ripple-color="light"
-                            className="inline-block py-2.5 px-6 mb-2 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out flex items-center"
+                            className="py-2.5 px-6 mb-2 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out flex items-center"
                             style={{backgroundColor: "#1da1f2"}}>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-4 h-4 mr-2">
                                 <path fill="currentColor"
@@ -256,7 +290,7 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                             </button>
 
                             <button type="button" data-mdb-ripple="true" data-mdb-ripple-color="light"
-                            className="inline-block py-2.5 px-6 mb-2 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out flex items-center"
+                            className="py-2.5 px-6 mb-2 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out flex items-center"
                             style={{backgroundColor: "#ea4335"}}>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512" className="w-4 h-4 mr-2">
                                 <path fill="currentColor"
@@ -266,7 +300,7 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                             </button>
 
                             <button type="button" data-mdb-ripple="true" data-mdb-ripple-color="light"
-                            className="inline-block py-2.5 px-6 mb-2 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out flex items-center"
+                            className="py-2.5 px-6 mb-2 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out flex items-center"
                             style={{backgroundColor: "#c13584"}}>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="w-4 h-4 mr-2">
                                 <path fill="currentColor"

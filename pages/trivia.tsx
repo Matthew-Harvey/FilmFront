@@ -290,7 +290,7 @@ export default function Trivia(this: any, {loggedin, username, avatar, movie, tv
                     </>
                 ) : (
                     <>
-                        <button onClick={() => newOptions()} className="max-w-xs m-auto inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Get new options</button>
+                        <button onClick={() => newOptions()} className="max-w-xs m-auto inline-block rounded-lg bg-blue-400 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-blue-500 hover:text-white hover:scale-110 ease-in-out transition">Get new options</button>
                         <p className='max-w-6xl p-4 m-auto text-lg'>{text}</p>
                         <div className='max-w-6xl p-4 justify-center m-auto grid grid-cols-2 gap-6'>
                             {type_ofshow == "mov" && 

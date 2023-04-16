@@ -161,7 +161,7 @@ export default function Watchlist({userwatchlist, loggedin, username, avatar}: a
                 ) : (
                     <>
                         <div className='max-w-sm sm:max-w-xl md:max-w-3xl lg:max-w-6xl m-auto justify-center mb-20'>
-                            <div className=' bg-slate-900 rounded-lg p-4'>
+                            <div className='bg-slate-900 rounded-lg p-4'>
                                 <div className="form-control grid grid-cols-2 gap-6">
                                     <div>
                                         <p className="label-text text-white text-lg text-left">Include:</p>
