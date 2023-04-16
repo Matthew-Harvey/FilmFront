@@ -20,7 +20,7 @@ export default function App({Component, pageProps }: AppProps<{ initialSession: 
           <meta name="description" content="Discover new movies/tvshows/people all in one place. Dont forget to rate, watchlist, complete trivia and create lists!" />
           <meta name="keywords" content="movies, tvshows, actors, actresses, lists, mymovies, trivia, watchlist, ratings" />
           <meta name="robots" content="index, follow" />
-          <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+          <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
           <meta name="language" content="English" />
           <meta name="revisit-after" content="10 days" />
           <meta name="author" content="Matthew Harvey" />

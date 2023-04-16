@@ -2,39 +2,24 @@
 
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import router from "next/router";
-import { useEffect, useState } from "react";
-const baseimg = "https://image.tmdb.org/t/p/w500";
-import { compareSecondColumn } from "../functions/SortSecond";
+import { useState } from "react";
 
 export default function Topcast( { castcredit } : any) {
-    
-    const castarr: (string | number)[][] = [];
-    castcredit.forEach((person: { original_name: string; popularity: number; profile_path: string; character: string; id: number}) => {
-        var imgurl = "";
-        if (person.profile_path == null){
-            imgurl = "https://eu.ui-avatars.com/api/?name=" + person.original_name;
-        } else {
-            imgurl = baseimg + person.profile_path;
-        }
-        castarr.push([person.original_name, person.popularity, imgurl, person.character, person.id])
-    });
-    castarr.sort(compareSecondColumn);
-
     const [castpage, setCastPage] = useState(1);
     const [castperpage] = useState(6);
     const indexoflast = castpage * castperpage;
     const indexoffirst = indexoflast - castperpage;
-    const currentcast = castarr.slice(indexoffirst, indexoflast)
+    const currentcast = castcredit.slice(indexoffirst, indexoflast)
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(castarr.length / castperpage); i++) {
+    for (let i = 1; i <= Math.ceil(castcredit.length / castperpage); i++) {
         pageNumbers.push(i);
     }
     const paginate = (number: number) => {
-        if (number >= 1 && number <= Math.ceil(castarr.length / castperpage)) {
+        if (number >= 1 && number <= Math.ceil(castcredit.length / castperpage)) {
             setCastPage(number);
         }
     };
-    const display_cast = currentcast.map((person) =>
+    const display_cast = currentcast.map((person:any) =>
         <div key={person[4]} className="group cursor-pointer relative inline-block text-center">
             <button onClick={() => router.push("/person/" + person[4])}>
                 <img id={person[4].toString()} src={person[2].toString()} alt={person[0].toString()} className="rounded-3xl w-48 p-2 h-70" />
@@ -47,27 +32,19 @@ export default function Topcast( { castcredit } : any) {
         </div>
     );
 
-    useEffect(() => {
-        //preloading image
-        castarr.forEach((movie) => {
-          const img = new Image();
-          img.src = movie[2].toString();
-        });
-    }, [castarr]);
-
     const [parent] = useAutoAnimate<HTMLDivElement>();
     return (
         <> 
             <div className="group cursor-pointer relative p-2 grid grid-cols-1 text-left items-stretch mt-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
                     <div className="grid grid-flow-col">
-                        {Math.ceil(castarr.length / castperpage) > 0 && 
+                        {Math.ceil(castcredit.length / castperpage) > 0 && 
                             <span className="text-3xl leading-8 font-bold pr-4">Top Cast: </span>
                         }
-                        {Math.ceil(castarr.length / castperpage) > 1 && 
+                        {Math.ceil(castcredit.length / castperpage) > 1 && 
                             <>
                                 <button onClick={() => paginate(castpage-1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Prev</button>
-                                <span className="font-normal text-sm m-auto"> {castpage + " / " + Math.ceil(castarr.length / castperpage)} </span>
+                                <span className="font-normal text-sm m-auto"> {castpage + " / " + Math.ceil(castcredit.length / castperpage)} </span>
                                 <button onClick={() => paginate(castpage+1)} className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">Next</button>
                             </>
                         }

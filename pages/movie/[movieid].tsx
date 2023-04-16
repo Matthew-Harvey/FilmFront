@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 
@@ -13,6 +14,10 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Collection } from '../../components/Collection';
 import { Hero } from '../../components/Hero';
+import { useEffect, useState } from 'react';
+import router from 'next/router';
+import { compareSecondColumn } from '../../functions/SortSecond';
+import { baseimg } from '../../functions/baseimg';
 
 export const getServerSideProps = async (ctx: any) => {
     const supabase = createServerSupabaseClient(ctx);
@@ -79,6 +84,55 @@ export const getServerSideProps = async (ctx: any) => {
 
 export default function DisplayMovie( { main, credits, recommend, videos, response, isloggedin, username, avatar, watchlist_bool, rating_bool} : any) {
     const [parent] = useAutoAnimate<HTMLDivElement>();
+
+    const castarr: (string | number)[][] = [];
+    credits.cast.forEach((person: { original_name: string; popularity: number; profile_path: string; character: string; id: number}) => {
+        var imgurl = "";
+        if (person.profile_path == null){
+            imgurl = "https://eu.ui-avatars.com/api/?name=" + person.original_name;
+        } else {
+            imgurl = baseimg + person.profile_path;
+        }
+        castarr.push([person.original_name, person.popularity, imgurl, person.character, person.id])
+    });
+    castarr.sort(compareSecondColumn);
+
+    useEffect(() => {
+        //preloading image
+        castarr.forEach((movie) => {
+          const img = new Image();
+          img.src = movie[2].toString();
+        });
+    }, [castarr]);
+
+    const crewarr: (string | number)[][] = [];
+    const namesarr: (string)[] = [];
+    var counter = 0;
+    credits.crew.forEach((person: { original_name: string; popularity: number; profile_path: string; job: string; id: number}) => {
+        if (namesarr.indexOf(person.original_name) > -1){
+            crewarr[namesarr.indexOf(person.original_name)][3] = crewarr[namesarr.indexOf(person.original_name)][3] + " / " + person.job;
+        } else {
+            var imgurl = "";
+            if (person.profile_path == null){
+                imgurl = "https://eu.ui-avatars.com/api/?name=" + person.original_name;
+            } else {
+                imgurl = baseimg + person.profile_path;
+            }
+            namesarr.push(person.original_name);
+            crewarr.push([person.original_name, person.popularity, imgurl, person.job, person.id, counter])
+        }
+        counter++;
+    });
+    crewarr.sort(compareSecondColumn);
+
+    useEffect(() => {
+        //preloading image
+        crewarr.forEach((movie) => {
+          const img = new Image();
+          img.src = movie[2].toString();
+        });
+    }, [crewarr]);
+
     return (
         <>
             <Nav isloggedin={isloggedin} username={username} avatar={avatar} />
@@ -88,8 +142,8 @@ export default function DisplayMovie( { main, credits, recommend, videos, respon
             </p>
             <div className="grid p-2 grid-cols-1 max-w-6xl m-auto pb-40">
                 <div className="" ref={parent}>
-                    <Topcast castcredit={credits.cast} />
-                    <Topcrew crewcredit={credits.crew} />
+                    <Topcast castcredit={castarr} />
+                    <Topcrew crewcredit={crewarr} />
                     <Videos videos={videos} />
                     <Recommended recommend={recommend} type="movie" />
                     <Collection collection={main.belongs_to_collection}  />
