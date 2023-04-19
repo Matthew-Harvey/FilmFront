@@ -85,11 +85,11 @@ export function Hero ({ main, response, watchlist_bool, rating_bool, type } : an
     return (
         <>
             <main>
-                <div style={{backgroundImage: backdrop_img}} className="relative px-6 lg:px-8 backdrop-brightness-50 bg-scroll lg:bg-fixed bg-center bg-cover bg-no-repeat h-screen">
+                <div style={{backgroundImage: backdrop_img}} className="relative px-6 lg:px-8 backdrop-brightness-50 bg-scroll lg:bg-fixed bg-center bg-cover bg-no-repeat min-h-screen">
                 <div className="grid grid-cols-6 mx-auto max-w-6xl pt-2 pb-32 md:pt-10 sm:pb-40 items-stretch">
                         <img src={poster_img} alt={name?.toString()} className="w-100 invisible md:visible md:rounded-l-3xl md:col-span-2" />
                         <div className="bg-white bg-opacity-75 shadow-md rounded-3xl md:rounded-r-3xl md:rounded-none col-span-6 md:col-span-4 pl-6 p-4">
-                            <div className="hidden sm:flex py-4">
+                            <div className="flex py-4">
                                 <div className="relative overflow-hidden rounded-full py-1.5 px-4 text-lg leading-6 ring-1 ring-gray-900/50 hover:ring-gray-900/5">
                                     <span className="text-gray-600">
                                         {tag}
@@ -100,9 +100,9 @@ export function Hero ({ main, response, watchlist_bool, rating_bool, type } : an
                                 <h1 className="text-4xl text-black font-bold tracking-tight sm:text-6xl drop-shadow-sm">
                                     {name}
                                 </h1>
-                                <div className='flex gap-2 mt-6'>
+                                <div className='flex gap-1 mt-6'>
                                     {main.genres.map((genre: { id: string; name: string; }) =>
-                                        <div key={genre.id} className="mr-4">
+                                        <div key={genre.id} className="p-1">
                                             <span className="z-10 text-lg rounded-lg text-black italic">
                                                 {genre.name}
                                             </span>
@@ -110,10 +110,10 @@ export function Hero ({ main, response, watchlist_bool, rating_bool, type } : an
                                     )}
                                 </div>
                                 <div className='mb-6 mt-2 flex gap-4'>
-                                    <span className="z-10 text-lg rounded-lg text-black mr-4 italic">
+                                    <span className="z-10 text-lg rounded-lg text-black p-1 italic">
                                         {parseFloat(main.vote_average).toFixed(1)}/10
                                     </span>
-                                    <span className="z-10 text-lg rounded-lg text-black mr-4 italic">
+                                    <span className="z-10 text-lg rounded-lg text-black p-1 italic">
                                         {lang}
                                     </span>
                                 </div>

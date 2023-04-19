@@ -70,9 +70,9 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
         <>
             <Nav isloggedin={loggedin} username={username} avatar={avatar} />
             <section>
-                <div className="bg-black text-white max-w-6xl m-auto">
+                <div className="bg-black text-white max-w-sm md:max-w-6xl m-auto">
                     <div className="container mx-auto flex flex-col md:flex-row items-center my-6 md:my-10">
-                        <div className="flex flex-col w-full lg:w-1/3 justify-center items-start">
+                        <div className="flex flex-col w-full lg:w-1/3 ml-6 md:ml-10 justify-center items-start">
                             <h1 className="text-5xl md:text-7xl py-2 tracking-loose font-bold"><span className="text-blue-600">Film</span>Front</h1>
                             <p className="text-sm md:text-lg text-gray-50 mb-4">Explore your favourite movies and
                                 login now to watchlist the upcoming, rate watched shows and share lists to others.</p>
@@ -81,8 +81,8 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                                 View Trending
                             </Link>
                         </div>
-                        <div className="p-8 mt-6 mb-6 w-full md:mb-0 md:mt-0 ml-0 md:ml-12 lg:w-2/3">
-                            <div className="h-96 relative">
+                        <div className="mt-6 mb-6 w-full lg:w-2/3 max-w-6xl">
+                            <div className="h-72 md:h-96 relative md:ml-3">
                                 {movie_loading.toString() == movie_item1[2].toString() ?
                                     <>
                                         <button onClick={() => {setMovieLoading(movie_item1[2].toString()); router.push("/movie/" + movie_item1[2])}}>
@@ -108,8 +108,8 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                     </div>
                 </div>
             </section>
-            <section className="mb-12 text-gray-800 text-center max-w-6xl m-auto">
-                <div className="grid md:grid-cols-2 lg:grid-cols-6 px-6">
+            <section className="pb-6 md:pb-20 pt-6 md:pt-20 text-gray-800 text-center max-w-6xl m-auto">
+                <div className="grid grid-cols-3 lg:grid-cols-6">
                     <div className="mb-12 lg:mb-0 mx-auto">
                         <img
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/640px-Disney%2B_logo.svg.png"
@@ -165,20 +165,20 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                     </div>
                 </div>
             </section>
-            <section className="text-white text-center md:text-left max-w-6xl m-auto mb-6" >
+            <section className="text-white text-left md:text-left max-w-sm md:max-w-6xl m-auto mb-6" >
                 <div className="block rounded-lg shadow-lg"> 
                 <div className="flex flex-wrap items-center">
                     <div className="grow-0 shrink-0 basis-auto w-full lg:w-12/12 xl:w-12/12">
-                        <div className="px-6 py-12 md:px-12">
+                        <div className="md:px-12">
                             <div className="flex">
                                 <h2 className="text-4xl font-bold mb-6 pb-2">What we do</h2>
                             </div>
                             <p className="text-gray-300 mb-6 pb-2 text-lg">
-                                The platform has a simple and user-friendly interface that allows users to browse popular movies and TV shows, search for specific titles. Users can also create a personal account to save their favorite titles and keep track of their reviews. In addition, the website provides detailed information about each title, including a synopsis, cast and crew information, ratings from popular movie and TV show review websites, and related titles that users might also enjoy. Overall, it seems that FilmFront is a useful tool for movie and TV show enthusiasts looking for a quick and easy way to discover new titles to watch.
+                                The platform has a simple and user-friendly interface that allows users to browse popular movies and TV shows, search for specific titles. Users can also create a personal account to save their favorite titles and keep track of their reviews. In addition, the website provides detailed information about each title, including a synopsis, cast and crew information, ratings from popular movie and TV show review websites, and related titles that users might also enjoy. FilmFront is a useful tool for movie and TV show enthusiasts looking for a quick and easy way to discover new titles to watch.
                             </p>
                             <div className="flex flex-wrap mb-6">
-                            <div className="w-full lg:w-6/12 xl:w-4/12 mb-4">
-                                <p className="flex items-center justify-center md:justify-start">
+                            <div className="w-6/12 lg:w-4/12 xl:w-4/12 mb-4">
+                                <p className="flex items-center md:justify-start">
                                 <svg className="w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <path fill="currentColor"
                                     d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
@@ -186,8 +186,8 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                                 </svg>Watchlist
                                 </p>
                             </div>
-                            <div className="w-full lg:w-6/12 xl:w-4/12 mb-4">
-                                <p className="flex items-center justify-center md:justify-start">
+                            <div className="w-6/12 lg:w-4/12 xl:w-4/12 mb-4">
+                                <p className="flex items-center md:justify-start">
                                 <svg className="w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <path fill="currentColor"
                                     d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
@@ -195,8 +195,8 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                                 </svg>Rating
                                 </p>
                             </div>
-                            <div className="w-full lg:w-6/12 xl:w-4/12 mb-4">
-                                <p className="flex items-center justify-center md:justify-start">
+                            <div className="w-6/12 lg:w-4/12 xl:w-4/12 mb-4">
+                                <p className="flex items-center md:justify-start">
                                 <svg className="w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <path fill="currentColor"
                                     d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
@@ -204,8 +204,8 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                                 </svg>Trivia
                                 </p>
                             </div>
-                            <div className="w-full lg:w-6/12 xl:w-4/12 mb-4">
-                                <p className="flex items-center justify-center md:justify-start">
+                            <div className="w-6/12 lg:w-4/12 xl:w-4/12 mb-4">
+                                <p className="flex items-center md:justify-start">
                                 <svg className="w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <path fill="currentColor"
                                     d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
@@ -213,8 +213,8 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                                 </svg>Trending
                                 </p>
                             </div>
-                            <div className="w-full lg:w-6/12 xl:w-4/12 mb-4">
-                                <p className="flex items-center justify-center md:justify-start">
+                            <div className="w-6/12 lg:w-4/12 xl:w-4/12 mb-4">
+                                <p className="flex items-center md:justify-start">
                                 <svg className="w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <path fill="currentColor"
                                     d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
@@ -222,8 +222,8 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                                 </svg>Stats
                                 </p>
                             </div>
-                            <div className="w-full lg:w-6/12 xl:w-4/12 mb-4">
-                                <p className="flex items-center justify-center md:justify-start">
+                            <div className="w-6/12 lg:w-4/12 xl:w-4/12 mb-4">
+                                <p className="flex items-center md:justify-start">
                                 <svg className="w-4 h-4 mr-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <path fill="currentColor"
                                     d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z">
@@ -237,10 +237,10 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                 </div>
                 </div>
             </section>
-            <section className="text-gray-800 max-w-6xl m-auto pb-40">
+            <section className="text-gray-800 max-w-sm md:max-w-6xl m-auto pb-20">
                 <div className="grid grid-cols-1 md:grid-cols-3">
                     <div className="mt-6 mb-6 md:mb-0 md:mt-0 ml-0 md:ml-12 justify-center col-span-2">
-                        <div className="h-96 relative">
+                        <div className="h-80 md:h-96 relative">
                             {movie_loading.toString() == movie_item2[2].toString() ?
                                 <>
                                     <button onClick={() => {setMovieLoading(movie_item2[2].toString()); router.push("/movie/" + movie_item2[2])}}>
@@ -263,7 +263,7 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                             }
                         </div>
                     </div>
-                    <div className="pb-10 text-left pl-10 p-2">
+                    <div className="text-left p-2">
                         <p className="text-xl font-bold tracking-tight leading-tight pb-2 text-slate-300">Created using TypeScript, React, Nextjs, Supabase and tailwindcss.</p>
                         <h2 className="text-5xl font-bold tracking-tight leading-tight pb-6 text-blue-600">
                             Follow Us

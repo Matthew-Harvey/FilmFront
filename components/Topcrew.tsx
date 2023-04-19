@@ -40,7 +40,7 @@ export default function Topcrew( { crewcredit } : any) {
                         <img id={person[4].toString()} src={person[2].toString()} alt={person[0].toString()} className="rounded-3xl w-60 p-2 h-70" />
                         <div className="absolute bottom-0 flex-col items-center hidden mb-6 group-hover:flex">
                             <span className="z-10 p-3 text-md leading-none rounded-lg text-white whitespace-no-wrap bg-gradient-to-r from-blue-700 to-red-700 shadow-lg">
-                                {person[0]}
+                                {person[0]} as {person[3]}
                             </span>
                         </div>
                     </button>
