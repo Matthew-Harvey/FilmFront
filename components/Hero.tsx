@@ -128,7 +128,7 @@ export function Hero ({ main, response, watchlist_bool, rating_bool, type } : an
                                         href={imdblink}
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="text-center inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition"
+                                        className="text-center my-auto inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition"
                                     >
                                         IMDb
                                     </a>
@@ -136,9 +136,9 @@ export function Hero ({ main, response, watchlist_bool, rating_bool, type } : an
                                         href={main.homepage}
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="text-center inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-black text-white shadow-md hover:scale-110 hover:text-black hover:bg-white ease-in-out transition"
+                                        className="text-center my-auto inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-black text-white shadow-md hover:scale-110 hover:text-black hover:bg-white ease-in-out transition"
                                     >
-                                        Watch Movie
+                                        Watch
                                     </a>
                                     {session && 
                                         <>
@@ -190,7 +190,7 @@ export function Hero ({ main, response, watchlist_bool, rating_bool, type } : an
                                     {session && watchlist_bool == false &&
                                         <button
                                             onClick={() => AddWatchlist(session.user.id, main.id, name, poster_img, type)}
-                                            className="text-center inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
+                                            className="text-center my-auto inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition"
                                         >
                                             Watchlist+
                                         </button>
@@ -198,18 +198,18 @@ export function Hero ({ main, response, watchlist_bool, rating_bool, type } : an
                                     {session && watchlist_bool == true &&
                                         <button
                                             onClick={() => RemoveWatchlist(session.user.id, main.id, type)}
-                                            className="text-center inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition"
+                                            className="text-center my-auto inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition"
                                         >
                                             Watchlist-
                                         </button>
                                     }
                                     {session && rating_bool != false &&
-                                        <label htmlFor="my-modal" className="text-center inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition">
+                                        <label htmlFor="my-modal" className="text-center my-auto inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-red-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-red-300 ease-in-out transition">
                                             Rating-
                                         </label>
                                     }
                                     {session && rating_bool == false &&
-                                        <label htmlFor="my-modal" className="text-center inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition">
+                                        <label htmlFor="my-modal" className="text-center my-auto inline-block rounded-lg px-4 py-1.5 text-base font-semibold leading-7 bg-green-500 text-white shadow-md hover:scale-110 hover:text-black hover:bg-green-300 ease-in-out transition">
                                             Rating+
                                         </label>
                                     }

@@ -72,8 +72,8 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
             <section>
                 <div className="bg-black text-white max-w-sm md:max-w-6xl m-auto">
                     <div className="container mx-auto flex flex-col md:flex-row items-center my-6 md:my-10">
-                        <div className="flex flex-col w-full lg:w-1/3 ml-6 md:ml-10 justify-center items-start">
-                            <h1 className="text-5xl md:text-7xl py-2 tracking-loose font-bold"><span className="text-blue-600">Film</span>Front</h1>
+                        <div className="flex flex-col w-full md:w-1/3 lg:w-1/3 ml-6 md:ml-0 justify-center items-start">
+                            <h1 className="text-5xl lg:text-7xl py-2 tracking-loose font-bold"><span className="text-blue-600">Film</span>Front</h1>
                             <p className="text-sm md:text-lg text-gray-50 mb-4">Explore your favourite movies and
                                 login now to watchlist the upcoming, rate watched shows and share lists to others.</p>
                             <Link href="/trending"
@@ -81,7 +81,7 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                                 View Trending
                             </Link>
                         </div>
-                        <div className="mt-6 mb-6 w-full lg:w-2/3 max-w-6xl">
+                        <div className="mt-6 mb-6 w-full md:w-2/3 lg:w-2/3 max-w-6xl">
                             <div className="h-72 md:h-96 relative md:ml-3">
                                 {movie_loading.toString() == movie_item1[2].toString() ?
                                     <>
@@ -108,7 +108,7 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                     </div>
                 </div>
             </section>
-            <section className="pb-6 md:pb-20 pt-6 md:pt-20 text-gray-800 text-center max-w-6xl m-auto">
+            <section className="pb-6 md:pb-12 pt-6 md:pt-12 text-gray-800 text-center max-w-6xl m-auto">
                 <div className="grid grid-cols-3 lg:grid-cols-6">
                     <div className="mb-12 lg:mb-0 mx-auto">
                         <img

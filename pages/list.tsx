@@ -121,7 +121,7 @@ export default function Lists({userlists, loggedin, username, avatar}: any) {
                         <div className='justify-center max-w-sm sm:max-w-xl md:max-w-3xl lg:max-w-3xl m-auto mb-20'>
                             <p className='p-6 text-md font-medium'>Please note that all lists are publicly accessible via the URL, but only editible by the author.</p>
                             <button onClick={()=> CreateList(session.user.id, router)} 
-                                className="inline-block rounded-lg bg-yellow-600 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-orange-500 hover:text-white hover:scale-110 ease-in-out transition">
+                                className="inline-block rounded-lg bg-blue-400 px-4 py-1.5 text-base font-semibold leading-7 text-black shadow-md hover:bg-blue-500 hover:text-white hover:scale-110 ease-in-out transition">
                                     Create a new list
                             </button>
                         </div>

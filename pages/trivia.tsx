@@ -246,14 +246,14 @@ export default function Trivia(this: any, {loggedin, username, avatar, movie, tv
             <div className='mt-6 max-w-sm sm:max-w-xl md:max-w-3xl lg:max-w-6xl m-auto'>
                 <div className='grid grid-cols-1 md:grid-cols-2 max-w-6xl m-auto'>
                     <div className='p-4'>
-                        <label htmlFor="type" className="block mb-2 text-m font-medium text-slate-600 dark:text-white m-auto">Type</label>
+                        <label htmlFor="type" className="block mb-2 text-m font-medium text-blue-500 dark:text-white m-auto">Type</label>
                         <select id="type" value={type_ofshow} onChange={(e) => {setTypeOfShow(e.target.value); setClicked(false)}} className="m-auto bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="mov">Movie</option>
                             <option value="tv">Tv Shows</option>
                         </select>
                     </div>
                     <div className='p-4'>
-                        <label htmlFor="order" className="block mb-2 text-m font-medium text-slate-600 dark:text-white m-auto">Compare By</label>
+                        <label htmlFor="order" className="block mb-2 text-m font-medium text-blue-500 dark:text-white m-auto">Compare By</label>
                         <select id="order" value={order} onChange={(e) => {setOrder(e.target.value); setClicked(false)}} className="m-auto bg-gray-50 border border-gray-300 text-gray-900 text-m rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="rel">Release Date</option>
                             <option value="sco">Imdb Score</option>
@@ -265,7 +265,7 @@ export default function Trivia(this: any, {loggedin, username, avatar, movie, tv
                 {!session ? (
                     <>
                         <div className='max-w-xl m-auto text-center text-lg'>
-                            <h1 className='font-semibold text-2xl p-2'>To view historic data login below:</h1>
+                            <h1 className='font-semibold text-2xl p-2'>To view, please login below:</h1>
                             <p>Demo credentials:
                                 <br />
                                 email - matthewtlharvey@gmail.com
