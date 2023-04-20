@@ -185,11 +185,11 @@ export default function DisplayPerson( { main, credits, isloggedin, username, av
         </div>
     );
 
-    let sentence_spit = main.biography.split('.');
+    let sentence_split = main.biography.split('.');
     let short_overview = "";
-    for (var se in sentence_spit ) {
+    for (var se in sentence_split ) {
         if (short_overview.length < 400) {
-            short_overview = sentence_spit[se] + ". " + short_overview
+            short_overview = short_overview + sentence_split[se] + ". "
         }
     }
 
@@ -199,7 +199,6 @@ export default function DisplayPerson( { main, credits, isloggedin, username, av
         allarr.forEach((movie) => {
           const img = new Image();
           img.src = movie[2].toString();
-          console.log(movie[0])
         });
     }, [allarr]);
     
