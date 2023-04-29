@@ -42,7 +42,7 @@ export const getServerSideProps = async (ctx: any) => {
     try {already_exists = (data[0].created_at == new Date().toDateString()); response = data[0];} catch {already_exists = false;}
     if (already_exists == false) {
         response = await fetch('https://api.themoviedb.org/3/configuration/languages' + "?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
-        await supabase.from('store_api').upsert({ created_at: new Date().toDateString(), content: response}).eq("id", "1")
+        await supabase.from('store_api').upsert({ id: 1, created_at: new Date().toDateString(), content: response}).eq("id", 1)
     }
 
     // Fetch data from external API
