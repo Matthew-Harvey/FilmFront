@@ -14,7 +14,7 @@ import { getAvatarName } from "../functions/getAvatarName";
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     // Fetch data from external API
-    const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
+    const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
     const type = "movie";
     // Pass data to the page via props
     const supabase = createServerSupabaseClient(ctx)
@@ -48,7 +48,7 @@ export default function MoviesHome( { mediatype, movie, isloggedin, username, av
 
     useEffect(() => {
         const fetchData = async () => {
-            const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/getSearchResult", {params: {searchterm: query, type: mediatype}});
+            const getResult = await axios.get(process.env.BASEURL?.toString() + "api/getSearchResult", {params: {searchterm: query, type: mediatype}});
             setData(getResult.data.result);
         }
         if (query != "") {

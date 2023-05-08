@@ -41,7 +41,7 @@ export const getServerSideProps = async (ctx: any) => {
     // @ts-ignore
     try {already_exists = (data[0].created_at == new Date().toDateString()); response = data[0];} catch {already_exists = false;}
     if (already_exists == false) {
-        response = await fetch('https://api.themoviedb.org/3/configuration/languages' + "?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
+        response = await fetch('https://api.themoviedb.org/3/configuration/languages' + "?api_key=" + process.env.APIKEY?.toString()).then((response) => response.json());
         await supabase.from('store_api').upsert({ id: 1, created_at: new Date().toDateString(), content: response}).eq("id", 1)
     }
 
@@ -57,10 +57,10 @@ export const getServerSideProps = async (ctx: any) => {
     try {if(itemresponse.data[0]){does_exist = true; main = itemresponse.data[0].main; credits = itemresponse.data[0].credits; recommned = itemresponse.data[0].recommend; videos = itemresponse.data[0].videos}}
     catch {does_exist = false;}
     if (does_exist == false) {
-        main = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
-        credits = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/credits?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
-        recommend = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/recommendations?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
-        videos = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/videos?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());   
+        main = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "?api_key=" + process.env.APIKEY?.toString()).then((response) => response.json());
+        credits = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/credits?api_key=" + process.env.APIKEY?.toString()).then((response) => response.json());
+        recommend = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/recommendations?api_key=" + process.env.APIKEY?.toString()).then((response) => response.json());
+        videos = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/videos?api_key=" + process.env.APIKEY?.toString()).then((response) => response.json());   
         await supabase.from('itemresponse').insert({ id: tvid, type: "tv", main: main, credits: credits, recommend: recommend, videos: videos})
     }
 

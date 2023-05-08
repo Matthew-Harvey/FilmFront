@@ -17,7 +17,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         callback = "/trending";
     }
     
-    const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
+    const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
     const baseimg = "url(https://image.tmdb.org/t/p/original"
     const movie_arr: (string | number)[][] = [];
     var counter = 0;
@@ -67,7 +67,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 }
 
 async function LogUserNickNames(session: Session) { 
-    const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/UpsertNickname", {params: {userid: session.user.id}});
+    const getResult = await axios.get(process.env.BASEURL?.toString() + "api/UpsertNickname", {params: {userid: session.user.id}});
 }
 
 export default function Login({loggedin, movie_item, username, avatar, callback}:any) {
