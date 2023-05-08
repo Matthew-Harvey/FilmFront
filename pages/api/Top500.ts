@@ -26,7 +26,7 @@ export default async function Top500(req: NextApiRequest, res: NextApiResponse) 
         let movie_arr: any[] = [];
         let tv_arr: any[] = [];
         while ( counter < 20) {
-            const moviepage = await fetch("https://api.themoviedb.org/3/movie/top_rated?page=" + counter + "&api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
+            const moviepage = await fetch("https://api.themoviedb.org/3/movie/top_rated?page=" + counter + "&api_key=" + process.env.APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
             moviepage.results.forEach((movie: { title: string; popularity: number; poster_path: string; id: number, original_language: string, genre_ids: any[], revenue: string, release_date: string, vote_average: number}) => {
                 var imgurl = "";
                 if (movie.poster_path == null){
@@ -38,7 +38,7 @@ export default async function Top500(req: NextApiRequest, res: NextApiResponse) 
                     movie_arr.push([movie.title, movie.popularity, imgurl, movie.id, movie.genre_ids, movie.release_date, movie.vote_average])
                 }
             });
-            const tvpage = await fetch("https://api.themoviedb.org/3/tv/top_rated?page=" + counter + "&api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
+            const tvpage = await fetch("https://api.themoviedb.org/3/tv/top_rated?page=" + counter + "&api_key=" + process.env.APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
             tvpage.results.forEach((tv: { name: string; popularity: number; poster_path: string; id: number, original_language: string, genre_ids: any[], first_air_date: string, vote_average: number}) => {
                 var imgurl = "";
                 if (tv.poster_path == null){
