@@ -11,7 +11,7 @@ import { useState } from "react";
 import router from "next/router";
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-    const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
+    const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString() + "&language=en-US&include_adult=false").then((response) => response.json());
     const baseimg = "https://image.tmdb.org/t/p/original"
     const movie_arr: (string | number)[][] = [];
     movie.results.forEach((movie: { title: string; backdrop_path: string, id: number}) => {

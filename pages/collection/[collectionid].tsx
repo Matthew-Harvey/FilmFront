@@ -18,7 +18,7 @@ const baseimg = "https://image.tmdb.org/t/p/w500";
 export async function getServerSideProps(ctx: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>) {
     // Fetch data from external API
     const collectionid = ctx.query.collectionid;
-    const main = await fetch("https://api.themoviedb.org/3/collection/" + collectionid + "?api_key=" + process.env.APIKEY?.toString()).then((response) => response.json());
+    const main = await fetch("https://api.themoviedb.org/3/collection/" + collectionid + "?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
     // Pass data to the page via props
     const supabase = createServerSupabaseClient(ctx)
     // Check if we have a session
@@ -109,12 +109,13 @@ export default function DisplayCollection( { main, isloggedin, username, avatar,
             </button>
         </li>
     );
+
     const session = useSession();
 
     const AddWatchlistToast = () => toast.success('Added to watchlist', {position: "bottom-right",autoClose: 2000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
     async function AddWatchlist(userid: string, itemid: any, itemname: any, image: any, type: any) { 
         AddWatchlistToast();
-        const getResult = await axios.get(process.env.BASEURL?.toString() + "api/AddWatchlist", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image}});
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/AddWatchlist", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image}});
         router.push({
             pathname: router.pathname,
             query: { ...router.query },
@@ -123,7 +124,7 @@ export default function DisplayCollection( { main, isloggedin, username, avatar,
     const RemoveWatchlistToast = () => toast.success('Removed from watchlist', {position: "bottom-right",autoClose: 2000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
     async function RemoveWatchlist(userid: string, itemid: any, type: any) { 
         RemoveWatchlistToast();
-        const getResult = await axios.get(process.env.BASEURL?.toString() + "api/RemoveWatchlist", {params: {userid: userid, itemid: itemid, type: type}});
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/RemoveWatchlist", {params: {userid: userid, itemid: itemid, type: type}});
         router.push({
             pathname: router.pathname,
             query: { ...router.query },
@@ -133,7 +134,7 @@ export default function DisplayCollection( { main, isloggedin, username, avatar,
     const AddRatingToast = () => toast.success('Added rating', {position: "bottom-right",autoClose: 2000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
     async function AddRating(userid: string, itemid: any, itemname: any, image: any, type: any, comment: any, rating: any) { 
         AddRatingToast();
-        const getResult = await axios.get(process.env.BASEURL?.toString() + "api/AddRating", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image, comment: comment, rating: rating}});
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/AddRating", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image, comment: comment, rating: rating}});
         router.push({
             pathname: router.pathname,
             query: { ...router.query },
@@ -144,7 +145,7 @@ export default function DisplayCollection( { main, isloggedin, username, avatar,
         DeleteRatingToast();
         setInput("");
         setRatingRange(5);
-        const getResult = await axios.get(process.env.BASEURL?.toString() + "api/DeleteRating", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image, comment: comment, rating: rating}});
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/DeleteRating", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image, comment: comment, rating: rating}});
         router.push({
             pathname: router.pathname,
             query: { ...router.query },

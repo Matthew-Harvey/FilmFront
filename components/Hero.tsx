@@ -33,7 +33,7 @@ export function Hero ({ main, response, watchlist_bool, rating_bool, type } : an
     const AddWatchlistToast = () => toast.success('Added to watchlist', {position: "bottom-right",autoClose: 2000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
     async function AddWatchlist(userid: string, itemid: any, itemname: any, image: any, type: any) { 
         AddWatchlistToast();
-        const getResult = await axios.get(process.env.BASEURL?.toString() + "api/AddWatchlist", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image}});
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/AddWatchlist", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image}});
         router.push({
             pathname: router.pathname,
             query: { ...router.query },
@@ -42,7 +42,7 @@ export function Hero ({ main, response, watchlist_bool, rating_bool, type } : an
     const RemoveWatchlistToast = () => toast.success('Removed from watchlist', {position: "bottom-right",autoClose: 2000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
     async function RemoveWatchlist(userid: string, itemid: any, type: any) { 
         RemoveWatchlistToast();
-        const getResult = await axios.get(process.env.BASEURL?.toString() + "api/RemoveWatchlist", {params: {userid: userid, itemid: itemid, type: type}});
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/RemoveWatchlist", {params: {userid: userid, itemid: itemid, type: type}});
         router.push({
             pathname: router.pathname,
             query: { ...router.query },
@@ -52,7 +52,7 @@ export function Hero ({ main, response, watchlist_bool, rating_bool, type } : an
     const AddRatingToast = () => toast.success('Added rating', {position: "bottom-right",autoClose: 2000,hideProgressBar: false,closeOnClick: true,pauseOnHover: true,draggable: true,progress: undefined,theme: "dark",});
     async function AddRating(userid: string, itemid: any, itemname: any, image: any, type: any, comment: any, rating: any) { 
         AddRatingToast();
-        const getResult = await axios.get(process.env.BASEURL?.toString() + "api/AddRating", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image, comment: comment, rating: rating}});
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/AddRating", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image, comment: comment, rating: rating}});
         router.push({
             pathname: router.pathname,
             query: { ...router.query },
@@ -63,7 +63,7 @@ export function Hero ({ main, response, watchlist_bool, rating_bool, type } : an
         DeleteRatingToast();
         setInput("");
         setRatingRange(5);
-        const getResult = await axios.get(process.env.BASEURL?.toString() + "api/DeleteRating", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image, comment: comment, rating: rating}});
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/DeleteRating", {params: {userid: userid, itemid: itemid, itemname: itemname, type: type, image: image, comment: comment, rating: rating}});
         router.push({
             pathname: router.pathname,
             query: { ...router.query },

@@ -102,7 +102,7 @@ export default function Profile({loggedin, username, avatar, list_stat, watchlis
     
     async function saveAvatar(user_avatar: number) {
         saveAvatarToast();
-        const getResult = await axios.get(process.env.BASEURL?.toString() + "api/SaveAvatar", {params: {user_avatar: user_avatar, userid: session?.user.id}});
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/SaveAvatar", {params: {user_avatar: user_avatar, userid: session?.user.id}});
         router.push({
             pathname: router.pathname,
             query: { ...router.query },
@@ -110,7 +110,7 @@ export default function Profile({loggedin, username, avatar, list_stat, watchlis
     }
     async function saveNickName(nickname: string) {
         saveNicknameToast();
-        const getResult = await axios.get(process.env.BASEURL?.toString() + "api/SaveNickname", {params: {nickname: nickname, userid: session?.user.id}});
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/SaveNickname", {params: {nickname: nickname, userid: session?.user.id}});
         router.push({
             pathname: router.pathname,
             query: { ...router.query },

@@ -19,7 +19,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUr
         data: { session },
     } = await supabase.auth.getSession()
 
-    const updateTop500 = await axios.get(process.env.BASEURL?.toString() + "api/Top500");
+    const updateTop500 = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/Top500");
 
     const currentTop500 = await supabase.from("top500").select().eq("month", new Date().getMonth().toString() + new Date().getFullYear().toString());
     // @ts-ignore
@@ -113,7 +113,7 @@ export default function Trivia(this: any, {loggedin, username, avatar, movie, tv
             setBorder(other_movieid);
         }
         setClicked(true);
-        const getResult = await axios.get(process.env.BASEURL?.toString() + "api/UpdateTrivia", {params: {userid: session?.user.id, answer: JSON.stringify({"arr": arr, "movieid": movieid, "correct": bool})}});
+        const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/UpdateTrivia", {params: {userid: session?.user.id, answer: JSON.stringify({"arr": arr, "movieid": movieid, "correct": bool})}});
     }
     
     // @ts-ignore

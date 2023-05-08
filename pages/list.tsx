@@ -49,7 +49,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUr
 }
 
 async function CreateList(userid: string, router: any) { 
-    const getResult = await axios.get(process.env.BASEURL?.toString() + "api/CreateList", {params: {userid: userid}});
+    const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/CreateList", {params: {userid: userid}});
     router.push({
         pathname: '/list/[listid]',
         query: { listid: getResult.data.listid },

@@ -31,7 +31,7 @@ export const getServerSideProps = async (ctx: any) => {
     // @ts-ignore
     let avatar = UserData.avatar;
 
-    const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.APIKEY?.toString()).then((response) => response.json());
+    const movie = await fetch("https://api.themoviedb.org/3/trending/movie/week?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
     const type = "multi";
 
     let { data } = await supabase
@@ -127,7 +127,7 @@ export default function Lists({listcontent, loggedin, serveruser, movie, mediaty
 
     useEffect(() => {
         const fetchData = async () => {
-            const getResult = await axios.get(process.env.BASEURL?.toString() + "api/getSearchResult", {params: {searchterm: query, type: mediatype}});
+            const getResult = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/getSearchResult", {params: {searchterm: query, type: mediatype}});
             setData(getResult.data.result);
         }
         if (query != "") {
@@ -303,5 +303,5 @@ async function SaveContent(items: any[], title: string, summary: string, listid:
         itemstr+= items[count][0] + "$%$";
         itemimgstr+= items[count][1] + "$%$";
     }
-    const response = await axios.get(process.env.BASEURL?.toString() + "api/SaveList", {params: {listid: listid, title: title, summary: summary, items: itemstr, item_imgs: itemimgstr}});
+    const response = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/SaveList", {params: {listid: listid, title: title, summary: summary, items: itemstr, item_imgs: itemimgstr}});
 }

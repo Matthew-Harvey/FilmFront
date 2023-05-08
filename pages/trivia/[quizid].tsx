@@ -165,5 +165,5 @@ async function SaveContent(quizid: any, summary: any, title: any){
     for (let item in items){
         itemstr+= items[item] + "$%$"
     }
-    const response = await axios.get(process.env.BASEURL?.toString() + "api/SaveQuiz", {params: {quizid: quizid, summary: summary, title: title}});
+    const response = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/SaveQuiz", {params: {quizid: quizid, summary: summary, title: title}});
 }
