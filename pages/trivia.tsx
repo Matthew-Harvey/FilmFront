@@ -20,8 +20,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext<ParsedUr
     } = await supabase.auth.getSession()
 
     const updateTop500 = await axios.get(process.env.NEXT_PUBLIC_BASEURL?.toString() + "api/Top500");
-
-    const currentTop500 = await supabase.from("top500").select().eq("month", new Date().getMonth().toString() + new Date().getFullYear().toString());
+    const currentTop500 = await supabase.from("top500").select().eq("id", 1);
     // @ts-ignore
     let movie = currentTop500.data[0].movie; let tv = currentTop500.data[0].tv;
 

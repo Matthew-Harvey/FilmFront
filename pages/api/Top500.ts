@@ -52,7 +52,7 @@ export default async function Top500(req: NextApiRequest, res: NextApiResponse) 
             });
             counter++;
         }
-        await supabase.from("top500").upsert({"month": new Date().getMonth().toString() + new Date().getFullYear().toString(), "movie": movie_arr, "tv": tv_arr})
+        await supabase.from("top500").upsert({"id": 1 , "movie": movie_arr, "tv": tv_arr, "month": new Date().getMonth().toString() + new Date().getFullYear().toString()}).eq("id", 1)
     }
     const body = "Completed function. Was it a new month -> " + new_month;
     return new Response(body);
