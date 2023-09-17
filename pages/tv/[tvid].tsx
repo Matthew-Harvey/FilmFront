@@ -15,6 +15,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Hero } from '../../components/Hero';
 import { compareSecondColumn } from '../../functions/SortSecond';
 import { useEffect } from 'react';
+import { isDateWithin5Days } from '../../functions/checkDate';
 
 const baseimg = "https://image.tmdb.org/t/p/w500";
 
@@ -48,20 +49,24 @@ export const getServerSideProps = async (ctx: any) => {
     // Fetch data from external API
     const tvid = ctx.query.tvid;
     let itemresponse = await supabase.from('itemresponse').select().eq("id", tvid).eq("type", "tv");
-    let does_exist = false;
     let main= null;
     let videos= null;
     let recommend= null;
     let credits= null;
-    // @ts-ignore
-    try {if(itemresponse.data[0]){does_exist = true; main = itemresponse.data[0].main; credits = itemresponse.data[0].credits; recommned = itemresponse.data[0].recommend; videos = itemresponse.data[0].videos}}
-    catch {does_exist = false;}
-    if (does_exist == false) {
+    if (itemresponse.data?.toString() != "[]" && itemresponse.data?.[0]?.lastupdate && isDateWithin5Days(new Date(itemresponse.data![0].lastupdate)))
+    {
+        main = itemresponse.data![0].main; 
+        credits = itemresponse.data![0].credits; 
+        recommend = itemresponse.data![0].recommend; 
+        videos = itemresponse.data![0].videos;
+    } 
+    else 
+    {
         main = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
         credits = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/credits?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
         recommend = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/recommendations?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
         videos = await fetch("https://api.themoviedb.org/3/tv/" + tvid + "/videos?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());   
-        await supabase.from('itemresponse').insert({ id: tvid, type: "tv", main: main, credits: credits, recommend: recommend, videos: videos})
+        await supabase.from('itemresponse').upsert({ id: tvid, type: "tv", main: main, credits: credits, recommend: recommend, videos: videos, lastupdate: new Date()})
     }
 
     // @ts-ignore

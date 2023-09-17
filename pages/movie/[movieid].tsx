@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react';
 import router from 'next/router';
 import { compareSecondColumn } from '../../functions/SortSecond';
 import { baseimg } from '../../functions/baseimg';
+import { isDateWithin5Days } from '../../functions/checkDate';
 
 export const getServerSideProps = async (ctx: any) => {
     const supabase = createServerSupabaseClient(ctx);
@@ -48,20 +49,24 @@ export const getServerSideProps = async (ctx: any) => {
     // Fetch data from external API
     const movieid = ctx.query.movieid;
     let itemresponse = await supabase.from('itemresponse').select().eq("id", movieid).eq("type", "movie");
-    let does_exist = false;
     let main= null;
     let videos= null;
     let recommend= null;
     let credits= null;
-    // @ts-ignore
-    try {if(itemresponse.data[0]){does_exist = true; main = itemresponse.data[0].main; credits = itemresponse.data[0].credits; recommned = itemresponse.data[0].recommend; videos = itemresponse.data[0].videos}}
-    catch {does_exist = false;}
-    if (does_exist == false) {
+    if (itemresponse.data?.toString() != "[]" && itemresponse.data?.[0]?.lastupdate && isDateWithin5Days(new Date(itemresponse.data![0].lastupdate))) 
+    {
+        main = itemresponse.data![0].main;
+        credits = itemresponse.data![0].credits; 
+        recommend = itemresponse.data![0].recommend;
+        videos = itemresponse.data![0].videos;
+    } 
+    else 
+    {
         main = await fetch("https://api.themoviedb.org/3/movie/" + movieid + "?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
         credits = await fetch("https://api.themoviedb.org/3/movie/" + movieid + "/credits?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
         recommend = await fetch("https://api.themoviedb.org/3/movie/" + movieid + "/recommendations?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());
         videos = await fetch("https://api.themoviedb.org/3/movie/" + movieid + "/videos?api_key=" + process.env.NEXT_PUBLIC_APIKEY?.toString()).then((response) => response.json());   
-        await supabase.from('itemresponse').insert({ id: movieid, type: "movie", main: main, credits: credits, recommend: recommend, videos: videos})
+        await supabase.from('itemresponse').upsert({ id: movieid, type: "movie", main: main, credits: credits, recommend: recommend, videos: videos, lastupdate: new Date()})
     }
 
     // @ts-ignore

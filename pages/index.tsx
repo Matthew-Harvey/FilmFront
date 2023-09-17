@@ -109,7 +109,7 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                 </div>
             </section>
             <section className="pb-6 md:pb-12 pt-6 md:pt-12 text-gray-800 text-center max-w-6xl m-auto">
-                <div className="grid grid-cols-3 lg:grid-cols-6">
+                <div className="grid grid-cols-3 lg:grid-cols-5">
                     <div className="mb-12 lg:mb-0 mx-auto">
                         <img
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/640px-Disney%2B_logo.svg.png"
@@ -128,14 +128,14 @@ export default function Home( { loggedin, username, avatar, movie_item1, movie_i
                         />
                     </div>
 
-                    <div className="mb-12 lg:mb-0 mx-auto">
+                    {/* <div className="mb-12 lg:mb-0 mx-auto">
                         <img
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Apple_TV_Plus_Logo.svg/640px-Apple_TV_Plus_Logo.svg.png"
                         className="img-fluid grayscale"
                         style={{maxWidth:"90px"}}
                         alt="Apple TV Plus - logo"
                         />
-                    </div>
+                    </div> */}
 
                     <div className="mb-12 lg:mb-0 mx-auto">
                         <img
