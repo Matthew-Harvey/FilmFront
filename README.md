@@ -1,34 +1,43 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# FilmFront
+![Thumbnail Image](https://mtlh.vercel.app/assets/filmfront_thumb.be80b84e_Z2vjuV8.webp)
 
-## Getting Started
+## About
+Movie site made using TMDb API that allows users to search new movies, tv shows and actors, create lists and answer trivia questions.
 
-First, run the development server:
+## Demo
+This project is deployed directly onto Vercel. 
+[filmfront.vercel.app](https://filmfront.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
+## Technologies
+- TailwindCSS
+- Typescript
+- React
+- NextJS
+- Supabase
+- Vercel (hosting)
+
+## How to deploy locally
+Follow the steps below:
+1. Download code from this repository.
+2. Install every dependency.
+```typescript
+npm install
+```
+3. Create api keys from the following sources:
+    1. [Supabase](https://supabase.com/dashboard/projects)
+
+4. Get all required keys setup in a .env file.
+```typescript
+SUPABASE_URL='https://supabaseurl.supabase.co'
+BASE_URL='http://localhost:3000/'
+SUPABASE_ANON_KEY='supbaseanonkey'
+TMDB_APIKEY='apikey'
+```
+The BASE_URL must be configured based on which port you are using, when creating a hosted version this must be update to be the final url eg. https://filmfront.vercel.app/
+
+5. Run locally
+```typescript
+ npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+6. Enjoy!
