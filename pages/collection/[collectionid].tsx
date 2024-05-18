@@ -27,9 +27,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext<ParsedUr
     } = await supabase.auth.getSession();
 
     let UserData = await getAvatarName(session);
-    // @ts-ignore
     let username = UserData.username;
-    // @ts-ignore
     let avatar = UserData.avatar;
 
     let isloggedin = false;
@@ -37,7 +35,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext<ParsedUr
         isloggedin = true;
     }
 
-     // @ts-ignore
      let is_watchlist = await supabase.from('watchlist').select().eq("itemid", main.id).eq("userid", session?.user.id.toString()).eq("type", "collection");
      let watchlist_bool = false;
      // @ts-ignore
@@ -45,7 +42,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext<ParsedUr
          watchlist_bool = true;
      }
  
-     // @ts-ignore
      let is_rating = await supabase.from('rating').select().eq("itemid", main.id).eq("userid", session?.user.id.toString()).eq("type", "collection");
      let rating_bool = false;
      // @ts-ignore

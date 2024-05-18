@@ -85,7 +85,7 @@ export default function Login({loggedin, movie_item, username, avatar, callback}
                 <div className='max-w-xl m-auto text-center text-lg bg-white rounded-xl px-20 py-10'>
                     {!session ? (
                         <>
-                            <h1 className='font-semibold text-2xl p-2 text-black'>Login to MyMovies</h1>
+                            <h1 className='font-semibold text-2xl p-2 text-black'>Login to FilmFront</h1>
                             <Auth
                                 supabaseClient={supabase}
                                 appearance={{
